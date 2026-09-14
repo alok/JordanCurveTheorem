@@ -23,8 +23,10 @@ not a theorem available for downstream use. The final independently stated targe
 | Initial inscribed mesh | `Reeken/Geometry/UniformMesh.lean`: explicit consecutive sampling and two-sided uniform approximation | Proved |
 | Initial mesh in the nonstandard model | `Reeken/Nonstandard/MeshApproximation.lean`: exact shadow and infinitesimal endpoints for every internal edge | Proved |
 | Finite polygonal Jordan theorem used by the paper | Polygonal separation, two path components, common boundary, bounded inside, simple connectivity | Open |
-| Lemma 1(i) | A sufficiently fine inscribed internal polygon has unlimited vertex count and infinitesimal parameter gaps | Open |
-| Lemma 1(ii) | Two-sided infinitesimal approximation of the original curve | Open |
+| Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |
+| Conditions (†), (‡) | `Geometry/InscribedPolygon.lean`: strictly ordered parameters, all vertices on the curve, half-circle conditions, cyclic gaps, maxima, and telescoping sum | Defined with proved elementary properties |
+| Lemma 1(i) | `Nonstandard/PolygonRegularity.lean`: uniformly infinitesimal gaps, unlimited vertex count, first parameter near zero and last near one | Proved |
+| Lemma 1(ii) | `Geometry/PolygonApproximation.lean`, `Nonstandard/PolygonApproximation.lean`: two-sided approximation by a single positive infinitesimal, and exact standard shadow | Proved |
 | Lemma 1(iii) | Exactly one of the two arcs between near points is infinitesimally small | Open |
 | Lemma 2, metric inequality | `Reeken/Geometry/Segments.lean`: an intersection of two segments permits a replacement edge no longer than the longer original edge | Proved |
 | Lemma 2, construction | Hyperfinite sampling, internal loop cutting, termination, preservation of parameter order and mesh | Open |

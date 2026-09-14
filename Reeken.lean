@@ -9,3 +9,5 @@ import Reeken.Nonstandard.Regions
 import Reeken.Nonstandard.Approximation
 import Reeken.Geometry.UniformMesh
 import Reeken.Nonstandard.MeshApproximation
+import Reeken.Nonstandard.Loop
+import Reeken.Nonstandard.PolygonApproximation

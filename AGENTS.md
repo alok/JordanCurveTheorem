@@ -19,5 +19,9 @@ polygonal Jordan theorem and the required nonstandard foundations.
   statements independent of project definitions. Use Lean Beam for interactive probes and a
   Verso-compatible blueprint for dependencies; never present planned checks as passed.
 - Keep source correspondence precise: published paper first, arXiv as a secondary reference.
+- Finish the full checked Jordan proof before the requested refactoring phase. Only then make
+  the development as nonstandard-native as possible, hoist repetitive arguments into
+  metaprogramming, and extract reusable NSA tooling suitable for mathlib PRs. The user's
+  long-term priority is the reusable tooling. Do not substitute that refactor for proof completion.
 - The published paper has typographical slips. Record justified mathematical corrections
   in `docs/source-map.md` rather than silently reproducing false statements.

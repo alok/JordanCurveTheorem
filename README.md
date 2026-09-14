@@ -50,3 +50,13 @@ Comparator, lean4export, Nanoda, and Landrun, then checks the independent NSA
 challenge statements against their proofs. This checks the named foundation results;
 it does not certify the still-unfinished Jordan theorem. Lean Beam is used locally
 for incremental diagnostics and speculative proof checks.
+
+The current polygon development establishes the paper's Lemma 1(i) and (ii) for
+arbitrary admissible inscribed polygon families: unlimited vertex count, uniformly
+infinitesimal parameter gaps, endpoint behavior, and a single positive infinitesimal
+bounding the approximation in both directions. Loop cutting, finite polygonal
+separation, the small-arc assertion, and the inner-polygon argument remain to be proved.
+
+After the full proof is complete, a second phase will refactor the development into
+more native nonstandard statements and reusable transfer/metaprogramming tools, with
+the aim of extracting components suitable for mathlib PRs.
