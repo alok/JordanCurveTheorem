@@ -36,6 +36,7 @@ not a theorem available for downstream use. The final independently stated targe
 | An initial polygon satisfying (†), (‡) | `Geometry/UniformPolygon.lean`, `Nonstandard/InitialPolygon.lean`: explicit equally spaced samples, infinitesimal maximum edge, and exact shadow | Proved |
 | Empty triangle diagonal and deletion | `Geometry/TriangleCoordinates.lean`, `TriangleBase.lean`, `EmptyEarDiagonal.lean`, `DiagonalDeletion.lean`: transverse and collinear edge crossings are excluded; the opposite open edge misses the carrier; deletion and normalization give a strictly smaller polygon with no new vertices | Proved under the explicit empty-neighbor-triangle hypothesis |
 | Actual ear contraction and finite induction | `Geometry/DiagonalParity.lean`, `ParityContraction.lean`, `EarContraction.lean`, `PolygonContractionInduction.lean`: parity cancellation proves the closed-region identities for the constructed deletion; normalization and strong induction prove finite contractibility conditional on universal internal-ear existence | Induction proved; universal geometric ear existence remains open |
+| Internal diagonal existence | `Geometry/TruncatedTriangle.lean`, `CornerVisibility.lean`, `MaximalCornerVertex.lean`, `CornerTruncationInside.lean`, `PolygonDiagonal.lean`: a maximal-height vertex in an occupied neighbor triangle determines an empty truncation on the inside, yielding a diagonal between existing nonadjacent vertices | Proved for every nontriangular closed polygon, and `PrePolygonDiagonal.lean` extends it to collinear corners; independent diagonal challenge configured |
 | Normalization bounds | `Geometry/PolygonNormalization.lean`: finite normalization retains a nonincreasing vertex count and vertex-set inclusion | Proved strengthening of the attributed finite normalization argument |
 | Lemma 1(i) | `Nonstandard/PolygonRegularity.lean`: uniformly infinitesimal gaps, unlimited vertex count, first parameter near zero and last near one | Proved |
 | Lemma 1(ii) | `Geometry/PolygonApproximation.lean`, `Nonstandard/PolygonApproximation.lean`: two-sided approximation by a single positive infinitesimal, and exact standard shadow | Proved |
@@ -198,6 +199,13 @@ the explicit deformation. `PolygonContractionInduction.lean` combines this with 
 normalization bound and strong induction. Its universal internal-ear existence
 hypothesis is explicit and remains unproved; it is now the remaining geometric input
 to this finite contraction route.
+`PolygonDiagonal.lean` now proves internal-diagonal existence for every nontriangular
+closed polygon. In the occupied-triangle case, signed-area coordinates select a
+maximal-height vertex, and the smaller parallel triangle has no polygon edge in
+its interior. Its unit directions agree with those of the exposed corner, placing
+its interior inside the polygon. The segment from the apex to the selected vertex
+is the required diagonal. Turning arbitrary internal diagonals into ears remains
+open.
 
 ## Independent verification
 

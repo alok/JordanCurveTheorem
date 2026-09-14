@@ -57,7 +57,8 @@ also checks the attributed dependency. The common-boundary challenge states Sect
 for an arbitrary continuous circle embedding, with explicit radius bounds. A sixth
 challenge additionally checks inside path connectivity, and a seventh checks
 path connectivity of both complementary regions. These checks
-are joined by an eighth for triangle contraction and convex attachment. They
+are joined by an eighth for triangle contraction and convex attachment, and a ninth
+for existence of an internal polygon diagonal. They
 certify the named milestones; they do not certify the still-unfinished Jordan theorem. Lean Beam is used locally
 for incremental diagnostics and speculative proof checks.
 
@@ -153,6 +154,14 @@ an edge-parity cancellation identifies the triangle and shortened polygon's clos
 regions, which meet exactly on the diagonal; normalization preserves the strict
 vertex-count decrease. The resulting theorem still takes universal geometric ear
 existence as an explicit hypothesis.
+Every nontriangular polygon now has a proved internal diagonal between existing,
+nonadjacent vertices. When the exposed corner's neighbor triangle is occupied,
+a vertex of maximal height determines an empty parallel truncation; its unit
+bisector places it inside. This supplies the diagonal in the previously open
+occupied-triangle case. Deriving universal ear existence from these diagonals
+remains open. The diagonal theorem also covers polygons with collinear consecutive
+vertices: normalization supplies the diagonal, or an extra vertex on a triangular
+edge joins the opposite corner. The independent ninth challenge includes this case.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

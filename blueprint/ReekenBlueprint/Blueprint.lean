@@ -245,6 +245,19 @@ along the diagonal. Apply {uses "convex_attachment"}[] and the normalization cou
 bound, then strong induction with {uses "triangle_contraction"}[] as base case.
 :::
 
+:::theorem "internal_diagonal" (lean := "Reeken.Geometry.exists_internal_diagonal")
+Every nontriangular simple polygon has an internal diagonal between existing,
+nonadjacent vertices.
+:::
+
+:::proof "internal_diagonal"
+At the corner in {uses "exposed_corner"}[], use {uses "empty_triangle_diagonal"}[]
+when the neighbor triangle is empty. Otherwise choose a vertex of maximal signed-area
+height in that triangle. A line through it parallel to the base cuts off a smaller
+triangle whose interior has no polygon edge. Its unit bisector agrees with the
+original corner's, placing it inside. The segment to the selected vertex is internal.
+:::
+
 :::theorem "polygon_simply_connected" (tags := "open")
 Every loop in the interior of a finite simple plane polygon contracts there.
 This obligation remains open beyond {uses "polygon_jordan"}[].
@@ -253,7 +266,8 @@ The base case and a removal step are checked in {uses "triangle_contraction"}[] 
 {uses "triangle_crosscut"}[]. The complete contraction induction is checked in
 {uses "ear_contraction_induction"}[], conditional on universal geometric ear existence.
 An interior cut to an edge is constructed in {uses "interior_straight_cut"}[];
-its far endpoint is not yet guaranteed to be an existing vertex.
+the stronger result {uses "internal_diagonal"}[] now gives existing vertex endpoints.
+The remaining geometric step is to derive ears from arbitrary internal diagonals.
 The empty-triangle criterion in {uses "empty_neighbor_triangle"}[] is proved, but its
 geometric hypotheses have not yet been constructed together for every polygon.
 The diagonal and strictly smaller polygon under these hypotheses are checked in

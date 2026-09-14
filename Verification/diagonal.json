@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.DiagonalChallenge",
+  "solution_module": "Verification.DiagonalSolution",
+  "theorem_names": ["Verification.polygon_internal_diagonal"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

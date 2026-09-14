@@ -47,3 +47,5 @@ import Reeken.Geometry.RayExit
 import Reeken.Geometry.PolygonEar
 import Reeken.Geometry.DiagonalDeletion
 import Reeken.Geometry.PolygonContractionInduction
+import Reeken.Geometry.PolygonDiagonal
+import Reeken.Geometry.PrePolygonDiagonal
