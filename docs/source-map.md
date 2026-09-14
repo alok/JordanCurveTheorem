@@ -54,7 +54,10 @@ not a theorem available for downstream use. The final independently stated targe
 | Lemma 3, nearest connection location | `Geometry/NearestRegions.lean`: a shortest connection stays in its starting component until its boundary foot | Proved |
 | Lemma 3, rectangle overlay | `Geometry/BoundaryCrossings.lean`, `PolygonFamilyOverlay.lean`, `RectangleOverlay.lean`: every thin rectangle crosses the polygon twice, and the whole finite drawing is 2-connected | Proved |
 | Lemma 3, inner cell at a chosen point | `Geometry/RectangleCells.lean`, `Nonstandard/InnerCell.lean`: an actual simple inner polygon contains the prescribed standard point deeply, its closed inside avoids the extended curve, and its boundary shadow is contained in the curve | Proved |
-| Lemma 3, simultaneous containment | Add shortest connections and prove the ring/crosscut argument: one inner polygon contains every standard inside point, not only the chosen point | Open |
+| Lemma 3, drawing the shortest connections | `Geometry/SpokeConnectivity.lean`, `AttachedSegments.lean`, `NearestSpokeDrawing.lean`, `RectangleSpokes.lean`: attach the finite family, including coincident feet and degenerate segments, while retaining 2-connectivity and the uniform construction-zone bound | Proved |
+| Lemma 3, connections at every cell corner | `Geometry/DrawingCorners.lean`, `SpokeFeet.lean`, `InnerFace.lean`, `SpokeCell.lean`: new cell corners lie at old vertices or on drawn connections; uniqueness of the nearest foot puts their shortest connections in the drawing, outside the cell interior | Proved |
+| Lemma 3, internal cell with connections | `Nonstandard/InnerSpokeCell.lean`: an actual internal polygon and nearest-foot map, with uniformly infinitesimal corner connections avoiding its inside, and the prescribed standard point deeply inside | Proved |
+| Lemma 3, simultaneous containment | Prove the ring/crosscut argument: one inner polygon contains every standard inside point, not only the chosen point | Open |
 | Connectivity and simple connectivity | Transfer finite polygon results through the inner polygon | Open |
 | Exterior connectivity | Inversion and path connectivity; unboundedness is already in `RegionBounds.lean` | Open |
 | Final theorem | A continuous embedding of the unit circle has two complementary regions with the stated boundary and connectivity properties | Open |
@@ -97,6 +100,19 @@ The published Section 3 displays the equal-distance condition as
 `d = d(E, α) − d(E, β)`. The surrounding sentence and contradiction argument require
 `d = d(E, α) = d(E, β)`; subtraction would make `d` zero at an equidistant point.
 The formal equal-distance lemmas use the intended equality.
+
+In Lemma 3's second kind of ring domain, the printed common-endpoint condition
+`Cₖ = Cₖ₊₁` refers to the feet `Cₖ′ = Cₖ₊₁′`. Consecutive vertices of the inner
+simple polygon are distinct. The formal nearest-segment lemmas distinguish initial
+vertices from boundary feet, and allow different connections to have the same foot.
+
+The finite rectangle arrangement draws connections from every subdivided arrangement
+vertex, a finite superset of the paper's selected inner rectangle vertices and crossings.
+Connections from outside points stay outside until their feet, and the complete drawing
+still lies in the same infinitesimal construction zone. Degenerate connections are removed
+from the edge list while their points remain in the carrier. A cell corner created by a
+new intersection lies on an already drawn connection; strict convexity gives its unique
+nearest foot and shows that the shortened connection is already in the drawing.
 
 ## Independent verification
 

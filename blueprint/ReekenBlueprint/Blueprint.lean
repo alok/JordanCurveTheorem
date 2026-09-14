@@ -267,13 +267,30 @@ bounded face at the prescribed point. The face closure stays outside each rectan
 interior, and the rectangles cover the extended curve.
 :::
 
+:::theorem "inner_spoke_cell" (lean := "Reeken.NSA.exists_internal_inner_spoke_cell")
+The inner cell can be constructed with a nearest-foot map whose corner connections
+are uniformly infinitesimal, avoid the cell interior, and remain in the outer polygon
+until their feet. Its closed inside avoids the extended curve and contains the chosen
+point deeply. This uses {uses "rectangle_zone"}[] and {uses "finite_cells"}[].
+:::
+
+:::proof "inner_spoke_cell"
+Attach shortest connections to every vertex of the rectangle drawing. The drawing
+remains connected after deleting any vertex. Away from old vertices a straight-edge
+drawing is locally one segment, so each corner of the new cell is either an old
+vertex or lies on an added connection. Uniqueness of the nearest foot along that
+connection places the corner's whole shortest connection in the drawing. The face
+interior avoids every drawn segment. Transfer and the uniform rectangle error give
+the internal cell and its infinitesimal connections.
+:::
+
 :::theorem "inner_polygon" (tags := "open")
 There is an internal inner polygon containing every standard interior point and whose
 interior avoids the extended loop. The rectangle arrangement and crosscut argument use
 {uses "lemma1ii"}[], {uses "lemma1iii"}[], {uses "polygon_jordan"}[], and
-{uses "common_boundary"}[]. The chosen-point construction is checked in {uses "inner_cell"}[]. Adding shortest
-connections and proving that the same inner polygon contains every standard interior
-point remains open.
+{uses "common_boundary"}[]. The chosen-point construction with shortest connections is
+checked in {uses "inner_spoke_cell"}[]. Proving that the same inner polygon contains
+every standard interior point remains open.
 :::
 
 :::theorem "connectivity" (tags := "open")

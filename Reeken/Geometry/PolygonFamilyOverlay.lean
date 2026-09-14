@@ -41,6 +41,16 @@ theorem polygonFamilyPieces_nondeg {k : ℕ} (q : Fin (k + 1) → Σ m, ClosedPo
   obtain ⟨j, rfl⟩ := List.mem_ofFn.mp hL
   exact (q j).2.pieces_nondeg P hPL
 
+theorem isPreconnected_curve_union_family {ι : Type*} [Nonempty ι]
+    {C : Set Plane} {Q : ι → Set Plane} (hC : IsConnected C)
+    (hQ : ∀ j, IsPreconnected (Q j)) (hmeet : ∀ j, (C ∩ Q j).Nonempty) :
+    IsPreconnected (C ∪ ⋃ j, Q j) := by
+  obtain ⟨x, hx⟩ := hC.nonempty
+  have hcommon : (⋂ j, C ∪ Q j).Nonempty := ⟨x, mem_iInter.mpr fun _ ↦ Or.inl hx⟩
+  have hpieces : ∀ j, IsPreconnected (C ∪ Q j) :=
+    fun j ↦ hC.isPreconnected.union' (hmeet j) (hQ j)
+  simpa only [← union_iUnion] using isPreconnected_iUnion hcommon hpieces
+
 theorem isPreconnected_punctured_family {ι : Type*} [Nonempty ι]
     {C : Set Plane} {Q : ι → Set Plane} (hC : IsJordanCurve C)
     (hQ : ∀ j, IsJordanCurve (Q j))

@@ -94,8 +94,12 @@ boundaries. Their finite overlay remains connected after deleting any vertex. It
 produces an actual internal inner cell around each prescribed standard interior point,
 whose closed interior avoids the extended curve and whose boundary is in the curve's
 monad. Every standard compact set off the curve uniformly avoids the entire rectangle
-and shortest-connection construction zone. The nearest connections stay in their
-starting polygon region until reaching their feet. The ring argument showing that
+and shortest-connection construction zone. The rectangle arrangement now includes
+actual shortest connections from all its vertices. Every corner of the resulting
+inner cell, including corners created by new intersections, has a shortest connection
+already in the drawing, so that connection avoids the cell interior. These connections
+are uniformly infinitesimal and stay in the outer polygon's inside until reaching
+their feet. The ring argument showing that
 one inner polygon contains **all** standard interior points remains open.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
