@@ -11,3 +11,6 @@ import Reeken.Geometry.UniformMesh
 import Reeken.Nonstandard.MeshApproximation
 import Reeken.Nonstandard.Loop
 import Reeken.Nonstandard.PolygonApproximation
+import Reeken.Nonstandard.InitialPolygon
+import Reeken.Nonstandard.PolygonArcs
+import Reeken.Nonstandard.PointArcs

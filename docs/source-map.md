@@ -25,9 +25,10 @@ not a theorem available for downstream use. The final independently stated targe
 | Finite polygonal Jordan theorem used by the paper | Polygonal separation, two path components, common boundary, bounded inside, simple connectivity | Open |
 | Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |
 | Conditions (†), (‡) | `Geometry/InscribedPolygon.lean`: strictly ordered parameters, all vertices on the curve, half-circle conditions, cyclic gaps, maxima, and telescoping sum | Defined with proved elementary properties |
+| An initial polygon satisfying (†), (‡) | `Geometry/UniformPolygon.lean`, `Nonstandard/InitialPolygon.lean`: explicit equally spaced samples, infinitesimal maximum edge, and exact shadow | Proved |
 | Lemma 1(i) | `Nonstandard/PolygonRegularity.lean`: uniformly infinitesimal gaps, unlimited vertex count, first parameter near zero and last near one | Proved |
 | Lemma 1(ii) | `Geometry/PolygonApproximation.lean`, `Nonstandard/PolygonApproximation.lean`: two-sided approximation by a single positive infinitesimal, and exact standard shadow | Proved |
-| Lemma 1(iii) | Exactly one of the two arcs between near points is infinitesimally small | Open |
+| Lemma 1(iii) | `Nonstandard/PolygonArcs.lean`, `Nonstandard/EdgePoints.lean`, `Nonstandard/PointArcs.lean`: exactly one of the two cuts between near points lies in their monad, first for vertices and then for arbitrary points on edges | Proved |
 | Lemma 2, metric inequality | `Reeken/Geometry/Segments.lean`: an intersection of two segments permits a replacement edge no longer than the longer original edge | Proved |
 | Lemma 2, construction | Hyperfinite sampling, internal loop cutting, termination, preservation of parameter order and mesh | Open |
 | Transfer of a given internal separation | `Reeken/Nonstandard/Regions.lean`: deep regions are open and disjoint and exhaust the complement of the boundary shadow; finite separation is an explicit input | Proved |
