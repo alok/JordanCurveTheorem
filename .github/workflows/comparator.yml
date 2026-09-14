@@ -33,4 +33,4 @@ jobs:
             --property='RestrictAddressFamilies=~AF_UNIX' \
             --working-directory="$GITHUB_WORKSPACE" \
             --setenv="PATH=$PATH" \
-            -- lake env comparator Verification/nsa.json
+            -- "$(command -v lake)" env comparator Verification/nsa.json
