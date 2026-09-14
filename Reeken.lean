@@ -14,3 +14,4 @@ import Reeken.Nonstandard.PolygonApproximation
 import Reeken.Nonstandard.InitialPolygon
 import Reeken.Nonstandard.PolygonArcs
 import Reeken.Nonstandard.PointArcs
+import Reeken.Nonstandard.SimpleApproximation

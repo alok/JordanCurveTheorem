@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.PolygonChallenge",
+  "solution_module": "Verification.PolygonSolution",
+  "theorem_names": ["Verification.simple_inscribed_approximation"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

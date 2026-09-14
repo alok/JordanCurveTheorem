@@ -57,8 +57,12 @@ infinitesimal parameter gaps, endpoint behavior, and a single positive infinites
 bounding the approximation in both directions. Exactly one of the two arcs between
 near points lies in their monad, including cuts at arbitrary points on edges. An
 explicit initial polygon family satisfies the required parameter conditions.
-Loop cutting, finite polygonal separation, and the inner-polygon argument remain to
-be proved.
+Lemma 2 is also proved: the two shortcut deletions preserve the parameter conditions
+and edge bound, finite minimization gives termination, and the resulting polygon has
+neither nonadjacent crossings nor adjacent backtracking. The independent polygon
+challenge states this approximation without project definitions.
+Finite polygonal separation and the later boundary, inner-polygon, and connectivity
+arguments remain to be proved.
 
 After the full proof is complete, a second phase will refactor the development into
 more native nonstandard statements and reusable transfer/metaprogramming tools, with

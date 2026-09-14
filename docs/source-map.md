@@ -30,7 +30,7 @@ not a theorem available for downstream use. The final independently stated targe
 | Lemma 1(ii) | `Geometry/PolygonApproximation.lean`, `Nonstandard/PolygonApproximation.lean`: two-sided approximation by a single positive infinitesimal, and exact standard shadow | Proved |
 | Lemma 1(iii) | `Nonstandard/PolygonArcs.lean`, `Nonstandard/EdgePoints.lean`, `Nonstandard/PointArcs.lean`: exactly one of the two cuts between near points lies in their monad, first for vertices and then for arbitrary points on edges | Proved |
 | Lemma 2, metric inequality | `Reeken/Geometry/Segments.lean`: an intersection of two segments permits a replacement edge no longer than the longer original edge | Proved |
-| Lemma 2, construction | Hyperfinite sampling, internal loop cutting, termination, preservation of parameter order and mesh | Open |
+| Lemma 2, construction | `Geometry/PolygonSlice.lean`, `PolygonDeletion.lean`, `MinimalPolygon.lean`, `SimplePolygon.lean`, `Nonstandard/SimpleApproximation.lean`: two shortcut deletions, finite minimization, crossing and backtracking exclusion, infinitesimal simple approximation | Proved |
 | Transfer of a given internal separation | `Reeken/Nonstandard/Regions.lean`: deep regions are open and disjoint and exhaust the complement of the boundary shadow; finite separation is an explicit input | Proved |
 | Standard inside/outside for a Jordan curve | Instantiate the transfer theorem with a simple approximating polygon and prove nonemptiness | Open |
 | Published Section 3 | Each curve point lies on the boundary of both regions; local square and polygonal cell construction | Open |
@@ -49,6 +49,12 @@ vertex depend on that intended condition.
 The arXiv discussion includes adjacent overlapping edges among the degeneracies to
 remove during loop cutting. The formal construction must handle these too; distinct
 nonadjacent crossings alone do not imply simplicity.
+
+The construction now excludes adjacent overlaps using `dist_le_max_of_adjacent_overlap`.
+Termination is expressed by finite minimization of the vertex count at each index.
+The two explicit deletion operations contradict minimality whenever a forbidden short
+chord exists. This is the well-ordering form of the paper's finite loop-cutting induction;
+it does not assume simplicity or a separation theorem.
 
 The paper takes the polygonal Jordan theorem as known. This project includes it in
 its scope and will not introduce it as an axiom. Similarly, compactness, transfer,
@@ -70,6 +76,10 @@ confined to challenge modules; they are not imported by any proof module.
 `Verification/MeshChallenge.lean` independently writes out the sampled segments and
 states the mesh-shadow result entirely in terms of sequences and standard metric
 estimates. It is checked against `MeshSolution.lean` by a separate Comparator invocation.
+
+`Verification/PolygonChallenge.lean` independently states Lemma 2 using parameter arrays,
+explicit segments, forbidden intersections, and ordinary sequence estimates for the shadow.
+`PolygonSolution.lean` supplies its proof; `polygon.json` requests Comparator and Nanoda.
 
 The axiom audit traverses project declarations, including private helpers, and accepts
 only `propext`, `Classical.choice`, and `Quot.sound`. Official `leanchecker --fresh`
