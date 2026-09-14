@@ -1,0 +1,7 @@
+.lake/
+work/
+.DS_Store
+.env*
+*.pem
+*.key
+__pycache__/
