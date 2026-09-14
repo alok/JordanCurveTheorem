@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.InsideConnectedChallenge",
+  "solution_module": "Verification.InsideConnectedSolution",
+  "theorem_names": ["Verification.curve_inside_connected"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

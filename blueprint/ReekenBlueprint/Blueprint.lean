@@ -284,20 +284,37 @@ interior avoids every drawn segment. Transfer and the uniform rectangle error gi
 the internal cell and its infinitesimal connections.
 :::
 
-:::theorem "inner_polygon" (tags := "open")
-There is an internal inner polygon containing every standard interior point and whose
-interior avoids the extended loop. The rectangle arrangement and crosscut argument use
-{uses "lemma1ii"}[], {uses "lemma1iii"}[], {uses "polygon_jordan"}[], and
-{uses "common_boundary"}[]. The chosen-point construction with shortest connections is
-checked in {uses "inner_spoke_cell"}[]. Proving that the same inner polygon contains
-every standard interior point remains open.
+:::theorem "inner_polygon" (lean := "Reeken.NSA.exists_internal_inner_polygon")
+One internal inner polygon contains every standard inside point deeply, and its closed
+inside avoids the extended loop. Its boundary shadow is contained in the original curve.
+:::
+
+:::proof "inner_polygon"
+Start with {uses "inner_spoke_cell"}[]. Bisect the inner polygon's edges to make them
+infinitesimal, preserving its carrier and crossing parity. Close each edge against the
+small outer arc of {uses "lemma1iii"}[]. Each resulting barrier is infinitesimal, so two
+standard points off the curve see the same parity. Summing cancels the connections;
+the remaining closed outer-arc chain has constant parity in the outer polygon's inside
+by {uses "polygon_jordan"}[]. Thus every standard inside point has the inner polygon's
+inside parity. Boundary avoidance promotes membership to deep membership.
+:::
+
+:::theorem "inside_connected" (lean := "Reeken.NSA.isPathConnected_standardInside")
+The standard inside is path connected.
+:::
+
+:::proof "inside_connected"
+For two standard inside points, {uses "inner_polygon"}[] supplies a finite representative
+whose inside contains both and whose closed inside misses the original curve. The finite
+inside is path connected by {uses "polygon_jordan"}[], and belongs to the standard inside
+because the two standard regions are disjoint and open. Its paths are the required paths.
 :::
 
 :::theorem "connectivity" (tags := "open")
-The inside is path connected and simply connected; the outside is path connected and
-unbounded. The unboundedness is checked in {uses "region_bounds"}[]. Connectivity remains
-open: transfer through {uses "inner_polygon"}[], {uses "polygon_simply_connected"}[], and
-inversion should establish it.
+The inside is simply connected, and the outside is path connected. Inside path connectivity
+is proved in {uses "inside_connected"}[] and outside unboundedness in {uses "region_bounds"}[].
+Simple connectivity still requires {uses "polygon_simply_connected"}[] and compact
+containment through {uses "inner_polygon"}[]. Exterior connectivity is also still open.
 :::
 
 :::theorem "jordan" (tags := "open")

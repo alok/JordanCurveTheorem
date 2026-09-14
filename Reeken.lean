@@ -33,3 +33,7 @@ import Reeken.Nonstandard.CommonBoundary
 import Reeken.Nonstandard.InnerCell
 import Reeken.Geometry.NearestRegions
 import Reeken.Nonstandard.InnerSpokeCell
+import Reeken.Nonstandard.AnnulusOverlay
+import Reeken.Nonstandard.SmallEnclosures
+import Reeken.Nonstandard.SmallerRadius
+import Reeken.Nonstandard.InsideConnectivity

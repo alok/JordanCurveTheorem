@@ -36,7 +36,9 @@ theorem exists_internal_inner_spoke_cell (hs : ∀ᶠ i in hyperfilter ℕ, (p i
       (∀ η : ℝ, 0 < η → ∀ᶠ i in hyperfilter ℕ, ∀ j : ZMod ((q i).1 + 3),
         dist ((q i).2.vertex j) (foot i ((q i).2.vertex j)) < η) ∧
       shadow (fun i ↦ (q i).2.carrier) ⊆ f '' Icc 0 1 ∧
-      A ∈ deep (fun i ↦ inside (q i).2.carrier) := by
+      A ∈ deep (fun i ↦ inside (q i).2.carrier) ∧
+      (∀ η : ℝ, 0 < η → ∀ᶠ i in hyperfilter ℕ, ∀ x ∈ (q i).2.carrier,
+        ∃ y ∈ (p i).trace, dist x y < η) := by
   have hAC : A ∉ f '' Icc 0 1 := by
     have h : A ∈ standardInside p ∪ standardOutside p := Or.inl hA
     rwa [standardRegions_union p hmax hs] at h
@@ -72,7 +74,7 @@ theorem exists_internal_inner_spoke_cell (hs : ∀ᶠ i in hyperfilter ℕ, (p i
   obtain ⟨d, rfl⟩ := ofSeq_surjective d
   have hqshadow : shadow (fun i ↦ (d i).1.2.carrier) ⊆ f '' Icc 0 1 :=
     (shadow_mono (hd.mono fun _ hi ↦ hi.2.2.2.2.1)).trans hshadow
-  refine ⟨fun i ↦ (d i).1, fun i ↦ (d i).2, ?_, ?_, hqshadow, ?_⟩
+  refine ⟨fun i ↦ (d i).1, fun i ↦ (d i).2, ?_, ?_, hqshadow, ?_, ?_⟩
   · exact hd.mono fun _ hi ↦ ⟨hi.1, hi.2.1, hi.2.2.1, hi.2.2.2.1,
       hi.2.2.2.2.2.1, fun j ↦ ⟨(hi.2.2.2.2.2.2 j).1, (hi.2.2.2.2.2.2 j).2.1⟩⟩
   · intro η hη
@@ -83,5 +85,13 @@ theorem exists_internal_inner_spoke_cell (hs : ∀ᶠ i in hyperfilter ℕ, (p i
       (fun h ↦ hAC (hqshadow h))
     exact Eventually.of_forall fun i ↦ ⟨(d i).1.2.isSeparating_carrier.isOpen_inside,
       (d i).1.2.isSeparating_carrier.isOpen_outside, disjoint_inside_outside, inside_union_outside _⟩
+  · intro η hη
+    filter_upwards [hd, rectangle_error_small p hmax hε hη, vertex_count_unlimited p hmax 1]
+      with i hi herr hni
+    intro x hx
+    have hxzone := hi.2.2.2.2.1 hx
+    obtain ⟨y, hy, hxy⟩ := hxzone.elim
+      ((p i).rectangleCover_near_trace (by omega)) ((p i).nearestConnectorCover_near_trace (by omega))
+    exact ⟨y, hy, hxy.trans_lt herr⟩
 
 end Reeken.NSA

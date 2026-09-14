@@ -68,4 +68,15 @@ theorem nearest_segments_no_inner_crossing {s : Set E} {a b c d x : E}
   rw [hinter, mem_singleton_iff] at hb
   exact hx.ne_right hb.symm
 
+/-- Connections with different feet can meet only at a common initial point. -/
+theorem nearest_segments_disjoint_of_feet_ne {s : Set E} {a b c d : E}
+    (hab : IsNearest s a b) (hcd : IsNearest s c d) (hac : a ≠ c) (hbd : b ≠ d) :
+    Disjoint (segment ℝ a b) (segment ℝ c d) := by
+  rw [Set.disjoint_left]
+  intro x hx hy
+  by_cases hxa : x = a
+  · have hxc : x ≠ c := hxa ▸ hac
+    exact hbd (nearest_segments_common_foot hcd hab hy hx hxc)
+  · exact hbd (nearest_segments_common_foot hab hcd hx hy hxa).symm
+
 end Reeken.Geometry

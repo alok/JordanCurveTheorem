@@ -57,8 +57,9 @@ not a theorem available for downstream use. The final independently stated targe
 | Lemma 3, drawing the shortest connections | `Geometry/SpokeConnectivity.lean`, `AttachedSegments.lean`, `NearestSpokeDrawing.lean`, `RectangleSpokes.lean`: attach the finite family, including coincident feet and degenerate segments, while retaining 2-connectivity and the uniform construction-zone bound | Proved |
 | Lemma 3, connections at every cell corner | `Geometry/DrawingCorners.lean`, `SpokeFeet.lean`, `InnerFace.lean`, `SpokeCell.lean`: new cell corners lie at old vertices or on drawn connections; uniqueness of the nearest foot puts their shortest connections in the drawing, outside the cell interior | Proved |
 | Lemma 3, internal cell with connections | `Nonstandard/InnerSpokeCell.lean`: an actual internal polygon and nearest-foot map, with uniformly infinitesimal corner connections avoiding its inside, and the prescribed standard point deeply inside | Proved |
-| Lemma 3, simultaneous containment | Prove the ring/crosscut argument: one inner polygon contains every standard inside point, not only the chosen point | Open |
-| Connectivity and simple connectivity | Transfer finite polygon results through the inner polygon | Open |
+| Lemma 3, simultaneous containment | `Nonstandard/RingContainment.lean`: infinitesimal edge barriers, small outer arcs, and cancellation of finite crossing parity put every standard inside point deeply in one actual inner polygon | Proved |
+| Inside path connectivity | `Nonstandard/InsideConnectivity.lean`: choose a finite representative of the inner polygon containing both standard points, whose connected inside misses the original curve | Proved |
+| Inside simple connectivity | Contract all interior loops using compact containment in the inner polygon and finite polygonal simple connectivity | Open |
 | Exterior connectivity | Inversion and path connectivity; unboundedness is already in `RegionBounds.lean` | Open |
 | Final theorem | A continuous embedding of the unit circle has two complementary regions with the stated boundary and connectivity properties | Open |
 
@@ -114,6 +115,25 @@ from the edge list while their points remain in the carrier. A cell corner creat
 new intersection lies on an already drawn connection; strict convexity gives its unique
 nearest foot and shows that the shortened connection is already in the drawing.
 
+The simultaneous-containment proof realizes the paper's infinitesimal-barrier argument
+through finite crossing parity, rather than classifying all ring domains. Each refined
+inner edge is closed against the small outer arc supplied by Lemma 1(iii). The outer
+endpoints are nearest outer vertices; replacing a nearest trace point by an incident
+vertex adds at most one infinitesimal outer edge. Every resulting closed chain lies
+in an infinitesimal ball, so standard points off the curve see the same parity. When
+these equalities are summed, the connecting segments cancel modulo two. The remaining
+closed chain lies on the outer polygon and has constant parity on its connected
+inside. Thus every standard inside point has the chosen cell point's inner-polygon
+parity. `RingContainment.lean` proves this implication and the full Lemma 3 witness.
+`AnnulusOverlay.lean` separately constructs the two-connected annular drawing, but a
+three-kind classification of its domains is not claimed or used by the parity proof.
+
+There is a representation detail in this step: the normalized `ClosedPolygon` can
+merge collinear consecutive edges, so its edge lengths need not remain infinitesimal.
+`FineChains.lean` repeatedly bisects those segments, preserving the carrier, the closed
+chain identity, and crossing parity. It supplies the required infinitesimal edges
+without assuming that normalization preserves their lengths.
+
 ## Independent verification
 
 `Verification/NSAChallenge.lean` states three foundation claims using ordinary
@@ -141,6 +161,12 @@ regions covering the complement and explicit real-radius bounds. Its statement u
 no project definitions. `CommonBoundarySolution.lean` proves it from the actual simple
 approximation and the published Section 3 construction; `common-boundary.json` requests
 Comparator and Nanoda. Connectivity is not asserted by this intermediate result.
+
+`Verification/InsideConnectedChallenge.lean` strengthens that independent circle-map
+statement with path connectivity of the bounded region. Its solution uses the proved
+Lemma 3 through `isPathConnected_standardInside`; `inside-connected.json` requests
+Comparator and Nanoda. Outside path connectivity and inside simple connectivity remain
+separate open obligations.
 
 The axiom audit traverses all declarations by their defining module (`Reeken` or `Schoenflies`),
 including private helpers and declarations in other namespaces such as `Graph`, and accepts

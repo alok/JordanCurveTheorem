@@ -24,6 +24,24 @@ theorem InMonad.change_center {s : Set (Star U E)} {a b : Star U E}
     (hs : InMonad s a) (hab : Near a b) : InMonad s b :=
   fun x hx ↦ (hs x hx).trans hab
 
+/-- For an internal set, containment in a monad gives one uniform bound at each
+positive standard scale. Universal transfer includes nonstandard witnesses. -/
+theorem inMonad_internalSet_iff [Nonempty E] (s : ι → Set E) (a : ι → E) :
+    InMonad (internalSet (U := U) s) (ofSeq a) ↔
+      ∀ ε : ℝ, 0 < ε → ∀ᶠ i in U, ∀ x ∈ s i, dist x (a i) < ε := by
+  constructor
+  · intro h ε hε
+    apply (forall_holds (U := U) (fun i x ↦ x ∈ s i → dist x (a i) < ε)).mp
+    intro x
+    apply (holds_imp (U := U) _ _ x).mpr
+    intro hx
+    obtain ⟨x, rfl⟩ := ofSeq_surjective x
+    exact h (ofSeq (U := U) x) hx ε hε
+  · intro h x hx
+    obtain ⟨x, rfl⟩ := ofSeq_surjective x
+    intro ε hε
+    exact ((h ε hε).and hx).mono fun i hi ↦ hi.1 (x i) hi.2
+
 /-- Two distinct standard shadow points prevent an internal set from collapsing into one monad. -/
 theorem not_inMonad_of_distinct_shadow [Nonempty E] {s : ℕ → Set E} {a b : E}
     (ha : a ∈ shadow s) (hb : b ∈ shadow s) (hab : a ≠ b)

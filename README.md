@@ -54,7 +54,8 @@ CI runs a full build and axiom audit. A separate Linux workflow builds pinned
 Comparator, lean4export, Nanoda, and Landrun, then checks the independent NSA
 and polygon challenge statements against their proofs. The finite separation challenge
 also checks the attributed dependency. The common-boundary challenge states Sections 1–3
-for an arbitrary continuous circle embedding, with explicit radius bounds. These checks
+for an arbitrary continuous circle embedding, with explicit radius bounds. A sixth
+challenge additionally checks inside path connectivity. These checks
 certify the named milestones; they do not certify the still-unfinished Jordan theorem. Lean Beam is used locally
 for incremental diagnostics and speculative proof checks.
 
@@ -74,8 +75,8 @@ on this toolchain. Its general Jordan and Schoenflies assembly is excluded. The 
 accepts our actual simple polygons, including collinear consecutive edges.
 The standard deep regions are open, disjoint, and exhaust the curve's complement;
 both regions are nonempty, the inside is bounded, the outside is unbounded, and the
-curve is their common boundary. The inner polygon and final connectivity and
-simple-connectivity arguments remain open. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
+curve is their common boundary. Lemma 3 and path connectivity of the standard inside are proved. Exterior connectivity
+and simple connectivity of the inside remain open. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
 Section 3's equal-distance estimate is proved for the actual polygon arcs, using their
 common-shadow endpoint restriction. Generic local squares can be chosen to avoid every
 vertex at a prescribed standard scale. Finite plane-graph face cycles are checked;
@@ -99,8 +100,16 @@ actual shortest connections from all its vertices. Every corner of the resulting
 inner cell, including corners created by new intersections, has a shortest connection
 already in the drawing, so that connection avoids the cell interior. These connections
 are uniformly infinitesimal and stay in the outer polygon's inside until reaching
-their feet. The ring argument showing that
-one inner polygon contains **all** standard interior points remains open.
+their feet. Lemma 3 is now complete: **one** internal inner polygon contains **all**
+standard inside points deeply, and its closed inside avoids the extended curve.
+The containment proof closes infinitesimal subdivided edges against the small outer
+arcs of Lemma 1(iii). Their crossing parities agree at standard points off the curve;
+summing cancels the connecting segments and compares the inner polygon's parity.
+This is a finite-parity realization of the paper's barrier argument. The source map
+records the correspondence and the subdivision needed when collinear edges are merged.
+Finite polygonal paths then establish `isPathConnected_standardInside`.
+`Verification/InsideConnectedSolution.lean` exports this stronger conclusion for every
+continuous injective circle map, again using explicit radii.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.
