@@ -216,12 +216,30 @@ The finite face family and {uses "finite_cells"}[] then supply a cell through th
 prescribed boundary point.
 :::
 
-:::theorem "common_boundary" (tags := "open")
+:::theorem "square_connector" (lean := "Reeken.Geometry.InscribedPolygon.Simple.exists_square_connector")
+The {uses "local_cell"}[] supplies a connected square-boundary segment meeting both
+cut arcs, on the chosen polygon side away from the original polygon.
+:::
+
+:::proof "square_connector"
+A closed curve cannot run through a free arc endpoint. Hence the cell meets each cut
+arc away from their common local vertex. Join these points around the punctured cell
+and use first and last contact to extract a subpath on the square boundary.
+:::
+
+:::theorem "common_boundary" (lean := "Reeken.NSA.frontier_standardInside")
 Every point of the loop is a boundary point of both standard regions. The published
 local-square construction uses {uses "lemma2"}[], {uses "lemma1iii"}[],
 {uses "polygon_jordan"}[], {uses "generic_squares"}[], {uses "local_cell"}[],
-and {uses "equidistant_bound"}[]. The square-boundary connector between the two cut arcs
-remains open; {uses "deep_regions"}[] transfers the resulting point.
+and {uses "equidistant_bound"}[].
+:::
+
+:::proof "common_boundary"
+Choose {uses "square_connector"}[] in a compact annulus avoiding both standard cut
+points. A balanced point has appreciable distance from the polygon. Its compact
+standard part belongs deeply to the chosen side in an arbitrarily small neighborhood
+of the curve point. Apply the same construction to the other side. The open disjoint
+partition in {uses "standard_regions"}[] gives equality of both frontiers with the curve.
 :::
 
 :::theorem "inner_polygon" (tags := "open")

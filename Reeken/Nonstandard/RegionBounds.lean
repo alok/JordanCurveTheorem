@@ -6,7 +6,7 @@ import Reeken.Nonstandard.StandardRegions
 
 The same standard square contains every inscribed polygon and every bounded
 complementary component. Its exterior lies deeply in the internal outside.
-Neither conclusion uses the still-open common-boundary construction.
+These bounds do not depend on the common-boundary construction.
 -/
 
 open Filter Metric Set

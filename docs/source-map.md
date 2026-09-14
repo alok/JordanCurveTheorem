@@ -36,10 +36,10 @@ not a theorem available for downstream use. The final independently stated targe
 | Transfer of a given internal separation | `Reeken/Nonstandard/Regions.lean`: deep regions are open and disjoint and exhaust the complement of the boundary shadow; finite separation is an explicit input | Proved |
 | Standard inside/outside for a Jordan curve | `Nonstandard/StandardRegions.lean`: instantiated finite separation, open disjoint regions, exact complement coverage, connected sets crossing the two regions meet the curve | Proved |
 | Bounded inside and nonempty unbounded outside | `Geometry/ExteriorBounds.lean`, `Nonstandard/RegionBounds.lean`: one standard square uniformly encloses all polygon interiors; its exterior lies deeply outside | Proved |
-| Nonempty standard inside | Requires the common-boundary construction | Open |
+| Nonempty standard inside | `Nonstandard/CommonBoundary.lean`: every ball at a curve point meets the inside | Proved |
 | Shortest boundary connections | `Geometry/NearestSegments.lean`, `PolygonTopology.lean`: compact nearest feet, uniqueness along nondegenerate segments, exclusion of isolated interior crossings, compact and path-connected polygon traces | Proved |
 | Section 3, equal-distance step | `Geometry/Equidistant.lean`, `Nonstandard/CompactSeparation.lean`, `ArcShadow.lean`, `PolygonEquidistant.lean`: the arcs' common shadow contains only their cut endpoints; balanced points on an avoiding compact set have one positive standard distance bound from the full polygon | Proved |
-| Standard part of a constructed cell point | `Nonstandard/DeepStandardPart.lean`, `BoundaryConnector.lean`: a compact connector meeting the two arcs on one side gives a standard deep point; connector hypotheses remain explicit, not yet instantiated | Proved conditional reduction |
+| Standard part of a constructed cell point | `Nonstandard/DeepStandardPart.lean`, `BoundaryConnector.lean`: a compact connector meeting the two arcs on one side gives a standard deep point; all hypotheses are instantiated in `CommonBoundary.lean` | Proved |
 | Local square scale and genericity | `Geometry/SquareAnnulus.lean`, `Nonstandard/CutVertices.lean`, `PolygonSquares.lean`: prescribed cut parameters, generic radii avoiding every vertex, opposite-side cut vertices, and a fixed compact annulus | Proved |
 | Compact standard loop inclusion | `Nonstandard/CompactDeep.lean`: pointwise deep inclusion of a compact set implies inclusion of its entire internal extension | Proved |
 | Extracting a boundary subpath | `Geometry/BoundarySubpath.lean`: first/last contacts with two closed pieces yield a connecting subpath in the third boundary piece; its interior avoids both original pieces | Proved |
@@ -47,8 +47,8 @@ not a theorem available for downstream use. The final independently stated targe
 | The two square crossings | `Geometry/ArcConnectivity.lean`, `ArcIntersection.lean`, `SquareCrossings.lean`: the two polygon arcs are path connected, meet exactly at their cut vertices, and cross the local square at distinct points | Proved |
 | The polygon-square graph | `Geometry/MarkedOverlay.lean`, `PolygonSquareOverlay.lean`, `DrawingDeletion.lean`, `LoopPuncture.lean`, `SquareTwoConnected.lean`: retain old vertices and marked crossings, construct the finite drawing, and prove connectivity after every vertex deletion | Proved |
 | The local cell through the chosen vertex | `Geometry/FiniteFaces.lean`, `SquareFaces.lean`, `LocalCells.lean`: finiteness of the face family, a face on either chosen side with the vertex in its boundary, and an actual clipped simple polygon | Proved |
-| Square-boundary connector | Extract from the clipped cell a connected part of the square boundary meeting both cut arcs, with its interior on the chosen polygon side | Open |
-| Published Section 3 | Each curve point lies on the boundary of both regions; local square and polygonal cell construction | Open |
+| Square-boundary connector | `Geometry/ArcEndpoint.lean`, `ArcParametrization.lean`, `SquareConnector.lean`: the clipped cell meets both cut arcs away from their endpoints; a path around the punctured cell supplies a connector on the chosen side | Proved |
+| Published Section 3 | `Nonstandard/CommonBoundary.lean`: both frontiers equal the original curve, using the actual local cells, balanced connector points, and compact standard parts; direct continuous-circle formulation in `Verification/CommonBoundarySolution.lean` | Proved |
 | Lemma 3 | Internal inner polygon using narrow rectangles and shortest boundary connections; ring and crosscut argument | Open |
 | Connectivity and simple connectivity | Transfer finite polygon results through the inner polygon | Open |
 | Exterior connectivity | Inversion and path connectivity; unboundedness is already in `RegionBounds.lean` | Open |
@@ -113,6 +113,13 @@ explicit segments, forbidden intersections, and ordinary sequence estimates for 
 cyclic segments, ordinary open path-connected sets, boundedness, and frontiers.
 `SeparationSolution.lean` proves it from the attributed finite proof; `separation.json`
 requests Comparator and Nanoda without trusting project definitions in the statement.
+
+`Verification/CommonBoundaryChallenge.lean` states the common-boundary conclusion for
+every continuous injective map of the plane unit circle, with nonempty disjoint open
+regions covering the complement and explicit real-radius bounds. Its statement uses
+no project definitions. `CommonBoundarySolution.lean` proves it from the actual simple
+approximation and the published Section 3 construction; `common-boundary.json` requests
+Comparator and Nanoda. Connectivity is not asserted by this intermediate result.
 
 The axiom audit traverses all declarations by their defining module (`Reeken` or `Schoenflies`),
 including private helpers and declarations in other namespaces such as `Graph`, and accepts

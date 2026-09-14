@@ -6,7 +6,8 @@ import Reeken.Nonstandard.Regions
 
 The finite polygonal separation theorem is applied to the actual simple approximation.
 The standard regions are the points appreciably separated from the opposite internal side.
-Their common-boundary property and the interior's nonemptiness require Section 3.
+Their common-boundary property and the interior's nonemptiness are proved by the
+Section 3 construction in `CommonBoundary.lean`.
 -/
 
 open Filter Set

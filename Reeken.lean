@@ -29,3 +29,4 @@ import Reeken.Nonstandard.PolygonSquares
 import Reeken.Nonstandard.CompactDeep
 import Reeken.Geometry.BoundarySubpath
 import Reeken.Geometry.LocalCells
+import Reeken.Nonstandard.CommonBoundary

@@ -53,8 +53,9 @@ lake env leanchecker --fresh Reeken
 CI runs a full build and axiom audit. A separate Linux workflow builds pinned
 Comparator, lean4export, Nanoda, and Landrun, then checks the independent NSA
 and polygon challenge statements against their proofs. The finite separation challenge
-also checks the attributed dependency. These check the named milestones;
-it does not certify the still-unfinished Jordan theorem. Lean Beam is used locally
+also checks the attributed dependency. The common-boundary challenge states Sections 1–3
+for an arbitrary continuous circle embedding, with explicit radius bounds. These checks
+certify the named milestones; they do not certify the still-unfinished Jordan theorem. Lean Beam is used locally
 for incremental diagnostics and speculative proof checks.
 
 The current polygon development establishes the paper's Lemma 1(i)–(iii) for
@@ -72,16 +73,21 @@ closure of [Álvaro Begué's collar/parity proof](vendor/README.md), ported and 
 on this toolchain. Its general Jordan and Schoenflies assembly is excluded. The adapter
 accepts our actual simple polygons, including collinear consecutive edges.
 The standard deep regions are open, disjoint, and exhaust the curve's complement;
-the inside is bounded and the outside is nonempty and unbounded. The common-boundary
-construction, inner polygon, and final connectivity and simple-connectivity arguments
-remain open. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
+both regions are nonempty, the inside is bounded, the outside is unbounded, and the
+curve is their common boundary. The inner polygon and final connectivity and
+simple-connectivity arguments remain open. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
 Section 3's equal-distance estimate is proved for the actual polygon arcs, using their
 common-shadow endpoint restriction. Generic local squares can be chosen to avoid every
 vertex at a prescribed standard scale. Finite plane-graph face cycles are checked;
 the polygon-square overlay is now constructed and proved to remain connected after
 deleting any vertex. On either polygon side, it supplies a simple polygonal cell whose
-boundary passes through the prescribed local curve vertex. Constructing the required
-square-boundary connector between the two polygon arcs remains open.
+boundary passes through the prescribed local curve vertex. The cell meets both cut
+arcs away from that vertex, and a path around the punctured cell supplies the required
+square-boundary connector. Its balanced point has a standard part deep on the chosen
+side in any prescribed neighborhood. This completes the published Section 3.
+The independently stated result is `Verification.curve_common_boundary` in
+`Verification/CommonBoundarySolution.lean`; it assumes only continuity and injectivity
+of the circle map.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

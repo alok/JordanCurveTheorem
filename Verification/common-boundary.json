@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.CommonBoundaryChallenge",
+  "solution_module": "Verification.CommonBoundarySolution",
+  "theorem_names": ["Verification.curve_common_boundary"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

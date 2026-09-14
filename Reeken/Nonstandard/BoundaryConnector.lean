@@ -3,9 +3,9 @@ import Reeken.Nonstandard.DeepStandardPart
 
 /-! # Reduction of Section 3 to the finite boundary-connector construction
 
-The connector hypotheses below are explicit geometric obligations, not yet an
-instantiated theorem about the clipped polygon. Once such connectors are constructed,
-the equal-distance and standard-part steps are proved here.
+The equal-distance and standard-part steps are isolated here for compact internal
+connectors. `CommonBoundary.lean` instantiates every hypothesis with the actual
+clipped polygonal cells and their square-boundary connectors.
 -/
 
 open Filter Set Metric

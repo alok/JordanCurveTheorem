@@ -1,5 +1,6 @@
 import Reeken.Geometry.SimpleLoop
 import Schoenflies.Curve
+import Mathlib.Analysis.Convex.PathConnected
 
 /-! # Removing one point from a simple closed parametrized curve
 
@@ -13,8 +14,8 @@ namespace Reeken.Geometry
 
 variable {E : Type*} [TopologicalSpace E]
 
-theorem SimpleLoop.isPreconnected_punctured (f : SimpleLoop E) (z : E) :
-    IsPreconnected (f '' Icc 0 1 \ {z}) := by
+theorem SimpleLoop.isPathConnected_punctured (f : SimpleLoop E) (z : E) :
+    IsPathConnected (f '' Icc 0 1 \ {z}) := by
   by_cases hz : z ∈ f '' Icc 0 1
   · obtain ⟨t, ht, rfl⟩ := hz
     obtain ⟨t, ht, he⟩ : ∃ s ∈ Ico (0 : ℝ) 1, f s = f t := by
@@ -35,7 +36,8 @@ theorem SimpleLoop.isPreconnected_punctured (f : SimpleLoop E) (z : E) :
           refine ⟨⟨s, ⟨hs.1.le, hs.2.le⟩, rfl⟩, ?_⟩
           exact fun h ↦ hs.1.ne' (f.injectiveOn ⟨hs.1.le, hs.2⟩ ht h)
       rw [him]
-      exact isPreconnected_Ioo.image f (f.continuousOn.mono Ioo_subset_Icc_self)
+      exact ((convex_Ioo (0 : ℝ) 1).isPathConnected ⟨1 / 2, by norm_num⟩).image'
+        (f.continuousOn.mono Ioo_subset_Icc_self)
     · have htpos : 0 < t := lt_of_le_of_ne ht.1 (Ne.symm ht0)
       have hinj : ∀ s ∈ Icc 0 1, f s = f t → s = t := by
         intro s hs heq
@@ -57,15 +59,25 @@ theorem SimpleLoop.isPreconnected_punctured (f : SimpleLoop E) (z : E) :
           · have hsI : s ∈ Icc 0 1 := ⟨(htpos.trans hs.1).le, hs.2⟩
             exact ⟨⟨s, hsI, rfl⟩, fun h ↦ hs.1.ne' (hinj s hsI h)⟩
       rw [him]
-      apply IsPreconnected.union (f 0)
-      · exact ⟨0, ⟨le_rfl, htpos⟩, rfl⟩
-      · exact ⟨1, ⟨ht.2, le_rfl⟩, f.endpoint⟩
-      · exact isPreconnected_Ico.image f (f.continuousOn.mono
-          (fun s hs ↦ ⟨hs.1, (hs.2.trans ht.2).le⟩))
-      · exact isPreconnected_Ioc.image f (f.continuousOn.mono
-          (fun s hs ↦ ⟨(htpos.trans hs.1).le, hs.2⟩))
+      apply IsPathConnected.union
+      · exact ((convex_Ico (0 : ℝ) t).isPathConnected ⟨0, le_rfl, htpos⟩).image'
+          (f.continuousOn.mono (fun s hs ↦ ⟨hs.1, (hs.2.trans ht.2).le⟩))
+      · exact ((convex_Ioc t (1 : ℝ)).isPathConnected ⟨1, ht.2, le_rfl⟩).image'
+          (f.continuousOn.mono (fun s hs ↦ ⟨(htpos.trans hs.1).le, hs.2⟩))
+      · exact ⟨f 0, ⟨0, ⟨le_rfl, htpos⟩, rfl⟩, ⟨1, ⟨ht.2, le_rfl⟩, f.endpoint⟩⟩
   · rw [sdiff_singleton_eq_self hz]
-    exact isPreconnected_Icc.image f f.continuousOn
+    exact ((convex_Icc (0 : ℝ) 1).isPathConnected ⟨0, by norm_num⟩).image' f.continuousOn
+
+theorem SimpleLoop.isPreconnected_punctured (f : SimpleLoop E) (z : E) :
+    IsPreconnected (f '' Icc 0 1 \ {z}) :=
+  (f.isPathConnected_punctured z).isConnected.isPreconnected
+
+theorem isPathConnected_punctured_jordan {C : Set Schoenflies.Plane}
+    (hC : Schoenflies.IsJordanCurve C) (z : Schoenflies.Plane) :
+    IsPathConnected (C \ {z}) := by
+  obtain ⟨f, hf, rfl⟩ := hC
+  let loop : SimpleLoop Schoenflies.Plane := ⟨f, hf.continuousOn, hf.closes.symm, hf.injOn⟩
+  exact loop.isPathConnected_punctured z
 
 theorem isPreconnected_punctured_jordan {C : Set Schoenflies.Plane}
     (hC : Schoenflies.IsJordanCurve C) (z : Schoenflies.Plane) :
