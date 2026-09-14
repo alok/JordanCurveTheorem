@@ -42,3 +42,5 @@ import Reeken.Nonstandard.LoopContraction
 import Reeken.Geometry.MeshPath
 import Reeken.Geometry.ConvexAttachment
 import Reeken.Geometry.CrosscutContraction
+import Reeken.Geometry.ExposedVertex
+import Reeken.Geometry.RayExit

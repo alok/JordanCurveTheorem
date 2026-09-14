@@ -172,12 +172,37 @@ cover the parent and meet exactly on the cutting segment. Apply convex attachmen
 to the triangle's closed interior.
 :::
 
+:::theorem "exposed_corner" (lean := "Reeken.Geometry.exists_vertex_inward_bisector")
+Every finite simple polygon has a vertex whose inward bisector enters its inside.
+:::
+
+:::proof "exposed_corner"
+A vertex of maximal norm is strictly exposed: the squared-distance identity gives
+a linear height strictly below its maximum at every other vertex. Opposite collar
+sectors contain the bisector and its negative. The negative direction is beyond the
+supporting line and outside; distinctness of the two components puts the bisector inside.
+:::
+
+:::theorem "interior_straight_cut" (lean := "Reeken.Geometry.exists_vertex_to_nonincident_edge_cut")
+A vertex joins a nonincident edge by a straight segment whose open part lies inside.
+The far endpoint may lie between vertices.
+:::
+
+:::proof "interior_straight_cut"
+Extend the ray from {uses "exposed_corner"}[]. Boundedness gives a point beyond the
+inside. Minimize the boundary-intersection parameter on the intervening compact
+interval. Before this first hit the ray stays inside. Independence of the corner's
+two rays rules out either incident edge as the first hit.
+:::
+
 :::theorem "polygon_simply_connected" (tags := "open")
 Every loop in the interior of a finite simple plane polygon contracts there.
 This obligation remains open beyond {uses "polygon_jordan"}[].
 The continuous-to-polygonal homotopy step is checked in {uses "path_mesh_homotopy"}[].
 The base case and a removal step are checked in {uses "triangle_contraction"}[] and
 {uses "triangle_crosscut"}[]. Constructing a terminating ear decomposition remains open.
+An interior cut to an edge is constructed in {uses "interior_straight_cut"}[];
+its far endpoint is not yet guaranteed to be an existing vertex.
 :::
 
 :::theorem "deep_regions" (lean := "Reeken.NSA.deep_union_of_separation")

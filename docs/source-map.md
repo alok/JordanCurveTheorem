@@ -27,6 +27,7 @@ not a theorem available for downstream use. The final independently stated targe
 | Enclosed-set containment | `Geometry/EnclosedSets.lean`, `Nonstandard/LoopContraction.lean`: bounded complementary components of every nonempty compact set in the standard inside remain there | Proved; a geometric filling statement, not a null homotopy |
 | Triangle contraction | `Geometry/ConvexEnclosure.lean`, `TriangleContraction.lean`: supporting half-planes enclose bounded components; every three-vertex polygon's closed inside is its convex hull and contracts, and its open inside is simply connected | Proved |
 | Convex attachment and triangular crosscuts | `Geometry/ConvexAttachment.lean`, `CrosscutContraction.lean`: explicit segment retraction and pasted deformation; closed crosscut cells cover the parent's closed inside and meet on the cut; cutting off a triangle preserves contractibility | Proved step; existence of an ear decomposition remains open |
+| Interior straight cut | `Geometry/ExposedVertex.lean`, `RayExit.lean`: a maximal-norm vertex is strictly exposed; its inward bisector enters the inside and first meets a nonincident edge, with the open cut entirely inside | Proved; the far endpoint may be between vertices |
 | Finite polygonal simple connectivity | Contractibility of all interior loops, beyond finite separation and crosscuts | Open |
 | Circle-parametrization bridge | `Geometry/CircleParametrization.lean`: continuous embeddings of the plane unit circle give the simple-loop representation with exactly the same image | Proved |
 | Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |
@@ -162,6 +163,12 @@ then pastes a straight deformation on an attached convex piece with the identity
 on the rest. `CrosscutContraction.lean` identifies the union and intersection of the
 closed cells and applies this to a triangular crosscut. These are contraction steps;
 the existence and termination of an ear decomposition for every polygon remain open.
+`ExposedVertex.lean` chooses a vertex of maximal norm and uses the squared-distance
+identity to prove strict support at every other vertex. The two collar sectors put
+small positive displacements along the inward bisector inside and negative ones
+outside. `RayExit.lean` minimizes the boundary-hit parameter on a compact interval
+to produce a straight cut to a nonincident edge, with its open segment inside.
+This is not yet a vertex-to-vertex diagonal or an ear decomposition.
 
 ## Independent verification
 

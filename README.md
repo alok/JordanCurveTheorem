@@ -138,6 +138,10 @@ can be removed while preserving contractibility. What remains is to construct an
 decomposition for every finite simple polygon and prove that the process terminates.
 The NSA extraction now keeps the entire closed polygonal inside in the standard inside,
 so these closed-region contractions suffice for the final loop argument.
+The first geometric cut is constructed too: a vertex of maximal norm is strictly
+exposed, its inward bisector enters the inside, and its first boundary hit lies on
+a nonincident edge. The open cut stays entirely inside. The hit may lie between
+vertices; turning this into a terminating polygon decomposition is still open.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.
