@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.ComplementConnectedChallenge",
+  "solution_module": "Verification.ComplementConnectedSolution",
+  "theorem_names": ["Verification.curve_complement_connected"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

@@ -59,8 +59,8 @@ not a theorem available for downstream use. The final independently stated targe
 | Lemma 3, internal cell with connections | `Nonstandard/InnerSpokeCell.lean`: an actual internal polygon and nearest-foot map, with uniformly infinitesimal corner connections avoiding its inside, and the prescribed standard point deeply inside | Proved |
 | Lemma 3, simultaneous containment | `Nonstandard/RingContainment.lean`: infinitesimal edge barriers, small outer arcs, and cancellation of finite crossing parity put every standard inside point deeply in one actual inner polygon | Proved |
 | Inside path connectivity | `Nonstandard/InsideConnectivity.lean`: choose a finite representative of the inner polygon containing both standard points, whose connected inside misses the original curve | Proved |
-| Inside simple connectivity | Contract all interior loops using compact containment in the inner polygon and finite polygonal simple connectivity | Open |
-| Exterior connectivity | Inversion and path connectivity; unboundedness is already in `RegionBounds.lean` | Open |
+| Compact-loop reduction | `Nonstandard/LoopContraction.lean`: every compact inside set lies in a finite inner polygon; arbitrary continuous loop contractions transfer, with finite polygonal simple connectivity an explicit hypothesis | Proved reduction; finite hypothesis open |
+| Exterior connectivity | `Geometry/OuterCells.lean`, `Nonstandard/OuterCell.lean`, `OuterContainment.lean`, `OuterPolygon.lean`, `OutsideConnectivity.lean`: actual outer cell, infinitesimal-barrier cancellation, and finite exterior paths | Proved |
 | Final theorem | A continuous embedding of the unit circle has two complementary regions with the stated boundary and connectivity properties | Open |
 
 ## Mathematical corrections and representation choices
@@ -134,6 +134,19 @@ merge collinear consecutive edges, so its edge lengths need not remain infinites
 chain identity, and crossing parity. It supplies the required infinitesimal edges
 without assuming that normalization preserves their lengths.
 
+For exterior connectivity, the formal proof uses the outer rectangle face and repeats
+the infinitesimal-barrier argument on the finite polygon's connected outside. This is
+the dual of the inner-polygon construction. The published paper instead invokes
+inversion. The formal route proves the same exterior-connectivity conclusion without
+an unproved assertion that inversion swaps the standard regions. It does not claim to
+formalize that inversion step literally.
+
+`LoopContraction.lean` handles arbitrary continuous loops, including self-intersecting
+ones: their ranges are compact and hence lie in one finite inner polygon whose whole
+inside belongs to the standard inside. The reduction takes finite polygonal simple
+connectivity as an explicit hypothesis. That finite theorem is still open, so the
+reduction must not be reported as an unconditional simple-connectivity proof.
+
 ## Independent verification
 
 `Verification/NSAChallenge.lean` states three foundation claims using ordinary
@@ -165,8 +178,14 @@ Comparator and Nanoda. Connectivity is not asserted by this intermediate result.
 `Verification/InsideConnectedChallenge.lean` strengthens that independent circle-map
 statement with path connectivity of the bounded region. Its solution uses the proved
 Lemma 3 through `isPathConnected_standardInside`; `inside-connected.json` requests
-Comparator and Nanoda. Outside path connectivity and inside simple connectivity remain
-separate open obligations.
+Comparator and Nanoda. Outside path connectivity is proved by the next milestone; inside simple connectivity
+remains open.
+
+`Verification/ComplementConnectedChallenge.lean` further asserts path connectivity
+of both complementary regions. `ComplementConnectedSolution.lean` proves this direct
+circle-embedding statement, with explicit radii; `complement-connected.json` requests
+Comparator and Nanoda. The fixed `JordanChallenge.lean` additionally requires simple
+connectivity and still has no solution module.
 
 The axiom audit traverses all declarations by their defining module (`Reeken` or `Schoenflies`),
 including private helpers and declarations in other namespaces such as `Graph`, and accepts

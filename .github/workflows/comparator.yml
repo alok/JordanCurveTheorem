@@ -64,3 +64,9 @@ jobs:
             --working-directory="$GITHUB_WORKSPACE" \
             --setenv="PATH=$PATH" \
             -- "$(command -v lake)" env comparator Verification/inside-connected.json
+          sudo systemd-run --wait --pipe --collect \
+            --uid="$(id -u)" --gid="$(id -g)" \
+            --property='RestrictAddressFamilies=~AF_UNIX' \
+            --working-directory="$GITHUB_WORKSPACE" \
+            --setenv="PATH=$PATH" \
+            -- "$(command -v lake)" env comparator Verification/complement-connected.json

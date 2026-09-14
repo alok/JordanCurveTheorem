@@ -310,11 +310,35 @@ inside is path connected by {uses "polygon_jordan"}[], and belongs to the standa
 because the two standard regions are disjoint and open. Its paths are the required paths.
 :::
 
+:::theorem "outside_connected" (lean := "Reeken.NSA.isPathConnected_standardOutside")
+The standard outside is path connected.
+:::
+
+:::proof "outside_connected"
+Take the outer face of the rectangle arrangement from {uses "rectangle_zone"}[].
+Its closed outside misses the extended curve and its boundary is infinitesimally
+close to the inscribed polygon. Repeat the barrier cancellation of {uses "inner_polygon"}[]
+on the finite outside. One distant standard point fixes the outside parity, so every
+standard outside point lies deeply outside this same outer polygon. Finite exterior
+paths give the required paths. This is the dual construction in place of the paper's inversion.
+:::
+
+:::theorem "compact_loop_reduction" (lean := "Reeken.NSA.isSimplyConnected_standardInside_of_polygon")
+If every finite simple polygon has simply connected inside, the standard inside is
+simply connected. The finite hypothesis remains open.
+:::
+
+:::proof "compact_loop_reduction"
+The range of any continuous loop is compact. Through {uses "inner_polygon"}[], one
+finite polygon contains the entire range in its inside, and its whole inside belongs
+to the standard inside. The explicit finite simple-connectivity hypothesis contracts
+the loop there. This handles arbitrary continuous loops, including self-intersecting ones.
+:::
+
 :::theorem "connectivity" (tags := "open")
-The inside is simply connected, and the outside is path connected. Inside path connectivity
-is proved in {uses "inside_connected"}[] and outside unboundedness in {uses "region_bounds"}[].
-Simple connectivity still requires {uses "polygon_simply_connected"}[] and compact
-containment through {uses "inner_polygon"}[]. Exterior connectivity is also still open.
+Both regions are path connected by {uses "inside_connected"}[] and
+{uses "outside_connected"}[]. The inside's simple connectivity remains open:
+{uses "compact_loop_reduction"}[] reduces it to {uses "polygon_simply_connected"}[].
 :::
 
 :::theorem "jordan" (tags := "open")

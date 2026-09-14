@@ -31,4 +31,22 @@ theorem parity_eq_inside_of_edge_barriers {L : List Piece} (hclosed : IsClosedCh
   obtain ⟨P, hP, hzP⟩ := mem_iUnion₂.mp hzArc
   exact hz.1 (hcover P hP hzP)
 
+theorem parity_eq_outside_of_edge_barriers {L : List Piece} (hclosed : IsClosedChain L)
+    (foot : Plane → Plane) (arc : Piece → List Piece)
+    (hchain : ∀ P ∈ L, IsChainFrom (arc P) (foot P.1) (foot P.2))
+    {C : Set Plane} (hC : IsSeparating C) (hcover : ∀ P ∈ L, cover (arc P) ⊆ C)
+    {u : Plane} (hu : Plane.IsDirection u)
+    (hdir : ∀ P ∈ L.flatMap arc, P.Nondeg → hgt u P.1 ≠ hgt u P.2)
+    {x y : Plane} (hx : x ∈ outside C) (hy : y ∈ outside C)
+    (hbarriers : ∀ P ∈ L,
+      parity u (edgeBarrier foot arc P) x = parity u (edgeBarrier foot arc P) y) :
+    parity u L x = parity u L y := by
+  apply parity_eq_of_edge_barriers hclosed foot arc hbarriers
+  apply parity_eq_on_preconnected_complement (isClosedChain_replacement_arcs hclosed hchain)
+    hu hdir hC.isConnected_outside.isPreconnected _ hx hy
+  rw [Set.disjoint_left, cover_flatMap]
+  intro z hz hzArc
+  obtain ⟨P, hP, hzP⟩ := mem_iUnion₂.mp hzArc
+  exact hz.1 (hcover P hP hzP)
+
 end Reeken.Geometry

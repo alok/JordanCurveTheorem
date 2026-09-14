@@ -55,7 +55,8 @@ Comparator, lean4export, Nanoda, and Landrun, then checks the independent NSA
 and polygon challenge statements against their proofs. The finite separation challenge
 also checks the attributed dependency. The common-boundary challenge states Sections 1–3
 for an arbitrary continuous circle embedding, with explicit radius bounds. A sixth
-challenge additionally checks inside path connectivity. These checks
+challenge additionally checks inside path connectivity, and a seventh checks
+path connectivity of both complementary regions. These checks
 certify the named milestones; they do not certify the still-unfinished Jordan theorem. Lean Beam is used locally
 for incremental diagnostics and speculative proof checks.
 
@@ -75,8 +76,9 @@ on this toolchain. Its general Jordan and Schoenflies assembly is excluded. The 
 accepts our actual simple polygons, including collinear consecutive edges.
 The standard deep regions are open, disjoint, and exhaust the curve's complement;
 both regions are nonempty, the inside is bounded, the outside is unbounded, and the
-curve is their common boundary. Lemma 3 and path connectivity of the standard inside are proved. Exterior connectivity
-and simple connectivity of the inside remain open. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
+curve is their common boundary. Lemma 3 and path connectivity of the standard inside are proved. Path connectivity of the standard outside is also proved. The remaining obligation
+is simple connectivity of finite polygon interiors; the compact-loop reduction
+from the original curve to that finite statement is checked with an explicit hypothesis. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
 Section 3's equal-distance estimate is proved for the actual polygon arcs, using their
 common-shadow endpoint restriction. Generic local squares can be chosen to avoid every
 vertex at a prescribed standard scale. Finite plane-graph face cycles are checked;
@@ -110,6 +112,17 @@ records the correspondence and the subdivision needed when collinear edges are m
 Finite polygonal paths then establish `isPathConnected_standardInside`.
 `Verification/InsideConnectedSolution.lean` exports this stronger conclusion for every
 continuous injective circle map, again using explicit radii.
+
+The outer face of the same rectangle arrangement gives an actual internal outer
+polygon. Its closed exterior avoids the extended curve. The exterior version of
+the barrier cancellation puts every standard outside point deeply outside this
+polygon; finite exterior paths prove `isPathConnected_standardOutside`.
+`Verification/ComplementConnectedSolution.lean` therefore proves the Jordan separation
+and common-boundary statement for arbitrary continuous circle embeddings, including
+path connectivity of both regions. The fixed full target additionally requires
+simple connectivity of the inside. `LoopContraction.lean` checks the reduction for
+**arbitrary continuous loops**, using compact containment in one finite inner polygon.
+Its finite-polygon simple-connectivity hypothesis is explicit and is not yet discharged.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.
