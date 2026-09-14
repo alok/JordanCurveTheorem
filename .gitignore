@@ -5,3 +5,6 @@ work/
 *.pem
 *.key
 __pycache__/
+.beam/
+.ci/
+*.ndjson

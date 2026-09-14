@@ -13,3 +13,6 @@ rev = "0df444a360eaa60ab8c11dca51a86af692955474"
 
 [[lean_lib]]
 name = "Reeken"
+
+[[lean_lib]]
+name = "Verification"

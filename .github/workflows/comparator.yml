@@ -1,0 +1,36 @@
+name: Comparator and Nanoda
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nsa-milestones:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+      - name: Build pinned checkers
+        run: bash scripts/install-checkers.sh
+      - name: Compare independent statements and replay in both kernels
+        # Run as the unprivileged runner. RestrictAddressFamilies follows Comparator's
+        # documented AF_UNIX protection in addition to its Landrun sandbox.
+        run: |
+          sudo systemd-run --wait --pipe --collect \
+            --uid="$(id -u)" --gid="$(id -g)" \
+            --property='RestrictAddressFamilies=~AF_UNIX' \
+            --working-directory="$GITHUB_WORKSPACE" \
+            --setenv="PATH=$PATH" \
+            -- lake env comparator Verification/nsa.json

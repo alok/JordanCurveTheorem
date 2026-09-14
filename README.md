@@ -33,3 +33,20 @@ lake build
 
 The nonstandard extension is built from `Filter.Germ` over an ultrafilter. This gives
 actual quotient objects and proved transfer rules, with no new foundational axioms.
+
+The current development also proves hyperfinite extrema and induction, countable
+saturation and overspill, compact standard parts, preservation and reflection of
+infinitesimal nearness for compact embeddings, closedness of standard shadows, and
+the segment-length estimate used in loop cutting. See the
+[source correspondence and remaining obligations](docs/source-map.md).
+
+```sh
+lake env lean scripts/Audit.lean
+lake env leanchecker --fresh Reeken
+```
+
+CI runs a full build and axiom audit. A separate Linux workflow builds pinned
+Comparator, lean4export, Nanoda, and Landrun, then checks the independent NSA
+challenge statements against their proofs. This checks the named foundation results;
+it does not certify the still-unfinished Jordan theorem. Lean Beam is used locally
+for incremental diagnostics and speculative proof checks.

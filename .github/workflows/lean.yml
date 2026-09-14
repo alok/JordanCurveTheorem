@@ -1,0 +1,28 @@
+name: Lean and kernel replay
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+      - name: Build all proof modules
+        run: lake --wfail build
+      - name: Audit all project declarations
+        run: lake env lean scripts/Audit.lean
+      - name: Replay the complete imported environment from scratch
+        run: lake env leanchecker --fresh Reeken

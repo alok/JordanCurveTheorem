@@ -1,0 +1,11 @@
+{
+  "challenge_module": "Verification.NSAChallenge",
+  "solution_module": "Verification.NSASolution",
+  "theorem_names": [
+    "Verification.compact_standard_part",
+    "Verification.countable_saturation",
+    "Verification.compact_injective_reflects_near"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}
