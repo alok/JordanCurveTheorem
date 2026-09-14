@@ -19,13 +19,17 @@ not a theorem available for downstream use. The final independently stated targe
 | Compact standard parts | `Reeken/Nonstandard/Metric.lean` | Proved |
 | Infinitesimal continuity and inverse continuity | `Metric.lean`: compact injective maps preserve and reflect nearness | Proved |
 | Standard shadows and appreciable separation | `Reeken/Nonstandard/Shadow.lean`: closed shadow of any internal set; positive uniform distance outside its shadow | Proved |
+| Internal images and standard curve intersections | `Reeken/Nonstandard/Images.lean`: image transfer and compact standard-part extraction at an internal intersection | Proved |
+| Initial inscribed mesh | `Reeken/Geometry/UniformMesh.lean`: explicit consecutive sampling and two-sided uniform approximation | Proved |
+| Initial mesh in the nonstandard model | `Reeken/Nonstandard/MeshApproximation.lean`: exact shadow and infinitesimal endpoints for every internal edge | Proved |
 | Finite polygonal Jordan theorem used by the paper | Polygonal separation, two path components, common boundary, bounded inside, simple connectivity | Open |
 | Lemma 1(i) | A sufficiently fine inscribed internal polygon has unlimited vertex count and infinitesimal parameter gaps | Open |
 | Lemma 1(ii) | Two-sided infinitesimal approximation of the original curve | Open |
 | Lemma 1(iii) | Exactly one of the two arcs between near points is infinitesimally small | Open |
 | Lemma 2, metric inequality | `Reeken/Geometry/Segments.lean`: an intersection of two segments permits a replacement edge no longer than the longer original edge | Proved |
 | Lemma 2, construction | Hyperfinite sampling, internal loop cutting, termination, preservation of parameter order and mesh | Open |
-| Standard inside/outside | Appreciable distance to the approximating polygon gives disjoint open standard regions exhausting the complement | Open |
+| Transfer of a given internal separation | `Reeken/Nonstandard/Regions.lean`: deep regions are open and disjoint and exhaust the complement of the boundary shadow; finite separation is an explicit input | Proved |
+| Standard inside/outside for a Jordan curve | Instantiate the transfer theorem with a simple approximating polygon and prove nonemptiness | Open |
 | Published Section 3 | Each curve point lies on the boundary of both regions; local square and polygonal cell construction | Open |
 | Lemma 3 | Internal inner polygon using narrow rectangles and shortest boundary connections; ring and crosscut argument | Open |
 | Connectivity and simple connectivity | Transfer finite polygon results through the inner polygon | Open |
@@ -47,6 +51,11 @@ The paper takes the polygonal Jordan theorem as known. This project includes it 
 its scope and will not introduce it as an axiom. Similarly, compactness, transfer,
 saturation, or internal induction must be derived in the model actually implemented.
 
+The basic ultrapower, transfer, and metric constructions accept arbitrary ultrafilters.
+`countable_saturation_of_le_atTop` works for any ultrafilter on naturals that contains
+all tails. `hyperfilter ℕ` supplies a chosen instance of this condition; its particular
+choice is mathematically irrelevant to the proof.
+
 ## Independent verification
 
 `Verification/NSAChallenge.lean` states three foundation claims using ordinary
@@ -54,6 +63,10 @@ sequences, metrics, compactness, and ultrafilters, without importing project def
 `Verification/NSASolution.lean` supplies the corresponding proofs. Comparator is
 configured to compare them and invoke Nanoda. Challenge holes are intentionally
 confined to challenge modules; they are not imported by any proof module.
+
+`Verification/MeshChallenge.lean` independently writes out the sampled segments and
+states the mesh-shadow result entirely in terms of sequences and standard metric
+estimates. It is checked against `MeshSolution.lean` by a separate Comparator invocation.
 
 The axiom audit traverses project declarations, including private helpers, and accepts
 only `propext`, `Classical.choice`, and `Quot.sound`. Official `leanchecker --fresh`

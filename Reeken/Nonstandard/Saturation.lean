@@ -15,10 +15,12 @@ namespace Reeken.NSA
 
 variable {α : Type*} [Nonempty α]
 
-/-- Diagonal realization of a countable family of internal conditions. -/
-theorem countable_saturation_of_eventually (P : ℕ → ℕ → α → Prop)
-    (h : ∀ n, ∀ᶠ i in hyperfilter ℕ, ∃ a, ∀ k ≤ n, P k i a) :
-    ∃ x : Star (hyperfilter ℕ) α, ∀ k, Holds (P k) x := by
+/-- Diagonal realization works for every ultrafilter on naturals containing all tails.
+No property of mathlib's particular choice of `hyperfilter` is used. -/
+theorem countable_saturation_of_le_atTop (U : Ultrafilter ℕ)
+    (hU : (U : Filter ℕ) ≤ atTop) (P : ℕ → ℕ → α → Prop)
+    (h : ∀ n, ∀ᶠ i in U, ∃ a, ∀ k ≤ n, P k i a) :
+    ∃ x : Star U α, ∀ k, Holds (P k) x := by
   classical
   let feasible (i n : ℕ) : Prop := ∃ a, ∀ k ≤ n, P k i a
   let rank (i : ℕ) : ℕ := Nat.findGreatest (feasible i) i
@@ -26,14 +28,19 @@ theorem countable_saturation_of_eventually (P : ℕ → ℕ → α → Prop)
     if hi : feasible i (rank i) then Classical.choose hi else Classical.arbitrary α
   refine ⟨ofSeq x, ?_⟩
   intro k
-  have hk : ∀ᶠ i in hyperfilter ℕ, k ≤ i :=
-    Nat.hyperfilter_le_atTop (eventually_ge_atTop k)
+  have hk : ∀ᶠ i in U, k ≤ i := hU (eventually_ge_atTop k)
   filter_upwards [hk, h k] with i hki hi
   have hr : k ≤ rank i := Nat.le_findGreatest hki hi
   have hf : feasible i (rank i) := Nat.findGreatest_spec hki hi
   change P k i (x i)
   simp only [x, dif_pos hf]
   exact Classical.choose_spec hf k hr
+
+/-- The chosen concrete model is an instance of the ultrafilter-independent construction. -/
+theorem countable_saturation_of_eventually (P : ℕ → ℕ → α → Prop)
+    (h : ∀ n, ∀ᶠ i in hyperfilter ℕ, ∃ a, ∀ k ≤ n, P k i a) :
+    ∃ x : Star (hyperfilter ℕ) α, ∀ k, Holds (P k) x :=
+  countable_saturation_of_le_atTop (hyperfilter ℕ) Nat.hyperfilter_le_atTop P h
 
 /-- Countable saturation in the intrinsic finite-intersection formulation. -/
 theorem countable_saturation (P : ℕ → ℕ → α → Prop)

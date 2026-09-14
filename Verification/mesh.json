@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.MeshChallenge",
+  "solution_module": "Verification.MeshSolution",
+  "theorem_names": ["Verification.inscribed_mesh_shadow"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}
