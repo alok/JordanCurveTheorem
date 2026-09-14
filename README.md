@@ -89,6 +89,15 @@ The independently stated result is `Verification.curve_common_boundary` in
 `Verification/CommonBoundarySolution.lean`; it assumes only continuity and injectivity
 of the circle map.
 
+Lemma 3's narrow rectangles now have checked metric estimates and explicit polygonal
+boundaries. Their finite overlay remains connected after deleting any vertex. It
+produces an actual internal inner cell around each prescribed standard interior point,
+whose closed interior avoids the extended curve and whose boundary is in the curve's
+monad. Every standard compact set off the curve uniformly avoids the entire rectangle
+and shortest-connection construction zone. The nearest connections stay in their
+starting polygon region until reaching their feet. The ring argument showing that
+one inner polygon contains **all** standard interior points remains open.
+
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.
 

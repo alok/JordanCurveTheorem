@@ -242,11 +242,38 @@ of the curve point. Apply the same construction to the other side. The open disj
 partition in {uses "standard_regions"}[] gives equality of both frontiers with the curve.
 :::
 
+:::theorem "rectangle_zone" (lean := "Reeken.NSA.eventually_disjoint_innerConstructionZone")
+Every compact standard set off the curve avoids the entire family of narrow rectangles
+and all shortest connections from their points to the polygon. The internal covering
+uses {uses "lemma1ii"}[].
+:::
+
+:::proof "rectangle_zone"
+A rectangle point and its nearest foot are within the maximum edge length plus four
+times the infinitesimal padding. Uniform proximity places the construction zone's
+shadow in the curve; compactness turns disjoint shadows into uniform avoidance.
+:::
+
+:::theorem "inner_cell" (lean := "Reeken.NSA.exists_internal_inner_cell")
+For each standard inside point there is an actual internal inner polygon containing
+that point deeply. Its closed inside avoids the extended curve, and its boundary
+shadow is contained in the curve. This uses {uses "rectangle_zone"}[] and {uses "finite_cells"}[].
+:::
+
+:::proof "inner_cell"
+The affine images of squares give the prescribed rectangle boundaries. Each meets the
+polygon twice, so the overlay remains connected after any vertex deletion. Choose its
+bounded face at the prescribed point. The face closure stays outside each rectangle
+interior, and the rectangles cover the extended curve.
+:::
+
 :::theorem "inner_polygon" (tags := "open")
 There is an internal inner polygon containing every standard interior point and whose
 interior avoids the extended loop. The rectangle arrangement and crosscut argument use
 {uses "lemma1ii"}[], {uses "lemma1iii"}[], {uses "polygon_jordan"}[], and
-{uses "common_boundary"}[]. The full construction remains open.
+{uses "common_boundary"}[]. The chosen-point construction is checked in {uses "inner_cell"}[]. Adding shortest
+connections and proving that the same inner polygon contains every standard interior
+point remains open.
 :::
 
 :::theorem "connectivity" (tags := "open")

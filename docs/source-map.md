@@ -49,7 +49,12 @@ not a theorem available for downstream use. The final independently stated targe
 | The local cell through the chosen vertex | `Geometry/FiniteFaces.lean`, `SquareFaces.lean`, `LocalCells.lean`: finiteness of the face family, a face on either chosen side with the vertex in its boundary, and an actual clipped simple polygon | Proved |
 | Square-boundary connector | `Geometry/ArcEndpoint.lean`, `ArcParametrization.lean`, `SquareConnector.lean`: the clipped cell meets both cut arcs away from their endpoints; a path around the punctured cell supplies a connector on the chosen side | Proved |
 | Published Section 3 | `Nonstandard/CommonBoundary.lean`: both frontiers equal the original curve, using the actual local cells, balanced connector points, and compact standard parts; direct continuous-circle formulation in `Verification/CommonBoundarySolution.lean` | Proved |
-| Lemma 3 | Internal inner polygon using narrow rectangles and shortest boundary connections; ring and crosscut argument | Open |
+| Lemma 3, narrow rectangles | `Geometry/EdgeRectangles.lean`, `PolygonRectangles.lean`, `RectangleBoundary.lean`: the prescribed dimensions, neighborhood coverage, short connections, and affine square images giving actual polygon boundaries | Proved |
+| Lemma 3, uniform avoidance | `Nonstandard/RectangleApproximation.lean`: the whole construction zone has shadow in the curve; all standard compact sets off the curve eventually avoid it | Proved |
+| Lemma 3, nearest connection location | `Geometry/NearestRegions.lean`: a shortest connection stays in its starting component until its boundary foot | Proved |
+| Lemma 3, rectangle overlay | `Geometry/BoundaryCrossings.lean`, `PolygonFamilyOverlay.lean`, `RectangleOverlay.lean`: every thin rectangle crosses the polygon twice, and the whole finite drawing is 2-connected | Proved |
+| Lemma 3, inner cell at a chosen point | `Geometry/RectangleCells.lean`, `Nonstandard/InnerCell.lean`: an actual simple inner polygon contains the prescribed standard point deeply, its closed inside avoids the extended curve, and its boundary shadow is contained in the curve | Proved |
+| Lemma 3, simultaneous containment | Add shortest connections and prove the ring/crosscut argument: one inner polygon contains every standard inside point, not only the chosen point | Open |
 | Connectivity and simple connectivity | Transfer finite polygon results through the inner polygon | Open |
 | Exterior connectivity | Inversion and path connectivity; unboundedness is already in `RegionBounds.lean` | Open |
 | Final theorem | A continuous embedding of the unit circle has two complementary regions with the stated boundary and connectivity properties | Open |

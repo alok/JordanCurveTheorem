@@ -30,3 +30,5 @@ import Reeken.Nonstandard.CompactDeep
 import Reeken.Geometry.BoundarySubpath
 import Reeken.Geometry.LocalCells
 import Reeken.Nonstandard.CommonBoundary
+import Reeken.Nonstandard.InnerCell
+import Reeken.Geometry.NearestRegions
