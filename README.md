@@ -122,7 +122,11 @@ and common-boundary statement for arbitrary continuous circle embeddings, includ
 path connectivity of both regions. The fixed full target additionally requires
 simple connectivity of the inside. `LoopContraction.lean` checks the reduction for
 **arbitrary continuous loops**, using compact containment in one finite inner polygon.
-Its finite-polygon simple-connectivity hypothesis is explicit and is not yet discharged.
+Its finite-polygon simple-connectivity hypothesis is explicit and is not yet discharged. The remaining finite work now has a checked continuous-path
+reduction too: `MeshPath.lean` constructs actual polygonal paths, proves uniform
+convergence, and gives homotopies inside any containing open set while fixing endpoints.
+The bounded complementary components of compact inside sets are also proved to stay
+inside. Constructing the finite polygonal null homotopies remains open.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

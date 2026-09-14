@@ -23,6 +23,8 @@ not a theorem available for downstream use. The final independently stated targe
 | Initial inscribed mesh | `Reeken/Geometry/UniformMesh.lean`: explicit consecutive sampling and two-sided uniform approximation | Proved |
 | Initial mesh in the nonstandard model | `Reeken/Nonstandard/MeshApproximation.lean`: exact shadow and infinitesimal endpoints for every internal edge | Proved |
 | Finite polygonal separation used by the paper | `Geometry/PolygonSeparation.lean` adapts the attributed finite collar/parity proof in `vendor/Schoenflies`; open connected regions, common boundary, bounded inside, unbounded outside; path connectivity in `Verification/SeparationSolution.lean` | Proved |
+| Polygonal approximation of arbitrary paths | `Geometry/PathHomotopy.lean`, `MeshPath.lean`: actual continuous finite mesh paths converge uniformly and are homotopic to the original path inside any containing open set, with endpoints fixed | Proved |
+| Enclosed-set containment | `Geometry/EnclosedSets.lean`, `Nonstandard/LoopContraction.lean`: bounded complementary components of every nonempty compact set in the standard inside remain there | Proved; a geometric filling statement, not a null homotopy |
 | Finite polygonal simple connectivity | Contractibility of all interior loops, beyond finite separation and crosscuts | Open |
 | Circle-parametrization bridge | `Geometry/CircleParametrization.lean`: continuous embeddings of the plane unit circle give the simple-loop representation with exactly the same image | Proved |
 | Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |

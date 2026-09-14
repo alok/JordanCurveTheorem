@@ -1,4 +1,5 @@
 import Reeken.Nonstandard.InsideConnectivity
+import Reeken.Geometry.EnclosedSets
 import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
 
 /-! # Compact-loop transfer through the inner polygon
@@ -34,6 +35,15 @@ theorem exists_polygon_inside_of_isCompact {K : Set Plane} (hK : IsCompact K)
     exact subset_closure.trans hi.2.2
   · obtain ⟨A, hA⟩ := hne
     exact ⟨A, hKi hA, hKU hA⟩
+
+/-- The bounded complementary components of any nonempty compact set in the
+standard inside also belong to the standard inside. This is geometric enclosure,
+not yet the construction of a null homotopy. -/
+theorem enclosed_subset_standardInside {K : Set Plane} (hK : IsCompact K)
+    (hne : K.Nonempty) (hKU : K ⊆ standardInside p) :
+    inside K ⊆ standardInside p := by
+  obtain ⟨_, Q, hKQ, hQU⟩ := exists_polygon_inside_of_isCompact p hmax hs hK hne hKU
+  exact (inside_subset_inside_of_carrier_subset Q.isSeparating_carrier hKQ).trans hQU
 
 /-- The complete NSA step for arbitrary continuous loops, conditional only on the
 still-unproved finite polygonal simple-connectivity theorem. -/

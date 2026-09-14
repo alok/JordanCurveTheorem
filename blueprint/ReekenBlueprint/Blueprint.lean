@@ -128,9 +128,22 @@ Adapt the actual vertex and edge conditions to the finite collar/parity proof by
 Collinear consecutive edges are normalized. General Jordan assembly is excluded.
 :::
 
+:::theorem "path_mesh_homotopy" (lean := "Reeken.Geometry.exists_meshPath_homotopy")
+Every continuous path in an open set is homotopic there, with endpoints fixed, to
+an actual finite polygonal mesh path. Self-intersections are allowed.
+:::
+
+:::proof "path_mesh_homotopy"
+Affine formulas on the finitely many closed mesh intervals agree at common endpoints,
+so their pasting is continuous. Uniform continuity gives uniform convergence to the
+original path. Compactness of the path range gives a positive distance margin inside
+the open set; the straight homotopy to a sufficiently close mesh stays within that margin.
+:::
+
 :::theorem "polygon_simply_connected" (tags := "open")
 Every loop in the interior of a finite simple plane polygon contracts there.
 This obligation remains open beyond {uses "polygon_jordan"}[].
+The continuous-to-polygonal homotopy step is checked in {uses "path_mesh_homotopy"}[].
 :::
 
 :::theorem "deep_regions" (lean := "Reeken.NSA.deep_union_of_separation")
