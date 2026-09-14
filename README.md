@@ -144,7 +144,11 @@ a nonincident edge. The open cut stays entirely inside. The hit may lie between
 vertices; turning this into a terminating polygon decomposition is still open.
 An empty neighbor triangle now has a checked geometric criterion: no polygon edge
 can enter its interior, and at a strictly exposed corner its interior lies inside
-the polygon. Selecting such ears for all polygons remains open.
+the polygon. Its opposite open edge is proved disjoint from the whole polygon and,
+at a strictly supported corner, lies inside. Deleting the corner gives an actual
+smaller polygon. Normalization preserves a vertex-count bound and introduces no
+new vertices, so collinear corners do not obstruct this decrease. Selecting suitable
+ears for every polygon and assembling the contraction induction remain open.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

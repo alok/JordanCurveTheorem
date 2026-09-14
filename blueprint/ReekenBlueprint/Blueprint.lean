@@ -207,6 +207,31 @@ interior. A small point on the inward bisector belongs to both insides, so conne
 puts the entire triangle inside the polygon. This uses {uses "exposed_corner"}[].
 :::
 
+:::theorem "empty_triangle_diagonal" (lean := "Reeken.Geometry.empty_corner_base_inside")
+For a polygon with more than three vertices, the base of an empty neighbor triangle
+misses the polygon except at its ends. At a strictly supported corner it is an
+internal diagonal.
+:::
+
+:::proof "empty_triangle_diagonal"
+Signed-area coordinates show that a transverse crossing of the base enters the
+triangle interior, contradicting {uses "empty_neighbor_triangle"}[]. A collinear
+edge through the open base must contain both base ends; simplicity would then make
+those nonadjacent vertices adjacent, a contradiction.
+:::
+
+:::theorem "empty_triangle_deletion" (lean := "Reeken.Geometry.exists_smaller_polygon_of_empty_corner")
+Deleting the apex of an empty neighbor triangle yields an actual polygon with
+strictly fewer vertices and no new vertices.
+:::
+
+:::proof "empty_triangle_deletion"
+Use the disjoint diagonal from {uses "empty_triangle_diagonal"}[] to check every
+edge intersection in the shortened cyclic vertex family. Normalize any collinear
+corners. The normalization induction preserves the vertex-count bound and vertex-set
+inclusion, so the resulting closed polygon remains strictly smaller.
+:::
+
 :::theorem "polygon_simply_connected" (tags := "open")
 Every loop in the interior of a finite simple plane polygon contracts there.
 This obligation remains open beyond {uses "polygon_jordan"}[].
@@ -217,6 +242,8 @@ An interior cut to an edge is constructed in {uses "interior_straight_cut"}[];
 its far endpoint is not yet guaranteed to be an existing vertex.
 The empty-triangle criterion in {uses "empty_neighbor_triangle"}[] is proved, but its
 geometric hypotheses have not yet been constructed together for every polygon.
+The diagonal and strictly smaller polygon under these hypotheses are checked in
+{uses "empty_triangle_diagonal"}[] and {uses "empty_triangle_deletion"}[].
 :::
 
 :::theorem "deep_regions" (lean := "Reeken.NSA.deep_union_of_separation")

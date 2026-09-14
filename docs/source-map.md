@@ -34,6 +34,8 @@ not a theorem available for downstream use. The final independently stated targe
 | Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |
 | Conditions (†), (‡) | `Geometry/InscribedPolygon.lean`: strictly ordered parameters, all vertices on the curve, half-circle conditions, cyclic gaps, maxima, and telescoping sum | Defined with proved elementary properties |
 | An initial polygon satisfying (†), (‡) | `Geometry/UniformPolygon.lean`, `Nonstandard/InitialPolygon.lean`: explicit equally spaced samples, infinitesimal maximum edge, and exact shadow | Proved |
+| Empty triangle diagonal and deletion | `Geometry/TriangleCoordinates.lean`, `TriangleBase.lean`, `EmptyEarDiagonal.lean`, `DiagonalDeletion.lean`: transverse and collinear edge crossings are excluded; the opposite open edge misses the carrier; deletion and normalization give a strictly smaller polygon with no new vertices | Proved under the explicit empty-neighbor-triangle hypothesis |
+| Normalization bounds | `Geometry/PolygonNormalization.lean`: finite normalization retains a nonincreasing vertex count and vertex-set inclusion | Proved strengthening of the attributed finite normalization argument |
 | Lemma 1(i) | `Nonstandard/PolygonRegularity.lean`: uniformly infinitesimal gaps, unlimited vertex count, first parameter near zero and last near one | Proved |
 | Lemma 1(ii) | `Geometry/PolygonApproximation.lean`, `Nonstandard/PolygonApproximation.lean`: two-sided approximation by a single positive infinitesimal, and exact standard shadow | Proved |
 | Lemma 1(iii) | `Nonstandard/PolygonArcs.lean`, `Nonstandard/EdgePoints.lean`, `Nonstandard/PointArcs.lean`: exactly one of the two cuts between near points lies in their monad, first for vertices and then for arbitrary points on edges | Proved |
@@ -178,6 +180,17 @@ vertex. This rules out polygon edges inside an empty neighbor triangle.
 the triangle's inside with a subset of the polygon's inside. The empty-triangle
 and strict-support conditions are explicit geometric hypotheses; they have not
 yet been produced together for every polygon.
+`TriangleCoordinates.lean` supplies signed-area coordinates and a local motion into
+triangle interiors. `TriangleBase.lean` handles both transverse crossings and
+collinear overlaps with the base. `EmptyEarDiagonal.lean` consequently proves that
+the open base misses every polygon edge when the polygon has more than three vertices;
+at a strictly supported corner the base is an internal diagonal.
+`DiagonalDeletion.lean` constructs the shortened polygon explicitly. Its potentially
+collinear corners are normalized using `PolygonNormalization.lean`, a strengthening
+of the attributed finite normalization induction that preserves the vertex-count
+bound and proves that no new vertices are introduced. The resulting polygon is
+strictly smaller. Existence of a suitable ear for every polygon and the full
+contraction induction remain open.
 
 ## Independent verification
 
