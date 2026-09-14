@@ -22,6 +22,7 @@ internal-object interfaces and proof-producing automation are documented in the
 | Compact standard parts | `Reeken/Nonstandard/Metric.lean` | Proved |
 | Infinitesimal continuity and inverse continuity | `Metric.lean`: compact injective maps preserve and reflect nearness | Proved |
 | Standard shadows and appreciable separation | `Reeken/Nonstandard/Shadow.lean`: closed shadow of any internal set; positive uniform distance outside its shadow | Proved |
+| Simultaneous proximity in Section 3 | `Products.lean`, `Hypermetric.lean`, `Proximity.lean`, `CompactSeparation.lean`: internal products, internal distances, one infinitesimal witness from arbitrarily small distances, and compact exclusion of common shadows; native core over any free ultrafilter on ℕ | Proved; indexed geometric interface derived by transfer |
 | Internal images and standard curve intersections | `Reeken/Nonstandard/Images.lean`: image transfer and compact standard-part extraction at an internal intersection | Proved |
 | Initial inscribed mesh | `Reeken/Geometry/UniformMesh.lean`: explicit consecutive sampling and two-sided uniform approximation | Proved |
 | Initial mesh in the nonstandard model | `Reeken/Nonstandard/MeshApproximation.lean`: exact shadow and infinitesimal endpoints for every internal edge | Proved |

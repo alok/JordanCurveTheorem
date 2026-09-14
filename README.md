@@ -116,9 +116,15 @@ countable saturation also have internal-object interfaces.
 as inclusion of a whole monad and proves compact internal inclusion directly from
 standard parts. The geometric proof uses these interfaces.
 
+Internal products and distances now support a reusable
+[infinitesimal proximity principle](Reeken/Nonstandard/Proximity.lean) for arbitrary
+internal functions over any free ultrafilter on ℕ. The Section 3
+[compact-separation proof](Reeken/Nonstandard/CompactSeparation.lean) uses it with
+compact standard parts, without unpacking representatives or rebuilding saturation.
+
 [`star_cases` and `star_transfer`](Reeken/Nonstandard/Transfer.lean) replace recurring
 representative extraction and normalize the proved internal transfer rules. Internal
-induction uses the normalizer, and the
+induction and compact separation use the normalizer, and the
 [regression suite](Verification/TransferTests.lean) checks dependent hypotheses and
 the external-quantifier boundary. See the [tooling guide](docs/nonstandard-tooling.md)
 for examples, model hypotheses, and possible mathlib extraction boundaries.

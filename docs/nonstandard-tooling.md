@@ -20,8 +20,9 @@ saturation, or standard parts.
 
 | Object | Representation | Main operations |
 | --- | --- | --- |
-| `Star U α` | Quotient of indexed families modulo `U` | `std`, `map`, internal application `app` |
-| `InternalSet U α` | `Star U (Set α)` | Internal membership, `toSet`, `compl`, infimum, supremum, `image` |
+| `Star U α` | Quotient of indexed families modulo `U` | `std`, `map`, internal application `app`, `pair`, `prodEquiv` |
+| `InternalSet U α` | `Star U (Set α)` | Internal membership, `toSet`, `compl`, infimum, supremum, `image`, `prod` |
+| `starDist x y` | Internal real obtained by extending `dist` | `near_iff_starDist`, distance of pairs, mapped distances |
 | `Hyperfinite U α` | `Star U (Finset α)` | `toInternalSet`, `exists_max`, `exists_min` |
 | `monad a` | Internal points infinitely close to standard `a` | `Near` and compact standard parts |
 | `s.shadow` | Standard parts of internal points in `s` | Saturation through standard balls |
@@ -50,6 +51,47 @@ The indexed `internalSet`, `hyperfiniteSet`, `shadow`, and `deep` interfaces rem
 available at finite geometric construction boundaries. Their implementations or
 bridge theorems use the internal-object API.
 
+## Products and infinitesimal proximity
+
+[`Products.lean`](../Reeken/Nonstandard/Products.lean) proves
+`Star U (α × β) ≃ Star U α × Star U β`. `exists_pair` decomposes an internal
+pair directly into internal coordinates; it does not expose representative families.
+Internal Cartesian products have componentwise membership.
+[`Hypermetric.lean`](../Reeken/Nonstandard/Hypermetric.lean) proves that `Near`
+on pairs is equivalent to `Near` on both coordinates and that shadows commute
+with internal Cartesian products. These results require no saturation hypothesis.
+`starDist` takes values in the internal reals; the construction does not impose an
+ordinary real-valued metric on the ultrapower.
+
+[`Proximity.lean`](../Reeken/Nonstandard/Proximity.lean) provides
+`InternalSet.exists_near_iff`: for two internal functions on an internal set,
+arbitrarily small distances at every positive standard scale imply that **one**
+internal argument makes their values infinitely close. The proof takes the internal
+image of their distance function and applies the existing shadow theorem at zero.
+For example:
+
+```lean
+open Filter Reeken.NSA in
+example {α E : Type*} [Nonempty α] [PseudoMetricSpace E] {U : Ultrafilter ℕ}
+    (hU : (U : Filter ℕ) ≤ atTop) (s : InternalSet U α)
+    (f g : Star U (α → E))
+    (h : ∀ ε : ℝ, 0 < ε → ∃ x ∈ s, starDist (app f x) (app g x) < std ε) :
+    ∃ x ∈ s, Near (app f x) (app g x) :=
+  (InternalSet.exists_near_iff hU s f g).mpr h
+```
+
+The dual `InternalSet.not_exists_near_iff` gives one positive standard lower bound
+when no internal argument makes the values infinitely close. Both lemmas require
+the explicitly stated free-ultrafilter hypothesis on ℕ.
+
+The Section 3 proof in
+[`CompactSeparation.lean`](../Reeken/Nonstandard/CompactSeparation.lean) uses this
+principle on an internal product, then takes a compact standard part. Its native
+theorem works over any free ultrafilter on ℕ, and its proof contains no representative
+extraction or eventual statements. The original indexed theorem is an adapter;
+`star_transfer at h` translates the uniform internal inequality to the finite
+geometric interface. The previous bespoke saturation construction is gone.
+
 ## Checked metaprogramming
 
 `star_cases x y` chooses representatives for the listed internal objects and
@@ -62,6 +104,8 @@ normalizes the registered internal rules. The `star_transfer` simp set:
 
 - evaluates standard embeddings, internal application, mapped predicates, and
   representative equality and order;
+- normalizes internal pairs, product membership, mapped distances, maxima, and
+  inequalities against standard bounds;
 - collects Boolean combinations into internal predicates;
 - transfers existential and universal quantifiers **over the full ultrapower**;
 - translates internal set operations through their proved interpretation lemmas.
@@ -104,7 +148,10 @@ lake env leanchecker --fresh Reeken
 [`Verification/TransferTests.lean`](../Verification/TransferTests.lean) also checks
 predicate substitution, Boolean formulas under internal quantifiers, dependent
 hypotheses, and caller names that coincide with private tactic names. CI runs these
-tests and the unchanged independent Jordan challenge after the refactor.
+tests and every unchanged independent Comparator challenge after the refactor.
+Product tests combine membership, independent coordinates, and negated predicates
+under an internal quantifier. Metric tests check that the standard scale quantifier
+stays outside the ultrafilter while internal witnesses move through it.
 
 Potential mathlib submissions can be separated into three mathematical layers:
 generic ultrapower/internal-set transfer over arbitrary ultrafilters; hyperfinite

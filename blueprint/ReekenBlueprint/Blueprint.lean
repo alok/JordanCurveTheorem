@@ -63,6 +63,18 @@ Saturation identifies shadow membership with approximation at every positive sta
 scale. Failure of membership gives a uniform positive distance bound.
 :::
 
+:::theorem "infinitesimal_proximity" (lean := "Reeken.NSA.InternalSet.exists_near_iff")
+Two internal functions on an internal set have infinitely close values at one
+internal argument if they have arbitrarily close values at each positive standard scale.
+The model may use any free ultrafilter on naturals.
+:::
+
+:::proof "infinitesimal_proximity"
+Take the internal image of the distance function. By the shadow characterization
+underlying {uses "closed_shadow"}[], zero is its shadow point. Internal image transfer
+supplies one argument whose distance is infinitesimal.
+:::
+
 # Inscribed polygons
 
 :::definition "admissible" (lean := "Reeken.Geometry.InscribedPolygon")
@@ -331,9 +343,21 @@ Move each edge point to its incident vertex, extract compact parameter standard 
 and use the loop's injectivity with its sole endpoint identification.
 :::
 
+:::theorem "compact_common_shadow" (lean := "Reeken.NSA.InternalSet.compact_separation_from_common_shadow")
+A compact standard set disjoint from the common shadow of two internal sets has one
+positive standard bound excluding simultaneous proximity to both sets.
+:::
+
+:::proof "compact_common_shadow"
+Apply {uses "infinitesimal_proximity"}[] to the internal product of the compact set
+and the two internal sets. If the bound failed, both internal points would be near
+the same compact point. Its {uses "standard_part"}[] would lie in the common shadow.
+:::
+
 :::theorem "equidistant_bound" (lean := "Reeken.NSA.polygon_equidistant_uniform_bound")
 Balanced points on a compact set avoiding the cut endpoints have one positive standard
-distance bound from the polygon, using {uses "arc_common_shadow"}[] and {uses "saturation"}[].
+distance bound from the polygon, using {uses "arc_common_shadow"}[] and
+{uses "compact_common_shadow"}[].
 :::
 
 :::proof "equidistant_bound"

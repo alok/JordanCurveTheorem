@@ -1,15 +1,19 @@
 import Reeken.Nonstandard.Ultrapower
 import Reeken.Nonstandard.TransferRules
 import Reeken.Nonstandard.InternalSet
+import Reeken.Nonstandard.Products
 import Reeken.Nonstandard.Hyperfinite
 import Reeken.Nonstandard.Metric
 import Reeken.Nonstandard.Saturation
 import Reeken.Nonstandard.InternalMetric
+import Reeken.Nonstandard.Hypermetric
 import Reeken.Nonstandard.Shadow
+import Reeken.Nonstandard.Proximity
 import Reeken.Nonstandard.Monads
 import Reeken.Nonstandard.Images
 import Reeken.Nonstandard.Regions
 import Reeken.Nonstandard.CompactDeep
+import Reeken.Nonstandard.CompactSeparation
 
 /-!
 # Reusable nonstandard analysis

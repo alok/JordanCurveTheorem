@@ -37,6 +37,22 @@ variable {ι α β : Type*} {U : Ultrafilter ι}
 @[star_transfer] theorem ofSeq_lt [Preorder α] (x y : ι → α) :
     ofSeq (U := U) x < ofSeq y ↔ ∀ᶠ i in U, x i < y i := Germ.coe_lt
 
+@[star_transfer] theorem std_le_map [LE β] (f : α → β) (x : Star U α) (b : β) :
+    std b ≤ map f x ↔ Holds (fun _ a ↦ b ≤ f a) x := by
+  star_cases x
+  exact Germ.coe_le
+
+@[star_transfer] theorem map_lt_std [Preorder β] (f : α → β) (x : Star U α) (b : β) :
+    map f x < std b ↔ Holds (fun _ a ↦ f a < b) x := by
+  star_cases x
+  exact Germ.coe_lt
+
+@[star_transfer] theorem mem_internalSet_iff_holds (s : ι → Set α) (x : Star U α) :
+    x ∈ internalSet s ↔ Holds (fun i a ↦ a ∈ s i) x := Iff.rfl
+
+@[star_transfer] theorem mem_starSet_iff_holds (s : Set α) (x : Star U α) :
+    x ∈ starSet s ↔ Holds (fun _ a ↦ a ∈ s) x := Iff.rfl
+
 attribute [star_transfer] ofSeq_eq std_inj map_ofSeq map_std app_ofSeq
   holds_ofSeq holds_std exists_holds forall_holds
   mem_internalSet_ofSeq std_mem_starSet internalSet_inter internalSet_union internalSet_compl

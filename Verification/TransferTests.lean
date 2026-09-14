@@ -37,6 +37,42 @@ example (P Q : ι → α → Prop)
   star_transfer at h
   exact h
 
+-- Internal membership must join the same predicate before moving a quantifier.
+example (s : ι → Set α) (P : ι → α → Prop) :
+    (∀ x : Star U α, x ∈ (ofSeq s : InternalSet U α) → Holds P x) ↔
+      ∀ᶠ i in U, ∀ a ∈ s i, P i a := by
+  star_transfer
+
+-- Quantification over internal pairs includes both independent nonstandard coordinates.
+example [Nonempty β] (s : ι → Set α) (t : ι → Set β)
+    (P : ι → α → Prop) (Q : ι → β → Prop) :
+    (∃ w : Star U (α × β), w ∈ InternalSet.prod (ofSeq s) (ofSeq t) ∧
+      Holds P (map Prod.fst w) ∧ ¬ Holds Q (map Prod.snd w)) ↔
+      ∀ᶠ i in U, ∃ w : α × β,
+        (w.1 ∈ s i ∧ w.2 ∈ t i) ∧ P i w.1 ∧ ¬ Q i w.2 := by
+  star_transfer
+
+-- Product projections normalize while the external Near predicate stays in place.
+example [PseudoMetricSpace α] (x y : Star U α) :
+    Near (map Prod.fst (pair x y)) (map Prod.snd (pair x y)) ↔ Near x y := by
+  star_transfer
+
+-- This combines internal membership, mapped distances, max, and a standard bound.
+-- It is the normalization used by the compact-separation adapter.
+example [PseudoMetricSpace β] (s : ι → Set α) (f g h : α → β) (δ : ℝ) :
+    (∀ x : Star U α, x ∈ (ofSeq s : InternalSet U α) →
+      std δ ≤ max (starDist (map f x) (map h x)) (starDist (map g x) (map h x))) ↔
+      ∀ᶠ i in U, ∀ a ∈ s i, δ ≤ max (dist (f a) (h a)) (dist (g a) (h a)) := by
+  star_transfer
+
+-- Standard scales must remain outside transfer, even around bounded quantifiers.
+example [PseudoMetricSpace β] (s : ι → Set α) (f g : α → β) :
+    (∀ ε : ℝ, 0 < ε → ∃ x : Star U α,
+      x ∈ (ofSeq s : InternalSet U α) ∧
+        starDist (map f x) (map g x) < std ε) ↔
+      ∀ ε : ℝ, 0 < ε → ∀ᶠ i in U, ∃ a ∈ s i, dist (f a) (g a) < ε := by
+  star_transfer
+
 -- Substitution must reach a predicate depending on the original quotient object.
 example (x : Star U α) (P : Star U α → Prop) (h : P x) :
     ∃ f : ι → α, P (ofSeq f) ∧ x = ofSeq f := by

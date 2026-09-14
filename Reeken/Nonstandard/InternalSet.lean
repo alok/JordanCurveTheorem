@@ -36,6 +36,12 @@ instance : Membership (Star U α) (InternalSet U α) := ⟨fun s x ↦ x ∈ toS
 @[simp, star_transfer] theorem mem_ofSeq (s : ι → Set α) (x : ι → α) :
     ofSeq x ∈ (ofSeq s : InternalSet U α) ↔ ∀ᶠ i in U, x i ∈ s i := Iff.rfl
 
+@[star_transfer] theorem mem_ofSeq_iff_holds (s : ι → Set α) (x : Star U α) :
+    x ∈ (ofSeq s : InternalSet U α) ↔ Holds (fun i a ↦ a ∈ s i) x := Iff.rfl
+
+@[star_transfer] theorem mem_std_iff_holds (s : Set α) (x : Star U α) :
+    x ∈ (std s : InternalSet U α) ↔ Holds (fun _ a ↦ a ∈ s) x := Iff.rfl
+
 @[simp, star_transfer] theorem coe_std (s : Set α) :
     toSet (std (U := U) s) = starSet s := coe_ofSeq _
 
