@@ -1,171 +1,110 @@
 # JordanCurveTheorem
 
-Lean 4 formalization of the nonstandard proof of the Jordan curve theorem by
-Vladimir Kanovei and Michael Reeken, including the nonstandard and polygonal foundations.
+A Lean 4 formalization of Vladimir Kanovei and Michael Reeken's nonstandard proof of
+the Jordan curve theorem, including the nonstandard machinery and finite polygonal
+foundation.
 
-**Work in progress. The Jordan curve theorem is not yet proved in this repository.**
-Completed modules must contain actual Lean proofs. An unfinished target is never promoted
-to an axiom or hidden behind a structure field that assumes the conclusion.
+**The full theorem is proved in Lean.** The public declaration is
+[`Reeken.jordanCurveTheorem`](Reeken/Jordan.lean).
+[`Verification/JordanSolution.lean`](Verification/JordanSolution.lean) proves the
+unchanged independent [full challenge](Verification/JordanChallenge.lean).
+The subsequent work is to improve the NSA interfaces and extract reusable tooling.
 
-The primary source is the
-[published paper](https://www.maths.ed.ac.uk/~v1ranick/jordan/jor.pdf),
-*Real Analysis Exchange* **24**(1), 161–170. Its common-boundary argument and
-simple-connectivity discussion extend the
-[1996 arXiv version](https://arxiv.org/abs/math/9608204).
-The source paper assumes the Jordan theorem for polygons; proving that foundation
-is part of this project's scope.
+For every continuous injective map of the unit circle into the real plane, the
+complement consists of two nonempty disjoint open path-connected regions. The inside
+is bounded and simply connected, the outside is unbounded, and the original curve
+is the common boundary. No polygonal separation, ear-existence, or finite contraction
+hypothesis remains in the final theorem.
 
-The intended conclusion is for **every continuous injective map of the circle into
-the real plane**: two nonempty open path-connected complementary regions, a bounded
-simply connected interior, an unbounded exterior, and the curve as their common boundary.
-Here boundedness means that one positive real radius `R` satisfies `‖x‖ ≤ R` for
-every interior point; unboundedness means that exterior points exist with `R < ‖x‖`
-for every real `R`. The checked standard regions expose these statements directly as
-`exists_standardInside_radius` and `exists_standardOutside_beyond`.
-`Bornology.IsBounded` in library interfaces is mathlib's name for this same boundedness.
+The primary source is the [published paper](https://www.maths.ed.ac.uk/~v1ranick/jordan/jor.pdf),
+*A nonstandard proof of the Jordan curve theorem*, **Real Analysis Exchange 24**(1),
+161–170. The [1996 arXiv version](https://arxiv.org/abs/math/9608204) is a secondary
+source; the published version includes the common-boundary argument.
 
-## Development
+## Checking the proof
 
 - Lean `v4.33.1`
-- Upstream mathlib pinned to `0df444a360eaa60ab8c11dca51a86af692955474`
-- [Linear project](https://linear.app/aloksingh/project/jordancurvetheorem-8681f02f7dfd)
-- [Completion issue](https://linear.app/aloksingh/issue/ALOK-911)
+- mathlib pinned to `0df444a360eaa60ab8c11dca51a86af692955474`
+- [Lean build, audit, and fresh kernel replay](https://github.com/alok/JordanCurveTheorem/actions/workflows/lean.yml)
+- [Comparator and Nanoda](https://github.com/alok/JordanCurveTheorem/actions/workflows/comparator.yml)
 
 ```sh
 lake exe cache get
-lake build
-```
-
-The nonstandard extension is built from `Filter.Germ` over an ultrafilter. This gives
-actual quotient objects and proved transfer rules, with no new foundational axioms.
-
-The current development also proves hyperfinite extrema and induction, countable
-saturation and overspill, compact standard parts, preservation and reflection of
-infinitesimal nearness for compact embeddings, closedness of standard shadows, and
-the segment-length estimate used in loop cutting. See the
-[source correspondence and remaining obligations](docs/source-map.md).
-
-```sh
+lake --wfail build Reeken Verification.JordanSolution
 lake env lean scripts/Audit.lean
 lake env leanchecker --fresh Reeken
 ```
 
-CI runs a full build and axiom audit. A separate Linux workflow builds pinned
-Comparator, lean4export, Nanoda, and Landrun, then checks the independent NSA
-and polygon challenge statements against their proofs. The finite separation challenge
-also checks the attributed dependency. The common-boundary challenge states Sections 1–3
-for an arbitrary continuous circle embedding, with explicit radius bounds. A sixth
-challenge additionally checks inside path connectivity, and a seventh checks
-path connectivity of both complementary regions. These checks
-are joined by an eighth for triangle contraction and convex attachment, and a ninth
-for existence of an internal polygon diagonal. They
-certify the named milestones; they do not certify the still-unfinished Jordan theorem. Lean Beam is used locally
-for incremental diagnostics and speculative proof checks.
+The audit checks every project and vendored declaration, including private helpers
+and declarations in other namespaces. It accepts only `propext`, `Classical.choice`,
+and `Quot.sound`. Proof modules contain no `sorry`, additional axioms, or
+`native_decide`. The intentional holes occur only in independent challenge modules,
+which are not imported by the proofs.
 
-The current polygon development establishes the paper's Lemma 1(i)–(iii) for
-arbitrary admissible inscribed polygon families: unlimited vertex count, uniformly
-infinitesimal parameter gaps, endpoint behavior, and a single positive infinitesimal
-bounding the approximation in both directions. Exactly one of the two arcs between
-near points lies in their monad, including cuts at arbitrary points on edges. An
-explicit initial polygon family satisfies the required parameter conditions.
-Lemma 2 is also proved: the two shortcut deletions preserve the parameter conditions
-and edge bound, finite minimization gives termination, and the resulting polygon has
-neither nonadjacent crossings nor adjacent backtracking. The independent polygon
-challenge states this approximation without project definitions.
-Finite polygonal separation is now supplied by the attributed finite-only dependency
-closure of [Álvaro Begué's collar/parity proof](vendor/README.md), ported and checked
-on this toolchain. Its general Jordan and Schoenflies assembly is excluded. The adapter
-accepts our actual simple polygons, including collinear consecutive edges.
-The standard deep regions are open, disjoint, and exhaust the curve's complement;
-both regions are nonempty, the inside is bounded, the outside is unbounded, and the
-curve is their common boundary. Lemma 3 and path connectivity of the standard inside are proved. Path connectivity of the standard outside is also proved. The remaining obligation
-is simple connectivity of finite polygon interiors; the compact-loop reduction
-from the original curve to that finite statement is checked with an explicit hypothesis. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
-Section 3's equal-distance estimate is proved for the actual polygon arcs, using their
-common-shadow endpoint restriction. Generic local squares can be chosen to avoid every
-vertex at a prescribed standard scale. Finite plane-graph face cycles are checked;
-the polygon-square overlay is now constructed and proved to remain connected after
-deleting any vertex. On either polygon side, it supplies a simple polygonal cell whose
-boundary passes through the prescribed local curve vertex. The cell meets both cut
-arcs away from that vertex, and a path around the punctured cell supplies the required
-square-boundary connector. Its balanced point has a standard part deep on the chosen
-side in any prescribed neighborhood. This completes the published Section 3.
-The independently stated result is `Verification.curve_common_boundary` in
-`Verification/CommonBoundarySolution.lean`; it assumes only continuity and injectivity
-of the circle map.
+The Linux verification workflow builds pinned Comparator, lean4export, Nanoda, and
+Landrun. Comparator compares independently stated challenge and solution modules,
+then checks exported proofs with Nanoda as a second kernel implementation. It runs
+under Landrun with the documented AF_UNIX restrictions. Ten targets cover the NSA
+foundations, mesh approximation, simple polygon approximation, finite separation,
+common boundaries, inside connectivity, both regions' connectivity, triangle
+contraction and convex attachment, internal diagonal existence, and the full Jordan
+theorem. Workflow results report these checks separately from Lean's fresh replay.
 
-Lemma 3's narrow rectangles now have checked metric estimates and explicit polygonal
-boundaries. Their finite overlay remains connected after deleting any vertex. It
-produces an actual internal inner cell around each prescribed standard interior point,
-whose closed interior avoids the extended curve and whose boundary is in the curve's
-monad. Every standard compact set off the curve uniformly avoids the entire rectangle
-and shortest-connection construction zone. The rectangle arrangement now includes
-actual shortest connections from all its vertices. Every corner of the resulting
-inner cell, including corners created by new intersections, has a shortest connection
-already in the drawing, so that connection avoids the cell interior. These connections
-are uniformly infinitesimal and stay in the outer polygon's inside until reaching
-their feet. Lemma 3 is now complete: **one** internal inner polygon contains **all**
-standard inside points deeply, and its closed inside avoids the extended curve.
-The containment proof closes infinitesimal subdivided edges against the small outer
-arcs of Lemma 1(iii). Their crossing parities agree at standard points off the curve;
-summing cancels the connecting segments and compares the inner polygon's parity.
-This is a finite-parity realization of the paper's barrier argument. The source map
-records the correspondence and the subdivision needed when collinear edges are merged.
-Finite polygonal paths then establish `isPathConnected_standardInside`.
-`Verification/InsideConnectedSolution.lean` exports this stronger conclusion for every
-continuous injective circle map, again using explicit radii.
+Lean Beam has also been used locally for incremental diagnostics and speculative
+proof checks. The checked sources and repeatable kernel commands are the evidence
+for proof correctness.
 
-The outer face of the same rectangle arrangement gives an actual internal outer
-polygon. Its closed exterior avoids the extended curve. The exterior version of
-the barrier cancellation puts every standard outside point deeply outside this
-polygon; finite exterior paths prove `isPathConnected_standardOutside`.
-`Verification/ComplementConnectedSolution.lean` therefore proves the Jordan separation
-and common-boundary statement for arbitrary continuous circle embeddings, including
-path connectivity of both regions. The fixed full target additionally requires
-simple connectivity of the inside. `LoopContraction.lean` checks the reduction for
-**arbitrary continuous loops**, using compact containment in one finite inner polygon.
-Its finite-polygon simple-connectivity hypothesis is explicit and is not yet discharged. The remaining finite work now has a checked continuous-path
-reduction too: `MeshPath.lean` constructs actual polygonal paths, proves uniform
-convergence, and gives homotopies inside any containing open set while fixing endpoints.
-The bounded complementary components of compact inside sets are also proved to stay
-inside. Constructing the finite polygonal null homotopies remains open.
+## Reading the development
 
-The finite contraction now has a checked triangle base case and a checked triangular
-crosscut step. Every three-vertex polygon has closed inside equal to its convex hull,
-which contracts; its open inside is simply connected. An explicit continuous segment
-retraction lets a closed convex piece attached along one edge deform onto the rest.
-The crosscut theorem identifies the closed cells' union and intersection, so a triangle
-can be removed while preserving contractibility. What remains is to construct an ear
-decomposition for every finite simple polygon and prove that the process terminates.
-The NSA extraction now keeps the entire closed polygonal inside in the standard inside,
-so these closed-region contractions suffice for the final loop argument.
-The first geometric cut is constructed too: a vertex of maximal norm is strictly
-exposed, its inward bisector enters the inside, and its first boundary hit lies on
-a nonincident edge. The open cut stays entirely inside. The hit may lie between
-vertices; turning this into a terminating polygon decomposition is still open.
-An empty neighbor triangle now has a checked geometric criterion: no polygon edge
-can enter its interior, and at a strictly exposed corner its interior lies inside
-the polygon. Its opposite open edge is proved disjoint from the whole polygon and,
-at a strictly supported corner, lies inside. Deleting the corner gives an actual
-smaller polygon. Normalization preserves a vertex-count bound and introduces no
-new vertices, so collinear corners do not obstruct this decrease. Selecting suitable
-ears for every polygon remains open. The contraction induction itself is now checked:
-an edge-parity cancellation identifies the triangle and shortened polygon's closed
-regions, which meet exactly on the diagonal; normalization preserves the strict
-vertex-count decrease. The resulting theorem still takes universal geometric ear
-existence as an explicit hypothesis.
-Every nontriangular polygon now has a proved internal diagonal between existing,
-nonadjacent vertices. When the exposed corner's neighbor triangle is occupied,
-a vertex of maximal height determines an empty parallel truncation; its unit
-bisector places it inside. This supplies the diagonal in the previously open
-occupied-triangle case. Deriving universal ear existence from these diagonals
-remains open. The diagonal theorem also covers polygons with collinear consecutive
-vertices: normalization supplies the diagonal, or an extra vertex on a triangular
-edge joins the opposite corner. The independent ninth challenge includes this case.
+| Part | Entry points |
+| --- | --- |
+| Full theorem and circle formulation | [`Reeken/Jordan.lean`](Reeken/Jordan.lean), [`CircleParametrization.lean`](Reeken/Geometry/CircleParametrization.lean) |
+| Ultrapowers, transfer, hyperfinite objects, saturation | [`Ultrapower.lean`](Reeken/Nonstandard/Ultrapower.lean), [`Hyperfinite.lean`](Reeken/Nonstandard/Hyperfinite.lean), [`Saturation.lean`](Reeken/Nonstandard/Saturation.lean) |
+| Standard parts and shadows | [`Metric.lean`](Reeken/Nonstandard/Metric.lean), [`Shadow.lean`](Reeken/Nonstandard/Shadow.lean) |
+| Lemma 1 and the actual simple approximation of Lemma 2 | [`PolygonApproximation.lean`](Reeken/Nonstandard/PolygonApproximation.lean), [`PolygonArcs.lean`](Reeken/Nonstandard/PolygonArcs.lean), [`SimpleApproximation.lean`](Reeken/Nonstandard/SimpleApproximation.lean) |
+| Published Section 3: common boundaries | [`CommonBoundary.lean`](Reeken/Nonstandard/CommonBoundary.lean) |
+| Lemma 3: one inner polygon containing all standard inside points | [`RingContainment.lean`](Reeken/Nonstandard/RingContainment.lean) |
+| Connectivity of both regions | [`InsideConnectivity.lean`](Reeken/Nonstandard/InsideConnectivity.lean), [`OutsideConnectivity.lean`](Reeken/Nonstandard/OutsideConnectivity.lean) |
+| Internal diagonals, ears, and finite contraction | [`PolygonDiagonal.lean`](Reeken/Geometry/PolygonDiagonal.lean), [`PrePolygonDiagonal.lean`](Reeken/Geometry/PrePolygonDiagonal.lean), [`PolygonEars.lean`](Reeken/Geometry/PolygonEars.lean) |
+| Contraction of arbitrary continuous loops through the NSA construction | [`LoopContraction.lean`](Reeken/Nonstandard/LoopContraction.lean), [`SimplyConnected.lean`](Reeken/Nonstandard/SimplyConnected.lean) |
 
-The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
-to the remaining proof obligations. Rendered files are generated, not committed.
+The nonstandard extension uses `Filter.Germ` over an ultrafilter. Generic transfer
+results work with arbitrary ultrafilters; the countable saturation construction uses
+a free ultrafilter on the naturals. The geometric development instantiates this with
+mathlib's chosen `hyperfilter ℕ`. It does not assume a separate nonstandard axiom.
 
-After the full proof is complete, a second phase will refactor the development into
-more native nonstandard statements and reusable transfer/metaprogramming tools, with
-the aim of extracting components suitable for mathlib PRs.
+The paper assumes the Jordan theorem for polygons. This project supplies finite
+separation through the attributed finite-only dependency from
+[Álvaro Begué's collar/parity formalization](vendor/README.md). Its general Jordan and
+Schoenflies assembly is excluded. The contraction development here constructs
+internal diagonals, permits collinear vertices, minimizes the number of spanned
+boundary edges to obtain an ear, and contracts by induction with a strict vertex-count
+decrease. Parity cancellation identifies the closed regions of each actual deletion.
+
+For simple connectivity of the original curve's inside, every compact loop lies in
+one finite inner polygon whose **entire closed inside** stays in the standard inside.
+The finite contraction can therefore run along its own polygon boundary while
+remaining inside the original curve. This covers arbitrary continuous loops,
+including self-intersecting ones.
+
+The exterior argument uses the outer rectangle face and the dual infinitesimal-barrier
+proof in place of the paper's inversion step. The
+[source correspondence](docs/source-map.md) records this variation, the polygon
+normalization details, and the published paper's indexing correction.
+
+`Bornology.IsBounded` is mathlib's interface for ordinary boundedness. The standard
+regions also expose explicit real-radius statements:
+`exists_standardInside_radius` bounds every inside point by one positive radius,
+and `exists_standardOutside_beyond` supplies outside points beyond every real radius.
+
+The [Verso blueprint](blueprint/README.md) links the proof's mathematical steps to
+checked declarations. Rendered files are generated locally rather than committed.
+Project work is tracked in [Linear](https://linear.app/aloksingh/project/jordancurvetheorem-8681f02f7dfd).
+
+## Reusable NSA tooling
+
+The first complete proof precedes the requested refactoring. Subsequent work will
+make more theorem interfaces native to the nonstandard development, replace repeated
+quotient/transfer plumbing with checked metaprogramming, and isolate interfaces that
+could be proposed to mathlib. The fixed independent theorem and kernel checks remain
+the validation boundary throughout that work.

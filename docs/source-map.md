@@ -1,4 +1,4 @@
-# Source correspondence and proof obligations
+# Source correspondence and proof structure
 
 The primary source is Vladimir Kanovei and Michael Reeken, *A nonstandard proof of
 the Jordan curve theorem*, Real Analysis Exchange 24(1), 161–170,
@@ -6,9 +6,10 @@ the Jordan curve theorem*, Real Analysis Exchange 24(1), 161–170,
 The [1996 arXiv version](https://arxiv.org/abs/math/9608204) is a secondary source.
 The published argument adds a common-boundary argument absent from the earlier version.
 
-This ledger describes the whole intended proof. An open row is an unproved obligation,
-not a theorem available for downstream use. The final independently stated target is
-`Verification/JordanChallenge.lean`; it has no solution module yet.
+This ledger describes the completed proof. The final independently stated target is
+`Verification/JordanChallenge.lean`; `Verification/JordanSolution.lean` proves that
+unchanged statement from `Reeken.jordanCurveTheorem`. The NSA tooling refactor follows
+the first full proof.
 
 | Source step | Lean development | Status |
 | --- | --- | --- |
@@ -26,16 +27,16 @@ not a theorem available for downstream use. The final independently stated targe
 | Polygonal approximation of arbitrary paths | `Geometry/PathHomotopy.lean`, `MeshPath.lean`: actual continuous finite mesh paths converge uniformly and are homotopic to the original path inside any containing open set, with endpoints fixed | Proved |
 | Enclosed-set containment | `Geometry/EnclosedSets.lean`, `Nonstandard/LoopContraction.lean`: bounded complementary components of every nonempty compact set in the standard inside remain there | Proved; a geometric filling statement, not a null homotopy |
 | Triangle contraction | `Geometry/ConvexEnclosure.lean`, `TriangleContraction.lean`: supporting half-planes enclose bounded components; every three-vertex polygon's closed inside is its convex hull and contracts, and its open inside is simply connected | Proved |
-| Convex attachment and triangular crosscuts | `Geometry/ConvexAttachment.lean`, `CrosscutContraction.lean`: explicit segment retraction and pasted deformation; closed crosscut cells cover the parent's closed inside and meet on the cut; cutting off a triangle preserves contractibility | Proved step; existence of an ear decomposition remains open |
+| Convex attachment and triangular crosscuts | `Geometry/ConvexAttachment.lean`, `CrosscutContraction.lean`: explicit segment retraction and pasted deformation; closed crosscut cells cover the parent's closed inside and meet on the cut; cutting off a triangle preserves contractibility | Proved |
 | Interior straight cut | `Geometry/ExposedVertex.lean`, `RayExit.lean`: a maximal-norm vertex is strictly exposed; its inward bisector enters the inside and first meets a nonincident edge, with the open cut entirely inside | Proved; the far endpoint may be between vertices |
-| Empty neighbor triangle | `Geometry/TriangleVisibility.lean`, `PolygonEar.lean`: an edge entering a triangle must cross an adjacent side; a neighbor triangle with no other polygon vertices has no polygon edge in its interior, and at a strictly exposed corner that interior lies inside the polygon | Proved geometric criterion; existence of a suitable ear still open |
-| Finite polygonal simple connectivity | Contractibility of all interior loops, beyond finite separation and crosscuts | Open |
+| Empty neighbor triangle | `Geometry/TriangleVisibility.lean`, `PolygonEar.lean`: an edge entering a triangle must cross an adjacent side; a neighbor triangle with no other polygon vertices has no polygon edge in its interior, and at a strictly exposed corner that interior lies inside the polygon | Proved geometric criterion |
+| Finite polygonal contraction foundation | `Geometry/PolygonEars.lean`: every closed polygonal inside is contractible, by internal ears and strict vertex-count induction | Proved |
 | Circle-parametrization bridge | `Geometry/CircleParametrization.lean`: continuous embeddings of the plane unit circle give the simple-loop representation with exactly the same image | Proved |
 | Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |
 | Conditions (†), (‡) | `Geometry/InscribedPolygon.lean`: strictly ordered parameters, all vertices on the curve, half-circle conditions, cyclic gaps, maxima, and telescoping sum | Defined with proved elementary properties |
 | An initial polygon satisfying (†), (‡) | `Geometry/UniformPolygon.lean`, `Nonstandard/InitialPolygon.lean`: explicit equally spaced samples, infinitesimal maximum edge, and exact shadow | Proved |
 | Empty triangle diagonal and deletion | `Geometry/TriangleCoordinates.lean`, `TriangleBase.lean`, `EmptyEarDiagonal.lean`, `DiagonalDeletion.lean`: transverse and collinear edge crossings are excluded; the opposite open edge misses the carrier; deletion and normalization give a strictly smaller polygon with no new vertices | Proved under the explicit empty-neighbor-triangle hypothesis |
-| Actual ear contraction and finite induction | `Geometry/DiagonalParity.lean`, `ParityContraction.lean`, `EarContraction.lean`, `PolygonContractionInduction.lean`: parity cancellation proves the closed-region identities for the constructed deletion; normalization and strong induction prove finite contractibility conditional on universal internal-ear existence | Induction proved; universal geometric ear existence remains open |
+| Actual ear contraction and finite induction | `Geometry/DiagonalParity.lean`, `ParityContraction.lean`, `EarContraction.lean`, `PolygonContractionInduction.lean`: parity cancellation proves the closed-region identities for the constructed deletion; normalization and strong induction prove finite contractibility conditional on universal internal-ear existence | Proved; the geometric input is discharged in `PolygonEars.lean` |
 | Internal diagonal existence | `Geometry/TruncatedTriangle.lean`, `CornerVisibility.lean`, `MaximalCornerVertex.lean`, `CornerTruncationInside.lean`, `PolygonDiagonal.lean`: a maximal-height vertex in an occupied neighbor triangle determines an empty truncation on the inside, yielding a diagonal between existing nonadjacent vertices | Proved for every nontriangular closed polygon, and `PrePolygonDiagonal.lean` extends it to collinear corners; independent diagonal challenge configured |
 | Normalization bounds | `Geometry/PolygonNormalization.lean`: finite normalization retains a nonincreasing vertex count and vertex-set inclusion | Proved strengthening of the attributed finite normalization argument |
 | Lemma 1(i) | `Nonstandard/PolygonRegularity.lean`: uniformly infinitesimal gaps, unlimited vertex count, first parameter near zero and last near one | Proved |
@@ -69,9 +70,11 @@ not a theorem available for downstream use. The final independently stated targe
 | Lemma 3, internal cell with connections | `Nonstandard/InnerSpokeCell.lean`: an actual internal polygon and nearest-foot map, with uniformly infinitesimal corner connections avoiding its inside, and the prescribed standard point deeply inside | Proved |
 | Lemma 3, simultaneous containment | `Nonstandard/RingContainment.lean`: infinitesimal edge barriers, small outer arcs, and cancellation of finite crossing parity put every standard inside point deeply in one actual inner polygon | Proved |
 | Inside path connectivity | `Nonstandard/InsideConnectivity.lean`: choose a finite representative of the inner polygon containing both standard points, whose connected inside misses the original curve | Proved |
-| Compact-loop reduction | `Nonstandard/LoopContraction.lean`: every compact inside set lies in a finite inner polygon whose closed inside remains in the standard inside; arbitrary continuous loop contractions transfer from finite open-inside simple connectivity or closed-inside contractibility | Proved reductions; finite hypotheses open |
+| Compact-loop reduction | `Nonstandard/LoopContraction.lean`: every compact inside set lies in a finite inner polygon whose closed inside remains in the standard inside; arbitrary continuous loop contractions transfer from finite open-inside simple connectivity or closed-inside contractibility | Proved reductions; the closed-contraction input is discharged in `Nonstandard/SimplyConnected.lean` |
 | Exterior connectivity | `Geometry/OuterCells.lean`, `Nonstandard/OuterCell.lean`, `OuterContainment.lean`, `OuterPolygon.lean`, `OutsideConnectivity.lean`: actual outer cell, infinitesimal-barrier cancellation, and finite exterior paths | Proved |
-| Final theorem | A continuous embedding of the unit circle has two complementary regions with the stated boundary and connectivity properties | Open |
+| Ear existence | `Geometry/EnclosedPolygon.lean`, `DiagonalCut.lean`, `MinimalDiagonal.lean`, `PolygonEars.lean`: an arc closed by an internal diagonal stays inside; a diagonal of minimal span must span two edges | Proved |
+| Standard inside simple connectivity | `Nonstandard/SimplyConnected.lean`: finite closed-region contractions discharge the compact-loop reduction | Proved |
+| Final theorem | `Reeken/Jordan.lean`, `Verification/JordanSolution.lean`: every continuous injective circle map has two complementary path-connected regions, bounded simply connected inside, unbounded outside, and common boundary | Proved |
 
 ## Mathematical corrections and representation choices
 
@@ -152,60 +155,41 @@ an unproved assertion that inversion swaps the standard regions. It does not cla
 formalize that inversion step literally.
 
 `LoopContraction.lean` handles arbitrary continuous loops, including self-intersecting
-ones: their ranges are compact and hence lie in one finite inner polygon whose whole
-inside belongs to the standard inside. The reduction takes finite polygonal simple
-connectivity as an explicit hypothesis. That finite theorem is still open, so the
-reduction must not be reported as an unconditional simple-connectivity proof.
+ones. Their compact ranges lie in finite inner polygons whose entire closed insides
+stay in the standard inside. `SimplyConnected.lean` discharges the finite hypothesis
+using closed-polygon contractibility, so the contraction may touch the finite polygon's
+boundary while remaining inside the original curve.
 
-The stronger extraction `exists_closed_polygon_inside_of_isCompact` includes the
-whole closed polygonal interior. This follows from the connectedness of the closure
-and its avoidance of the original curve. Consequently the finite contraction may
-run along the extracted polygon's boundary: `isSimplyConnected_standardInside_of_closed_polygon`
-reduces the standard theorem to contractibility of every finite closed polygonal
-interior. `TriangleContraction.lean` proves the triangle base case. `ConvexAttachment.lean`
-constructs a continuous retraction onto a segment using truncated distance along it,
-then pastes a straight deformation on an attached convex piece with the identity
-on the rest. `CrosscutContraction.lean` identifies the union and intersection of the
-closed cells and applies this to a triangular crosscut. These are contraction steps;
-the existence and termination of an ear decomposition for every polygon remain open.
-`ExposedVertex.lean` chooses a vertex of maximal norm and uses the squared-distance
-identity to prove strict support at every other vertex. The two collar sectors put
-small positive displacements along the inward bisector inside and negative ones
-outside. `RayExit.lean` minimizes the boundary-hit parameter on a compact interval
-to produce a straight cut to a nonincident edge, with its open segment inside.
-This is not yet a vertex-to-vertex diagonal or an ear decomposition.
-The first-exit lemma also handles rays starting in the interior and gives a bound
-from any known exterior parameter. `TriangleVisibility.lean` uses a supporting
-height to force a crossing through a side adjacent to the designated triangle
-vertex. This rules out polygon edges inside an empty neighbor triangle.
-`empty_corner_triangle_inside` then uses the common inward bisector to identify
-the triangle's inside with a subset of the polygon's inside. The empty-triangle
-and strict-support conditions are explicit geometric hypotheses; they have not
-yet been produced together for every polygon.
-`TriangleCoordinates.lean` supplies signed-area coordinates and a local motion into
-triangle interiors. `TriangleBase.lean` handles both transverse crossings and
-collinear overlaps with the base. `EmptyEarDiagonal.lean` consequently proves that
-the open base misses every polygon edge when the polygon has more than three vertices;
-at a strictly supported corner the base is an internal diagonal.
-`DiagonalDeletion.lean` constructs the shortened polygon explicitly. Its potentially
-collinear corners are normalized using `PolygonNormalization.lean`, a strengthening
-of the attributed finite normalization induction that preserves the vertex-count
-bound and proves that no new vertices are introduced. The resulting polygon is
-strictly smaller. `DiagonalParity.lean` proves the edge-cancellation identity for the actual deletion.
-`ParityContraction.lean` passes from that identity to equality of closed regions using
-density of the complement of the finite collection of boundaries. `EarContraction.lean`
-proves that the two closed cells intersect on precisely the base segment and applies
-the explicit deformation. `PolygonContractionInduction.lean` combines this with the
-normalization bound and strong induction. Its universal internal-ear existence
-hypothesis is explicit and remains unproved; it is now the remaining geometric input
-to this finite contraction route.
-`PolygonDiagonal.lean` now proves internal-diagonal existence for every nontriangular
-closed polygon. In the occupied-triangle case, signed-area coordinates select a
-maximal-height vertex, and the smaller parallel triangle has no polygon edge in
-its interior. Its unit directions agree with those of the exposed corner, placing
-its interior inside the polygon. The segment from the apex to the selected vertex
-is the required diagonal. Turning arbitrary internal diagonals into ears remains
-open.
+The finite foundation is constructive at the level of polygon presentations.
+`ExposedVertex.lean` chooses a strictly supported corner. An empty neighbor triangle
+supplies its base as a diagonal. In the occupied case, signed-area coordinates select
+a vertex of maximal height. A smaller parallel triangle has no polygon edge in its
+interior, and its common unit bisector places it inside. `PolygonDiagonal.lean` gives
+an internal diagonal between existing nonadjacent vertices. `PrePolygonDiagonal.lean`
+extends this to redundant corners: normalize, or, when the carrier is triangular,
+join an extra edge vertex to the opposite corner.
+
+`DiagonalCut.lean` closes a consecutive boundary arc by its internal diagonal, with
+an exact vertex count and without deleting collinear corners. Its closed carrier
+lies in the original closed inside. Connectedness and unboundedness of the original
+outside imply that its inside stays in the original inside (`EnclosedPolygon.lean`).
+`MinimalDiagonal.lean` minimizes the number of spanned boundary edges. A span greater
+than two would give a smaller polygon with its own internal diagonal and hence a
+shorter span, a contradiction. Thus an internal ear exists for every nontriangular
+polygon.
+
+`DiagonalDeletion.lean` constructs ear removal. `PolygonNormalization.lean` strengthens
+the attributed normalization induction with a nonincreasing vertex count and vertex-set
+inclusion. The normalized remainder is strictly smaller. `DiagonalParity.lean` proves
+the actual edge cancellation; `ParityContraction.lean` and `EarContraction.lean` identify
+the closed cells' union and their intersection along the diagonal. An explicit retraction
+and pasted deformation in `ConvexAttachment.lean` remove the triangle. Strong induction,
+with the convex triangle as base case, gives `contractibleSpace_closed_inside`.
+
+The final `Reeken.jordanCurveTheorem` combines these contractions with the NSA simple
+approximation, simultaneous inner-polygon containment, common boundaries, and both
+path-connectivity results. No geometric ear or finite separation hypothesis remains
+in its statement.
 
 ## Independent verification
 
@@ -238,19 +222,27 @@ Comparator and Nanoda. Connectivity is not asserted by this intermediate result.
 `Verification/InsideConnectedChallenge.lean` strengthens that independent circle-map
 statement with path connectivity of the bounded region. Its solution uses the proved
 Lemma 3 through `isPathConnected_standardInside`; `inside-connected.json` requests
-Comparator and Nanoda. Outside path connectivity is proved by the next milestone; inside simple connectivity
-remains open.
+Comparator and Nanoda. The later milestones add outside path connectivity and simple connectivity of the inside.
 
 `Verification/ComplementConnectedChallenge.lean` further asserts path connectivity
 of both complementary regions. `ComplementConnectedSolution.lean` proves this direct
 circle-embedding statement, with explicit radii; `complement-connected.json` requests
 Comparator and Nanoda. The fixed `JordanChallenge.lean` additionally requires simple
-connectivity and still has no solution module.
+connectivity; `JordanSolution.lean` now proves that unchanged full statement.
 
 `Verification/ContractionChallenge.lean` independently states contractibility of
 the closed triangular region, simple connectivity of its open region, and the convex
 attachment theorem using only mathlib definitions. `ContractionSolution.lean` proves
 them; `contraction.json` requests the eighth Comparator/Nanoda milestone.
+
+`Verification/DiagonalChallenge.lean` independently states internal-diagonal existence
+for every finite simple polygon with at least four vertices, including collinear
+consecutive vertices. `DiagonalSolution.lean` proves it; `diagonal.json` is the ninth
+Comparator/Nanoda target.
+
+`Verification/JordanChallenge.lean` is the original full target. `JordanSolution.lean`
+proves it for an arbitrary continuous injective circle map. `jordan.json` is the tenth
+Comparator/Nanoda target and includes simple connectivity of the inside.
 
 The axiom audit traverses all declarations by their defining module (`Reeken` or `Schoenflies`),
 including private helpers and declarations in other namespaces such as `Graph`, and accepts

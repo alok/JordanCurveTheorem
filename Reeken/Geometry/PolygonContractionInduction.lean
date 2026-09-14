@@ -4,8 +4,8 @@ import Reeken.Geometry.EarContraction
 
 The induction step constructs the shorter polygon, normalizes it with a retained
 vertex-count bound, and applies triangular contraction. The final theorem of this
-module still assumes existence of internal ears; establishing that geometric
-hypothesis for all polygons remains a separate obligation.
+module isolates existence of internal ears as its geometric input.
+`PolygonEars.lean` establishes that input and gives unconditional contractibility.
 -/
 
 open Set Schoenflies
@@ -70,7 +70,7 @@ theorem contractible_closed_inside_of_internal_corner_diagonal {m : ℕ}
   exact contractible_closed_inside_of_last_ear R hdiagR hdet hTinR
 
 /-- Conditional finite induction: the only supplied input is the geometric ear
-existence statement, which is not yet established for every polygon. -/
+existence statement, established for every polygon in `PolygonEars.lean`. -/
 theorem contractible_closed_inside_of_internal_ears
     (hears : ∀ (m : ℕ), 0 < m → ∀ P : ClosedPolygon m, ∃ i : ZMod (m + 3),
       Disjoint (openSegment ℝ (P.vertex (i - 1)) (P.vertex (i + 1))) P.carrier ∧

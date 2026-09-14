@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.JordanChallenge",
+  "solution_module": "Verification.JordanSolution",
+  "theorem_names": ["Verification.jordanCurveTheorem"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

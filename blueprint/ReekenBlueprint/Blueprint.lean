@@ -11,8 +11,8 @@ open Informal
 
 #doc (Manual) "Kanovei–Reeken: Jordan Curve Theorem" =>
 
-The full Jordan theorem remains open in this development. The nodes below separate
-checked Lean declarations from mathematical obligations. The primary source is
+The full Jordan theorem is proved. The nodes below connect its checked Lean
+declarations to the mathematical argument. The primary source is
 Kanovei and Reeken's published article in *Real Analysis Exchange* 24(1), 161–170.
 Its finite polygonal Jordan theorem is included in this project's scope.
 
@@ -234,7 +234,7 @@ inclusion, so the resulting closed polygon remains strictly smaller.
 
 :::theorem "ear_contraction_induction" (lean := "Reeken.Geometry.contractible_closed_inside_of_internal_ears")
 If every nontriangular polygon has an internal ear, every polygon's closed inside
-is contractible. The geometric ear-existence hypothesis remains explicit and unproved.
+is contractible. The geometric hypothesis is discharged by {uses "polygon_ears"}[].
 :::
 
 :::proof "ear_contraction_induction"
@@ -258,20 +258,28 @@ triangle whose interior has no polygon edge. Its unit bisector agrees with the
 original corner's, placing it inside. The segment to the selected vertex is internal.
 :::
 
-:::theorem "polygon_simply_connected" (tags := "open")
-Every loop in the interior of a finite simple plane polygon contracts there.
-This obligation remains open beyond {uses "polygon_jordan"}[].
-The continuous-to-polygonal homotopy step is checked in {uses "path_mesh_homotopy"}[].
-The base case and a removal step are checked in {uses "triangle_contraction"}[] and
-{uses "triangle_crosscut"}[]. The complete contraction induction is checked in
-{uses "ear_contraction_induction"}[], conditional on universal geometric ear existence.
-An interior cut to an edge is constructed in {uses "interior_straight_cut"}[];
-the stronger result {uses "internal_diagonal"}[] now gives existing vertex endpoints.
-The remaining geometric step is to derive ears from arbitrary internal diagonals.
-The empty-triangle criterion in {uses "empty_neighbor_triangle"}[] is proved, but its
-geometric hypotheses have not yet been constructed together for every polygon.
-The diagonal and strictly smaller polygon under these hypotheses are checked in
-{uses "empty_triangle_diagonal"}[] and {uses "empty_triangle_deletion"}[].
+:::theorem "polygon_ears" (lean := "Reeken.Geometry.exists_internal_ear")
+Every nontriangular simple polygon has an internal ear.
+:::
+
+:::proof "polygon_ears"
+Extend {uses "internal_diagonal"}[] to collinear corners by normalization; if the
+carrier becomes a triangle, an extra edge vertex joins the opposite corner.
+Minimize the number of boundary edges spanned by an internal diagonal. Closing that
+arc gives a polygon inside the original region. A span greater than two would yield
+an internal diagonal of this smaller polygon and contradict minimality. A span of
+two is an internal triangle.
+:::
+
+:::theorem "polygon_simply_connected" (lean := "Reeken.Geometry.contractibleSpace_closed_inside")
+The closed inside of every finite simple plane polygon is contractible.
+:::
+
+:::proof "polygon_simply_connected"
+Apply {uses "ear_contraction_induction"}[] using {uses "polygon_ears"}[].
+Normalization preserves the strict decrease in vertex count. The base case is
+{uses "triangle_contraction"}[]. These closed contractions suffice for the standard
+inside because its compact-loop extraction includes the polygon boundary.
 :::
 
 :::theorem "deep_regions" (lean := "Reeken.NSA.deep_union_of_separation")
@@ -466,7 +474,7 @@ paths give the required paths. This is the dual construction in place of the pap
 
 :::theorem "compact_loop_reduction" (lean := "Reeken.NSA.isSimplyConnected_standardInside_of_polygon")
 If every finite simple polygon has simply connected inside, the standard inside is
-simply connected. The finite hypothesis remains open.
+simply connected. The completed proof uses the stronger closed-region extraction below.
 :::
 
 :::proof "compact_loop_reduction"
@@ -478,7 +486,7 @@ the loop there. This handles arbitrary continuous loops, including self-intersec
 
 :::theorem "closed_compact_loop_reduction" (lean := "Reeken.NSA.isSimplyConnected_standardInside_of_closed_polygon")
 Contractibility of every finite closed polygonal inside also suffices to prove
-simple connectivity of the standard inside. The finite hypothesis remains open.
+simple connectivity of the standard inside. The finite input is {uses "polygon_simply_connected"}[].
 :::
 
 :::proof "closed_compact_loop_reduction"
@@ -487,21 +495,30 @@ within the standard inside. Thus a contraction can meet the finite polygon's bou
 while staying inside the original curve. Apply this to the compact range of any loop.
 :::
 
-:::theorem "connectivity" (tags := "open")
-Both regions are path connected by {uses "inside_connected"}[] and
-{uses "outside_connected"}[]. The inside's simple connectivity remains open:
-{uses "compact_loop_reduction"}[] reduces it to {uses "polygon_simply_connected"}[].
+:::theorem "connectivity" (lean := "Reeken.NSA.isSimplyConnected_standardInside")
+The standard inside is simply connected. Both complementary regions are path connected.
 :::
 
-:::theorem "jordan" (tags := "open")
-Every continuous injective map of the unit circle into the real plane has exactly the
-two complementary regions specified above. The fixed independent challenge also asks
-for their common boundary and the interior's simple connectivity. It depends on
-{uses "common_boundary"}[] and {uses "connectivity"}[]. There is no solution module yet.
+:::proof "connectivity"
+Combine {uses "closed_compact_loop_reduction"}[] with the finite contraction theorem
+{uses "polygon_simply_connected"}[]. Path connectivity is proved in
+{uses "inside_connected"}[] and {uses "outside_connected"}[].
+:::
+
+:::theorem "jordan" (lean := "Reeken.jordanCurveTheorem")
+Every continuous injective map of the unit circle into the real plane has two nonempty
+open path-connected complementary regions, a bounded simply connected inside, an
+unbounded outside, and the curve as their common boundary.
+:::
+
+:::proof "jordan"
+Use the actual simple polygon approximation and its standard regions. Combine
+{uses "common_boundary"}[] with {uses "connectivity"}[] and the established radius
+bounds. `Verification.JordanSolution` proves the unchanged independent full challenge.
 :::
 
 The requested refactoring into more native nonstandard statements and reusable
-metaprogramming begins only after the full checked proof is complete.
+metaprogramming follows this first complete proof; the independent theorem and kernel checks remain fixed.
 
 {blueprint_graph}
 {blueprint_summary}

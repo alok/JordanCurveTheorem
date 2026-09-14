@@ -5,8 +5,8 @@ import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
 /-! # Compact-loop transfer through the inner polygon
 
 This is the reduction of simple connectivity to the finite polygonal foundation.
-That foundation is an explicit hypothesis here and remains an open obligation;
-this module does not assert unconditional simple connectivity.
+The finite foundation is an explicit hypothesis of these reusable reduction lemmas.
+`SimplyConnected.lean` discharges it and proves unconditional simple connectivity.
 -/
 
 open Filter Set Schoenflies Reeken.Geometry
@@ -64,7 +64,8 @@ theorem enclosed_subset_standardInside {K : Set Plane} (hK : IsCompact K)
   exact (inside_subset_inside_of_carrier_subset Q.isSeparating_carrier hKQ).trans hQU
 
 /-- The complete NSA step for arbitrary continuous loops, conditional only on the
-still-unproved finite polygonal simple-connectivity theorem. -/
+finite polygonal simple-connectivity input. The final proof uses the closed-region
+version below. -/
 theorem isSimplyConnected_standardInside_of_polygon
     (hfinite : ∀ (m : ℕ) (Q : ClosedPolygon m), IsSimplyConnected (inside Q.carrier)) :
     IsSimplyConnected (standardInside p) := by
