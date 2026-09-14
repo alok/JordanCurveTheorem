@@ -148,7 +148,11 @@ the polygon. Its opposite open edge is proved disjoint from the whole polygon an
 at a strictly supported corner, lies inside. Deleting the corner gives an actual
 smaller polygon. Normalization preserves a vertex-count bound and introduces no
 new vertices, so collinear corners do not obstruct this decrease. Selecting suitable
-ears for every polygon and assembling the contraction induction remain open.
+ears for every polygon remains open. The contraction induction itself is now checked:
+an edge-parity cancellation identifies the triangle and shortened polygon's closed
+regions, which meet exactly on the diagonal; normalization preserves the strict
+vertex-count decrease. The resulting theorem still takes universal geometric ear
+existence as an explicit hypothesis.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

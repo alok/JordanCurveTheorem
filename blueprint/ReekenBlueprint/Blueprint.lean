@@ -232,12 +232,26 @@ corners. The normalization induction preserves the vertex-count bound and vertex
 inclusion, so the resulting closed polygon remains strictly smaller.
 :::
 
+:::theorem "ear_contraction_induction" (lean := "Reeken.Geometry.contractible_closed_inside_of_internal_ears")
+If every nontriangular polygon has an internal ear, every polygon's closed inside
+is contractible. The geometric ear-existence hypothesis remains explicit and unproved.
+:::
+
+:::proof "ear_contraction_induction"
+The edge list of the actual deletion in {uses "empty_triangle_deletion"}[] gives a
+parity sum: the diagonal occurs twice and cancels. The triangle and shortened polygon
+have disjoint open insides; their closed insides cover the original and meet exactly
+along the diagonal. Apply {uses "convex_attachment"}[] and the normalization count
+bound, then strong induction with {uses "triangle_contraction"}[] as base case.
+:::
+
 :::theorem "polygon_simply_connected" (tags := "open")
 Every loop in the interior of a finite simple plane polygon contracts there.
 This obligation remains open beyond {uses "polygon_jordan"}[].
 The continuous-to-polygonal homotopy step is checked in {uses "path_mesh_homotopy"}[].
 The base case and a removal step are checked in {uses "triangle_contraction"}[] and
-{uses "triangle_crosscut"}[]. Constructing a terminating ear decomposition remains open.
+{uses "triangle_crosscut"}[]. The complete contraction induction is checked in
+{uses "ear_contraction_induction"}[], conditional on universal geometric ear existence.
 An interior cut to an edge is constructed in {uses "interior_straight_cut"}[];
 its far endpoint is not yet guaranteed to be an existing vertex.
 The empty-triangle criterion in {uses "empty_neighbor_triangle"}[] is proved, but its

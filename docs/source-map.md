@@ -35,6 +35,7 @@ not a theorem available for downstream use. The final independently stated targe
 | Conditions (†), (‡) | `Geometry/InscribedPolygon.lean`: strictly ordered parameters, all vertices on the curve, half-circle conditions, cyclic gaps, maxima, and telescoping sum | Defined with proved elementary properties |
 | An initial polygon satisfying (†), (‡) | `Geometry/UniformPolygon.lean`, `Nonstandard/InitialPolygon.lean`: explicit equally spaced samples, infinitesimal maximum edge, and exact shadow | Proved |
 | Empty triangle diagonal and deletion | `Geometry/TriangleCoordinates.lean`, `TriangleBase.lean`, `EmptyEarDiagonal.lean`, `DiagonalDeletion.lean`: transverse and collinear edge crossings are excluded; the opposite open edge misses the carrier; deletion and normalization give a strictly smaller polygon with no new vertices | Proved under the explicit empty-neighbor-triangle hypothesis |
+| Actual ear contraction and finite induction | `Geometry/DiagonalParity.lean`, `ParityContraction.lean`, `EarContraction.lean`, `PolygonContractionInduction.lean`: parity cancellation proves the closed-region identities for the constructed deletion; normalization and strong induction prove finite contractibility conditional on universal internal-ear existence | Induction proved; universal geometric ear existence remains open |
 | Normalization bounds | `Geometry/PolygonNormalization.lean`: finite normalization retains a nonincreasing vertex count and vertex-set inclusion | Proved strengthening of the attributed finite normalization argument |
 | Lemma 1(i) | `Nonstandard/PolygonRegularity.lean`: uniformly infinitesimal gaps, unlimited vertex count, first parameter near zero and last near one | Proved |
 | Lemma 1(ii) | `Geometry/PolygonApproximation.lean`, `Nonstandard/PolygonApproximation.lean`: two-sided approximation by a single positive infinitesimal, and exact standard shadow | Proved |
@@ -189,8 +190,14 @@ at a strictly supported corner the base is an internal diagonal.
 collinear corners are normalized using `PolygonNormalization.lean`, a strengthening
 of the attributed finite normalization induction that preserves the vertex-count
 bound and proves that no new vertices are introduced. The resulting polygon is
-strictly smaller. Existence of a suitable ear for every polygon and the full
-contraction induction remain open.
+strictly smaller. `DiagonalParity.lean` proves the edge-cancellation identity for the actual deletion.
+`ParityContraction.lean` passes from that identity to equality of closed regions using
+density of the complement of the finite collection of boundaries. `EarContraction.lean`
+proves that the two closed cells intersect on precisely the base segment and applies
+the explicit deformation. `PolygonContractionInduction.lean` combines this with the
+normalization bound and strong induction. Its universal internal-ear existence
+hypothesis is explicit and remains unproved; it is now the remaining geometric input
+to this finite contraction route.
 
 ## Independent verification
 
