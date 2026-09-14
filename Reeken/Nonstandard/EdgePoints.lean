@@ -56,7 +56,7 @@ theorem edge_inMonad
       ((p i).vertex (nextIndex (p i).n (j i)))))
       (ofSeq (fun i ↦ (p i).vertex (j i))) := by
   intro x hx
-  obtain ⟨x, rfl⟩ := ofSeq_surjective x
+  star_cases x
   exact edge_point_near_vertex p hmax j x hx
 
 end Reeken.NSA

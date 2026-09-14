@@ -71,7 +71,7 @@ theorem exists_internal_inner_spoke_cell (hs : ∀ᶠ i in hyperfilter ℕ, (p i
       fun x hx hxc ↦ hQcl hx (hci.2 hxc), hQzone, hf, hspoke⟩
   have : Nonempty Data := ⟨(⟨1, squarePolygon 0 (r := 1) zero_lt_one⟩, id)⟩
   obtain ⟨d, hd⟩ := (exists_holds (U := hyperfilter ℕ) valid).mpr hex
-  obtain ⟨d, rfl⟩ := ofSeq_surjective d
+  star_cases d
   have hqshadow : shadow (fun i ↦ (d i).1.2.carrier) ⊆ f '' Icc 0 1 :=
     (shadow_mono (hd.mono fun _ hi ↦ hi.2.2.2.2.1)).trans hshadow
   refine ⟨fun i ↦ (d i).1, fun i ↦ (d i).2, ?_, ?_, hqshadow, ?_, ?_⟩

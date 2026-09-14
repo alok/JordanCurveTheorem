@@ -8,7 +8,8 @@ foundation.
 [`Reeken.jordanCurveTheorem`](Reeken/Jordan.lean).
 [`Verification/JordanSolution.lean`](Verification/JordanSolution.lean) proves the
 unchanged independent [full challenge](Verification/JordanChallenge.lean).
-The subsequent work is to improve the NSA interfaces and extract reusable tooling.
+The original complete proof is preserved at [`first-complete-proof`](https://github.com/alok/JordanCurveTheorem/tree/first-complete-proof).
+The subsequent NSA refactor adds internal-object interfaces and checked transfer tools.
 
 For every continuous injective map of the unit circle into the real plane, the
 complement consists of two nonempty disjoint open path-connected regions. The inside
@@ -30,7 +31,7 @@ source; the published version includes the common-boundary argument.
 
 ```sh
 lake exe cache get
-lake --wfail build Reeken Verification.JordanSolution
+lake --wfail build Reeken Verification.JordanSolution Verification.TransferTests
 lake env lean scripts/Audit.lean
 lake env leanchecker --fresh Reeken
 ```
@@ -103,8 +104,17 @@ Project work is tracked in [Linear](https://linear.app/aloksingh/project/jordanc
 
 ## Reusable NSA tooling
 
-The first complete proof precedes the requested refactoring. Subsequent work will
-make more theorem interfaces native to the nonstandard development, replace repeated
-quotient/transfer plumbing with checked metaprogramming, and isolate interfaces that
-could be proposed to mathlib. The fixed independent theorem and kernel checks remain
-the validation boundary throughout that work.
+`import Reeken.Nonstandard` loads the generic library without polygon geometry.
+[`InternalSet.lean`](Reeken/Nonstandard/InternalSet.lean) exposes internal sets and
+images under internal functions as quotient objects; hyperfinite extrema and
+countable saturation also have internal-object interfaces.
+[`InternalMetric.lean`](Reeken/Nonstandard/InternalMetric.lean) states deep membership
+as inclusion of a whole monad and proves compact internal inclusion directly from
+standard parts. The geometric proof uses these interfaces.
+
+[`star_cases` and `star_transfer`](Reeken/Nonstandard/Transfer.lean) replace recurring
+representative extraction and normalize the proved internal transfer rules. Internal
+induction uses the normalizer, and the
+[regression suite](Verification/TransferTests.lean) checks dependent hypotheses and
+the external-quantifier boundary. See the [tooling guide](docs/nonstandard-tooling.md)
+for examples, model hypotheses, and possible mathlib extraction boundaries.

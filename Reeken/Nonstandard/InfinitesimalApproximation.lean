@@ -35,7 +35,7 @@ theorem exists_infinitesimal_hausdorff_bound {p q : ℕ → Set E}
     exact ⟨⟨hn, hi, hj⟩, one_div_le_one_div_of_le (by positivity)
       (by exact_mod_cast Nat.add_le_add_right hk 1)⟩
   obtain ⟨r, hr⟩ := countable_saturation_of_eventually P hfinite
-  obtain ⟨r, rfl⟩ := ofSeq_surjective r
+  star_cases r
   refine ⟨ofSeq r, ?_, (hr 0).mono fun i hi ↦ hi.1⟩
   intro ε hε
   obtain ⟨n, hn⟩ := exists_nat_one_div_lt hε

@@ -79,7 +79,7 @@ theorem exists_internal_annulus_drawing (hs : ∀ᶠ i in hyperfilter ℕ, (p i)
       (q i).2 (foot i) (fun j ↦ (hi.2.2.2.2.1 _).1) hj
     exact ⟨points, hd, htwo, hpoint⟩
   obtain ⟨points, hpoints⟩ := (exists_holds (U := hyperfilter ℕ) valid).mpr hex
-  obtain ⟨points, rfl⟩ := ofSeq_surjective points
+  star_cases points
   refine ⟨q, foot, points, hdeep, hshadow, hshort, ?_⟩
   filter_upwards [hq, hpoints] with i hi hpi
   exact ⟨hi.1, hi.2.1, hi.2.2.1, hi.2.2.2.1, hi.2.2.2.2.1,

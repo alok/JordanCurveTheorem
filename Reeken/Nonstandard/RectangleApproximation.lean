@@ -66,7 +66,7 @@ theorem exists_infinitesimal_rectangle_cover :
       (∀ᶠ i in hyperfilter ℕ, 0 < ε i ∧ f '' Icc 0 1 ⊆ (p i).openRectangleCover (ε i)) ∧
       shadow (innerConstructionZone p ε) ⊆ f '' Icc 0 1 := by
   obtain ⟨ε, hε, hcover⟩ := polygon_infinitesimal_hausdorff p hmax
-  obtain ⟨ε, rfl⟩ := ofSeq_surjective ε
+  star_cases ε
   refine ⟨ε, hε, ?_, shadow_innerConstructionZone_subset p hmax hε⟩
   filter_upwards [hcover, vertex_count_unlimited p hmax 1] with i hi hni
   refine ⟨hi.1, fun x hx ↦ ?_⟩

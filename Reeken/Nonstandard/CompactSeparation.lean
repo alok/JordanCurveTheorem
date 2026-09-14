@@ -38,7 +38,7 @@ theorem compact_separation_from_common_shadow {K : Set E} (hK : IsCompact K)
       exact one_div_le_one_div_of_le (by positivity)
         (by exact_mod_cast Nat.add_le_add_right hk 1)
   obtain ⟨w, hw⟩ := countable_saturation_of_eventually P hfinite
-  obtain ⟨w, rfl⟩ := ofSeq_surjective w
+  star_cases w
   have hxK : ofSeq (U := hyperfilter ℕ) (fun i ↦ (w i).1) ∈ starSet K :=
     (hw 0).mono fun i hi ↦ hi.1
   obtain ⟨a, ha, hxa⟩ := compact_standard_part hK hxK

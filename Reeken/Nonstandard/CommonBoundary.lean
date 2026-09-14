@@ -56,7 +56,7 @@ theorem ball_inter_deep_nonempty {u v : ℕ → Set Plane}
     (T ∩ (p i).forwardArc (a i) (b i)).Nonempty ∧
     (T ∩ (p i).backwardArc (a i) (b i)).Nonempty ∧
     T \ ((p i).forwardArc (a i) (b i) ∪ (p i).backwardArc (a i) (b i)) ⊆ u i)).mpr hex
-  obtain ⟨c, rfl⟩ := ofSeq_surjective c
+  star_cases c
   have hcompact : ∀ᶠ i in hyperfilter ℕ,
       IsCompact ((p i).forwardArc (a i) (b i)) ∧ ((p i).forwardArc (a i) (b i)).Nonempty ∧
       IsCompact ((p i).backwardArc (a i) (b i)) ∧ ((p i).backwardArc (a i) (b i)).Nonempty :=

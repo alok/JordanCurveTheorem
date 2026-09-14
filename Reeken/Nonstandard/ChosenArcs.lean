@@ -72,7 +72,7 @@ theorem chosenArcs_uniformly_small (L : ℕ → List Piece)
   obtain ⟨d, hd⟩ := (exists_holds (U := hyperfilter ℕ) (fun i (d : Piece × Plane) ↦
     d.1 ∈ L i ∧ d.2 ∈ cover ((p i).chosenArcPieces (a i d.1) (b i d.1)) ∧
       η ≤ dist d.2 ((p i).vertex (a i d.1)))).mpr hex
-  obtain ⟨d, rfl⟩ := ofSeq_surjective d
+  star_cases d
   have hn : Near (ofSeq (U := hyperfilter ℕ) (fun i ↦ (p i).vertex (a i (d i).1)))
       (ofSeq (fun i ↦ (p i).vertex (b i (d i).1))) := by
     intro ε hε

@@ -1,11 +1,5 @@
-import Reeken.Nonstandard.Ultrapower
-import Reeken.Nonstandard.Hyperfinite
-import Reeken.Nonstandard.Metric
-import Reeken.Nonstandard.Saturation
-import Reeken.Nonstandard.Shadow
+import Reeken.Nonstandard
 import Reeken.Geometry.Segments
-import Reeken.Nonstandard.Images
-import Reeken.Nonstandard.Regions
 import Reeken.Nonstandard.Approximation
 import Reeken.Geometry.UniformMesh
 import Reeken.Nonstandard.MeshApproximation
@@ -26,7 +20,6 @@ import Reeken.Nonstandard.PolygonEquidistant
 import Reeken.Geometry.PolygonCells
 import Reeken.Nonstandard.CutVertices
 import Reeken.Nonstandard.PolygonSquares
-import Reeken.Nonstandard.CompactDeep
 import Reeken.Geometry.BoundarySubpath
 import Reeken.Geometry.LocalCells
 import Reeken.Nonstandard.CommonBoundary

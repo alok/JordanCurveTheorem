@@ -1,4 +1,4 @@
-import Reeken.Nonstandard.Metric
+import Reeken.Nonstandard.InternalMetric
 import Reeken.Nonstandard.Saturation
 import Mathlib.Tactic.Positivity
 
@@ -16,33 +16,45 @@ namespace Reeken.NSA
 
 variable {α : Type*} [MetricSpace α] [Nonempty α]
 
+/-- Saturation realizes all standard neighborhoods by one internal point of the set.
+The theorem works over any free ultrafilter on naturals. -/
+theorem InternalSet.mem_shadow_iff_internal_ball {U : Ultrafilter ℕ}
+    (hU : (U : Filter ℕ) ≤ atTop) (s : InternalSet U α) (a : α) :
+    a ∈ s.shadow ↔ ∀ ε : ℝ, 0 < ε →
+      (s.toSet ∩ starSet (Metric.ball a ε)).Nonempty := by
+  constructor
+  · rintro ⟨x, hx, ha⟩ ε hε
+    exact ⟨x, hx, (mem_starSet_ball x a ε).mpr (ha ε hε)⟩
+  · intro h
+    let q (n : ℕ) : InternalSet U α := s ⊓ std (Metric.ball a (1 / (n + 1 : ℝ)))
+    have hfinite : ∀ n, ∃ x : Star U α, ∀ k ≤ n, x ∈ q k := by
+      intro n
+      obtain ⟨x, hxs, hxb⟩ := h (1 / (n + 1 : ℝ)) (by positivity)
+      refine ⟨x, fun k hk ↦ ?_⟩
+      change x ∈ InternalSet.toSet (s ⊓ std (Metric.ball a (1 / (k + 1 : ℝ))))
+      rw [coe_inf, coe_std]
+      refine ⟨hxs, starSet_mono (Metric.ball_subset_ball ?_) hxb⟩
+      exact one_div_le_one_div_of_le (by positivity) (by exact_mod_cast Nat.add_le_add_right hk 1)
+    obtain ⟨x, hx⟩ := InternalSet.countable_saturation hU q hfinite
+    have hmem (n : ℕ) : x ∈ s.toSet ∩ starSet (Metric.ball a (1 / (n + 1 : ℝ))) := by
+      have hx' : x ∈ (q n).toSet := hx n
+      simpa only [q, coe_inf, coe_std] using hx'
+    refine ⟨x, (hmem 0).1, fun ε hε ↦ ?_⟩
+    obtain ⟨n, hn⟩ := exists_nat_one_div_lt hε
+    exact (mem_starSet_ball x a ε).mp
+      (starSet_mono (Metric.ball_subset_ball hn.le) (hmem n).2)
+
 /-- The standard points infinitesimally close to some point of an internal set. -/
 def shadow (s : ℕ → Set α) : Set α :=
-  {a | ∃ x ∈ internalSet (U := hyperfilter ℕ) s, Near x (std a)}
+  InternalSet.shadow (ofSeq (U := hyperfilter ℕ) s)
 
 /-- Saturation supplies one point realizing all the positive standard distance bounds. -/
 theorem mem_shadow_iff (s : ℕ → Set α) (a : α) :
     a ∈ shadow s ↔ ∀ ε : ℝ, 0 < ε →
       ∀ᶠ i in hyperfilter ℕ, ∃ x ∈ s i, dist x a < ε := by
-  constructor
-  · rintro ⟨x, hx, ha⟩ ε hε
-    obtain ⟨x, rfl⟩ := ofSeq_surjective x
-    filter_upwards [hx, ha ε hε] with i hi hd
-    exact ⟨x i, hi, hd⟩
-  · intro h
-    let P (n i : ℕ) (x : α) : Prop := x ∈ s i ∧ dist x a < 1 / (n + 1 : ℝ)
-    have hfinite : ∀ n, ∀ᶠ i in hyperfilter ℕ, ∃ x, ∀ k ≤ n, P k i x := by
-      intro n
-      filter_upwards [h (1 / (n + 1 : ℝ)) (by positivity)] with i hi
-      obtain ⟨x, hx, hd⟩ := hi
-      refine ⟨x, fun k hk ↦ ⟨hx, hd.trans_le ?_⟩⟩
-      exact one_div_le_one_div_of_le (by positivity) (by exact_mod_cast Nat.add_le_add_right hk 1)
-    obtain ⟨x, hx⟩ := countable_saturation_of_eventually P hfinite
-    obtain ⟨x, rfl⟩ := ofSeq_surjective x
-    refine ⟨ofSeq x, (hx 0).mono fun i hi ↦ hi.1, ?_⟩
-    intro ε hε
-    obtain ⟨n, hn⟩ := exists_nat_one_div_lt hε
-    exact (hx n).mono fun i hi ↦ hi.2.trans hn
+  rw [shadow, InternalSet.mem_shadow_iff_internal_ball Nat.hyperfilter_le_atTop]
+  simp only [InternalSet.coe_ofSeq, starSet, ← internalSet_inter, internalSet_nonempty]
+  rfl
 
 /-- Failure of infinitesimal proximity gives a uniform positive standard distance bound. -/
 theorem not_mem_shadow_iff (s : ℕ → Set α) (a : α) :

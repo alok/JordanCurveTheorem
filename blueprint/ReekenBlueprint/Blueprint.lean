@@ -44,6 +44,16 @@ set. The point lives in {uses "ultrapower"}[].
 Push the ultrafilter through a representative sequence and use compactness.
 :::
 
+:::theorem "compact_deep" (lean := "Reeken.NSA.InternalSet.starSet_subset_of_isCompact")
+If every standard point of a compact set is deep in an internal set, its entire
+internal extension belongs to that set.
+:::
+
+:::proof "compact_deep"
+Use {uses "standard_part"}[] for an arbitrary internal point of the compact set.
+Its standard part has its whole monad inside the internal set, so the point belongs too.
+:::
+
 :::theorem "closed_shadow" (lean := "Reeken.NSA.isClosed_shadow")
 The standard shadow of any internal metric set is closed, using {uses "saturation"}[].
 :::

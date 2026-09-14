@@ -16,23 +16,15 @@ variable {ι α β : Type*} {U : Ultrafilter ι}
 
 theorem map_mem_internalSet_image (f : α → β) (s : ι → Set α) {x : Star U α}
     (hx : x ∈ internalSet s) : map f x ∈ internalSet (fun i ↦ f '' s i) := by
-  obtain ⟨x, rfl⟩ := ofSeq_surjective x
+  star_cases x
   exact hx.mono fun i hi ↦ ⟨x i, hi, rfl⟩
 
 /-- Transfer of the witnesses in a set image. -/
 theorem internalSet_image [Nonempty α] (f : α → β) (s : ι → Set α) :
     internalSet (U := U) (fun i ↦ f '' s i) = map f '' internalSet s := by
-  ext y
-  constructor
-  · intro hy
-    obtain ⟨y, rfl⟩ := ofSeq_surjective y
-    obtain ⟨x, hx⟩ := (exists_holds (U := U)
-      (fun i x ↦ x ∈ s i ∧ f x = y i)).mpr hy
-    obtain ⟨x, rfl⟩ := ofSeq_surjective x
-    refine ⟨ofSeq x, hx.mono fun i hi ↦ hi.1, ?_⟩
-    exact ofSeq_eq.mpr (hx.mono fun i hi ↦ hi.2)
-  · rintro ⟨x, hx, rfl⟩
-    exact map_mem_internalSet_image f s hx
+  change InternalSet.toSet (InternalSet.image (std f) (ofSeq s)) = _
+  rw [InternalSet.coe_image, app_std_fun]
+  rfl
 
 variable [MetricSpace α] [MetricSpace β]
 
@@ -59,6 +51,7 @@ theorem shadow_image [Nonempty α] [Nonempty β] {s : ℕ → Set α} {c : Set �
   ext b
   constructor
   · rintro ⟨y, hy, hyb⟩
+    change y ∈ internalSet (fun i ↦ f '' s i) at hy
     rw [internalSet_image] at hy
     obtain ⟨x, hx, rfl⟩ := hy
     have hxc : x ∈ starSet c := (internalSet_subset s (fun _ ↦ c)).mpr hsc hx

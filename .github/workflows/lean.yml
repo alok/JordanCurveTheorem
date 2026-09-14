@@ -24,5 +24,7 @@ jobs:
         run: lake --wfail build
       - name: Audit all project declarations
         run: lake env lean scripts/Audit.lean
+      - name: Check transfer automation and external-quantifier regressions
+        run: lake --wfail build Verification.TransferTests
       - name: Replay the complete imported environment from scratch
         run: lake env leanchecker --fresh Reeken

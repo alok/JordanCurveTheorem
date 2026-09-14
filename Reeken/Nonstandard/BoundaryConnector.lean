@@ -39,7 +39,7 @@ theorem exists_deep_point_of_connectors {K : Set E} (hK : IsCompact K)
     exact ⟨x, hxK, hi.2.2.2.2 ⟨hx, hnot⟩, hbound⟩
   obtain ⟨x, hx⟩ := (exists_holds (U := hyperfilter ℕ)
     (fun i x ↦ x ∈ K ∧ x ∈ u i ∧ ∀ y ∈ s i ∪ t i, δ ≤ dist y x)).mpr he
-  obtain ⟨x, rfl⟩ := ofSeq_surjective x
+  star_cases x
   obtain ⟨a, ha, hxa⟩ := compact_standard_part hK (x := ofSeq (U := hyperfilter ℕ) x) (hx.mono fun i hi ↦ hi.1)
   exact ⟨a, ha, standard_part_mem_deep hsep (hx.mono fun i hi ↦ hi.2.1) hδ
     (hx.mono fun i hi ↦ hi.2.2) hxa⟩

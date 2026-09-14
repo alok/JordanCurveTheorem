@@ -9,7 +9,9 @@ The published argument adds a common-boundary argument absent from the earlier v
 This ledger describes the completed proof. The final independently stated target is
 `Verification/JordanChallenge.lean`; `Verification/JordanSolution.lean` proves that
 unchanged statement from `Reeken.jordanCurveTheorem`. The NSA tooling refactor follows
-the first full proof.
+the first full proof, preserved at the `first-complete-proof` tag. The generic
+internal-object interfaces and proof-producing automation are documented in the
+[NSA tooling guide](nonstandard-tooling.md).
 
 | Source step | Lean development | Status |
 | --- | --- | --- |

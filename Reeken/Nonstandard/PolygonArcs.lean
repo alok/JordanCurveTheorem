@@ -23,7 +23,7 @@ theorem forwardArc_inMonad (hab : ∀ᶠ i in hyperfilter ℕ, a i ≤ b i)
     InMonad (internalSet (U := hyperfilter ℕ) (fun i ↦ (p i).forwardArc (a i) (b i)))
       (ofSeq (fun i ↦ (p i).vertex (a i))) := by
   intro x hx
-  obtain ⟨x, rfl⟩ := ofSeq_surjective x
+  star_cases x
   intro ε hε
   have hu := isCompact_Icc.uniformContinuousOn_of_continuous f.continuousOn
   obtain ⟨δ, hδ, hd⟩ := Metric.uniformContinuousOn_iff.mp hu ε hε
@@ -50,7 +50,7 @@ theorem backwardArc_inMonad
         (Eventually.of_forall fun i ↦ Ico_subset_Icc_self ((p i).time_mem (a i)))
         ((std_mem_starSet (Icc 0 1) 0).mpr ⟨le_rfl, zero_le_one⟩)
   intro x hx
-  obtain ⟨x, rfl⟩ := ofSeq_surjective x
+  star_cases x
   intro ε hε
   have hu := isCompact_Icc.uniformContinuousOn_of_continuous f.continuousOn
   obtain ⟨δ, hδ, hd⟩ := Metric.uniformContinuousOn_iff.mp hu (ε / 2) (half_pos hε)

@@ -26,14 +26,14 @@ theorem exists_shadow_parameter {s : ℕ → Set E} {R : ℕ → ℝ → Prop} {
       (∀ᶠ i in hyperfilter ℕ, R i (t i)) ∧
       Near (ofSeq (U := hyperfilter ℕ) t) (std a) ∧ f a = z := by
   obtain ⟨x, hx, hxz⟩ := hz
-  obtain ⟨x, rfl⟩ := ofSeq_surjective x
+  star_cases x
   have he : ∀ᶠ i in hyperfilter ℕ,
       ∃ t ∈ Icc 0 1, R i t ∧ dist (x i) (f t) ≤ d i := by
     filter_upwards [hs, hx] with i hi hxi
     exact hi _ hxi
   obtain ⟨t, ht⟩ := (exists_holds (U := hyperfilter ℕ)
     (fun i t ↦ t ∈ Icc 0 1 ∧ R i t ∧ dist (x i) (f t) ≤ d i)).mpr he
-  obtain ⟨t, rfl⟩ := ofSeq_surjective t
+  star_cases t
   have htI : ofSeq (U := hyperfilter ℕ) t ∈ starSet (Icc (0 : ℝ) 1) :=
     ht.mono fun i hi ↦ hi.1
   obtain ⟨a, ha, hta⟩ := compact_standard_part isCompact_Icc htI

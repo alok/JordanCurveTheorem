@@ -40,7 +40,7 @@ theorem exists_internal_outer_cell :
     Q.2.carrier ⊆ outside (p i).trace ∧ outside Q.2.carrier ⊆ outside (p i).trace ∧
     closure (outside Q.2.carrier) ⊆ (f '' Icc 0 1)ᶜ ∧
     Q.2.carrier ⊆ (p i).rectangleCover (ε i))).mpr hex
-  obtain ⟨q, rfl⟩ := ofSeq_surjective q
+  star_cases q
   refine ⟨q, hq.mono (fun _ hi ↦ ⟨hi.1, hi.2.1, hi.2.2.1⟩), ?_, ?_⟩
   · exact (shadow_mono (hq.mono fun _ hi x hx ↦ Or.inl (hi.2.2.2 hx))).trans hshadow
   · intro η hη

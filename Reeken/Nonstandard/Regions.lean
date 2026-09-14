@@ -17,7 +17,12 @@ namespace Reeken.NSA
 variable {E : Type*} [NormedAddCommGroup E]
 
 /-- A standard point is deep in an internal set if its whole monad avoids the complement. -/
-def deep (s : ℕ → Set E) : Set E := (shadow (fun i ↦ (s i)ᶜ))ᶜ
+def deep (s : ℕ → Set E) : Set E := InternalSet.deep (ofSeq (U := hyperfilter ℕ) s)
+
+/-- Deep membership is inclusion of the whole monad, including its nonstandard points. -/
+theorem mem_deep_iff_monad_subset (s : ℕ → Set E) (a : E) :
+    a ∈ deep s ↔ monad (U := hyperfilter ℕ) a ⊆ internalSet s :=
+  InternalSet.mem_deep_iff (ofSeq s) a
 
 theorem mem_deep_iff (s : ℕ → Set E) (a : E) :
     a ∈ deep s ↔ ∃ ε : ℝ, 0 < ε ∧
@@ -28,18 +33,12 @@ theorem isOpen_deep (s : ℕ → Set E) : IsOpen (deep s) :=
   (isClosed_shadow _).isOpen_compl
 
 theorem eventually_mem_of_mem_deep {s : ℕ → Set E} {a : E} (ha : a ∈ deep s) :
-    ∀ᶠ i in hyperfilter ℕ, a ∈ s i := by
-  obtain ⟨ε, hε, h⟩ := (mem_deep_iff s a).mp ha
-  filter_upwards [h] with i hi
-  by_contra hn
-  have hd := hi a hn
-  simp only [dist_self] at hd
-  exact (not_le_of_gt hε) hd
+    ∀ᶠ i in hyperfilter ℕ, a ∈ s i :=
+  InternalSet.std_mem_of_mem_deep ha
 
 theorem shadow_mono {s t : ℕ → Set E} (h : ∀ᶠ i in hyperfilter ℕ, s i ⊆ t i) :
-    shadow s ⊆ shadow t := by
-  rintro a ⟨x, hx, ha⟩
-  exact ⟨x, (internalSet_subset s t).mpr h hx, ha⟩
+    shadow s ⊆ shadow t :=
+  InternalSet.shadow_mono ((internalSet_subset s t).mpr h)
 
 variable [NormedSpace ℝ E]
 

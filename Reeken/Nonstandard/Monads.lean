@@ -35,10 +35,10 @@ theorem inMonad_internalSet_iff [Nonempty E] (s : ι → Set E) (a : ι → E) :
     intro x
     apply (holds_imp (U := U) _ _ x).mpr
     intro hx
-    obtain ⟨x, rfl⟩ := ofSeq_surjective x
+    star_cases x
     exact h (ofSeq (U := U) x) hx ε hε
   · intro h x hx
-    obtain ⟨x, rfl⟩ := ofSeq_surjective x
+    star_cases x
     intro ε hε
     exact ((h ε hε).and hx).mono fun i hi ↦ hi.1 (x i) hi.2
 

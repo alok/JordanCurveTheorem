@@ -83,7 +83,7 @@ theorem exists_internal_inner_cell (hs : ∀ᶠ i in hyperfilter ℕ, (p i).Simp
     inside Q.2.carrier ⊆ inside (p i).trace ∧
     closure (inside Q.2.carrier) ⊆ (f '' Icc 0 1)ᶜ ∧
     Q.2.carrier ⊆ (p i).rectangleCover (ε i))).mpr hex
-  obtain ⟨q, rfl⟩ := ofSeq_surjective q
+  star_cases q
   have hqshadow : shadow (fun i ↦ (q i).2.carrier) ⊆ f '' Icc 0 1 :=
     (shadow_mono (hq.mono fun _ hi x hx ↦ Or.inl (hi.2.2.2.2 hx))).trans hshadow
   refine ⟨q, hq.mono (fun _ hi ↦ ⟨hi.1, hi.2.1, hi.2.2.1, hi.2.2.2.1⟩), hqshadow, ?_⟩
