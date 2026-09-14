@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.ContractionChallenge",
+  "solution_module": "Verification.ContractionSolution",
+  "theorem_names": ["Verification.triangle_contraction", "Verification.convex_attachment_contraction"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

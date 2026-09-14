@@ -57,6 +57,7 @@ also checks the attributed dependency. The common-boundary challenge states Sect
 for an arbitrary continuous circle embedding, with explicit radius bounds. A sixth
 challenge additionally checks inside path connectivity, and a seventh checks
 path connectivity of both complementary regions. These checks
+are joined by an eighth for triangle contraction and convex attachment. They
 certify the named milestones; they do not certify the still-unfinished Jordan theorem. Lean Beam is used locally
 for incremental diagnostics and speculative proof checks.
 
@@ -127,6 +128,16 @@ reduction too: `MeshPath.lean` constructs actual polygonal paths, proves uniform
 convergence, and gives homotopies inside any containing open set while fixing endpoints.
 The bounded complementary components of compact inside sets are also proved to stay
 inside. Constructing the finite polygonal null homotopies remains open.
+
+The finite contraction now has a checked triangle base case and a checked triangular
+crosscut step. Every three-vertex polygon has closed inside equal to its convex hull,
+which contracts; its open inside is simply connected. An explicit continuous segment
+retraction lets a closed convex piece attached along one edge deform onto the rest.
+The crosscut theorem identifies the closed cells' union and intersection, so a triangle
+can be removed while preserving contractibility. What remains is to construct an ear
+decomposition for every finite simple polygon and prove that the process terminates.
+The NSA extraction now keeps the entire closed polygonal inside in the standard inside,
+so these closed-region contractions suffice for the final loop argument.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

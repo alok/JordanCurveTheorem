@@ -140,10 +140,44 @@ original path. Compactness of the path range gives a positive distance margin in
 the open set; the straight homotopy to a sufficiently close mesh stays within that margin.
 :::
 
+:::theorem "triangle_contraction" (lean := "Reeken.Geometry.contractibleSpace_triangle_closed_inside")
+The closed inside of every three-vertex simple polygon is contractible.
+:::
+
+:::proof "triangle_contraction"
+Supporting half-planes contain all bounded complementary components. Each triangle
+edge lies on a supporting line of the convex hull of its vertices, so finite separation
+identifies the closed inside with that hull. Convexity supplies the contraction.
+:::
+
+:::theorem "convex_attachment" (lean := "Reeken.Geometry.contractibleSpace_union_of_segment_inter")
+Attaching a closed convex piece along one segment to a closed contractible set
+preserves contractibility.
+:::
+
+:::proof "convex_attachment"
+Truncated distance from one endpoint gives a continuous retraction onto the segment.
+The straight deformation inside the convex piece agrees with the identity on the
+intersection, so closed-set pasting makes a deformation of the union onto the rest.
+:::
+
+:::theorem "triangle_crosscut" (lean := "Reeken.Geometry.contractible_closed_inside_of_triangle_crosscut")
+A diagonal cutting off a triangle reduces closed-inside contractibility to the
+remaining polygon, using {uses "triangle_contraction"}[] and {uses "convex_attachment"}[].
+:::
+
+:::proof "triangle_crosscut"
+The existing finite crosscut theorem identifies the two cells. Their closed interiors
+cover the parent and meet exactly on the cutting segment. Apply convex attachment
+to the triangle's closed interior.
+:::
+
 :::theorem "polygon_simply_connected" (tags := "open")
 Every loop in the interior of a finite simple plane polygon contracts there.
 This obligation remains open beyond {uses "polygon_jordan"}[].
 The continuous-to-polygonal homotopy step is checked in {uses "path_mesh_homotopy"}[].
+The base case and a removal step are checked in {uses "triangle_contraction"}[] and
+{uses "triangle_crosscut"}[]. Constructing a terminating ear decomposition remains open.
 :::
 
 :::theorem "deep_regions" (lean := "Reeken.NSA.deep_union_of_separation")
@@ -346,6 +380,17 @@ The range of any continuous loop is compact. Through {uses "inner_polygon"}[], o
 finite polygon contains the entire range in its inside, and its whole inside belongs
 to the standard inside. The explicit finite simple-connectivity hypothesis contracts
 the loop there. This handles arbitrary continuous loops, including self-intersecting ones.
+:::
+
+:::theorem "closed_compact_loop_reduction" (lean := "Reeken.NSA.isSimplyConnected_standardInside_of_closed_polygon")
+Contractibility of every finite closed polygonal inside also suffices to prove
+simple connectivity of the standard inside. The finite hypothesis remains open.
+:::
+
+:::proof "closed_compact_loop_reduction"
+The finite extraction from {uses "inner_polygon"}[] retains the whole closed inside
+within the standard inside. Thus a contraction can meet the finite polygon's boundary
+while staying inside the original curve. Apply this to the compact range of any loop.
 :::
 
 :::theorem "connectivity" (tags := "open")

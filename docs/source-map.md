@@ -25,6 +25,8 @@ not a theorem available for downstream use. The final independently stated targe
 | Finite polygonal separation used by the paper | `Geometry/PolygonSeparation.lean` adapts the attributed finite collar/parity proof in `vendor/Schoenflies`; open connected regions, common boundary, bounded inside, unbounded outside; path connectivity in `Verification/SeparationSolution.lean` | Proved |
 | Polygonal approximation of arbitrary paths | `Geometry/PathHomotopy.lean`, `MeshPath.lean`: actual continuous finite mesh paths converge uniformly and are homotopic to the original path inside any containing open set, with endpoints fixed | Proved |
 | Enclosed-set containment | `Geometry/EnclosedSets.lean`, `Nonstandard/LoopContraction.lean`: bounded complementary components of every nonempty compact set in the standard inside remain there | Proved; a geometric filling statement, not a null homotopy |
+| Triangle contraction | `Geometry/ConvexEnclosure.lean`, `TriangleContraction.lean`: supporting half-planes enclose bounded components; every three-vertex polygon's closed inside is its convex hull and contracts, and its open inside is simply connected | Proved |
+| Convex attachment and triangular crosscuts | `Geometry/ConvexAttachment.lean`, `CrosscutContraction.lean`: explicit segment retraction and pasted deformation; closed crosscut cells cover the parent's closed inside and meet on the cut; cutting off a triangle preserves contractibility | Proved step; existence of an ear decomposition remains open |
 | Finite polygonal simple connectivity | Contractibility of all interior loops, beyond finite separation and crosscuts | Open |
 | Circle-parametrization bridge | `Geometry/CircleParametrization.lean`: continuous embeddings of the plane unit circle give the simple-loop representation with exactly the same image | Proved |
 | Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |
@@ -61,7 +63,7 @@ not a theorem available for downstream use. The final independently stated targe
 | Lemma 3, internal cell with connections | `Nonstandard/InnerSpokeCell.lean`: an actual internal polygon and nearest-foot map, with uniformly infinitesimal corner connections avoiding its inside, and the prescribed standard point deeply inside | Proved |
 | Lemma 3, simultaneous containment | `Nonstandard/RingContainment.lean`: infinitesimal edge barriers, small outer arcs, and cancellation of finite crossing parity put every standard inside point deeply in one actual inner polygon | Proved |
 | Inside path connectivity | `Nonstandard/InsideConnectivity.lean`: choose a finite representative of the inner polygon containing both standard points, whose connected inside misses the original curve | Proved |
-| Compact-loop reduction | `Nonstandard/LoopContraction.lean`: every compact inside set lies in a finite inner polygon; arbitrary continuous loop contractions transfer, with finite polygonal simple connectivity an explicit hypothesis | Proved reduction; finite hypothesis open |
+| Compact-loop reduction | `Nonstandard/LoopContraction.lean`: every compact inside set lies in a finite inner polygon whose closed inside remains in the standard inside; arbitrary continuous loop contractions transfer from finite open-inside simple connectivity or closed-inside contractibility | Proved reductions; finite hypotheses open |
 | Exterior connectivity | `Geometry/OuterCells.lean`, `Nonstandard/OuterCell.lean`, `OuterContainment.lean`, `OuterPolygon.lean`, `OutsideConnectivity.lean`: actual outer cell, infinitesimal-barrier cancellation, and finite exterior paths | Proved |
 | Final theorem | A continuous embedding of the unit circle has two complementary regions with the stated boundary and connectivity properties | Open |
 
@@ -149,6 +151,18 @@ inside belongs to the standard inside. The reduction takes finite polygonal simp
 connectivity as an explicit hypothesis. That finite theorem is still open, so the
 reduction must not be reported as an unconditional simple-connectivity proof.
 
+The stronger extraction `exists_closed_polygon_inside_of_isCompact` includes the
+whole closed polygonal interior. This follows from the connectedness of the closure
+and its avoidance of the original curve. Consequently the finite contraction may
+run along the extracted polygon's boundary: `isSimplyConnected_standardInside_of_closed_polygon`
+reduces the standard theorem to contractibility of every finite closed polygonal
+interior. `TriangleContraction.lean` proves the triangle base case. `ConvexAttachment.lean`
+constructs a continuous retraction onto a segment using truncated distance along it,
+then pastes a straight deformation on an attached convex piece with the identity
+on the rest. `CrosscutContraction.lean` identifies the union and intersection of the
+closed cells and applies this to a triangular crosscut. These are contraction steps;
+the existence and termination of an ear decomposition for every polygon remain open.
+
 ## Independent verification
 
 `Verification/NSAChallenge.lean` states three foundation claims using ordinary
@@ -188,6 +202,11 @@ of both complementary regions. `ComplementConnectedSolution.lean` proves this di
 circle-embedding statement, with explicit radii; `complement-connected.json` requests
 Comparator and Nanoda. The fixed `JordanChallenge.lean` additionally requires simple
 connectivity and still has no solution module.
+
+`Verification/ContractionChallenge.lean` independently states contractibility of
+the closed triangular region, simple connectivity of its open region, and the convex
+attachment theorem using only mathlib definitions. `ContractionSolution.lean` proves
+them; `contraction.json` requests the eighth Comparator/Nanoda milestone.
 
 The axiom audit traverses all declarations by their defining module (`Reeken` or `Schoenflies`),
 including private helpers and declarations in other namespaces such as `Graph`, and accepts
