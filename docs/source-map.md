@@ -44,6 +44,10 @@ not a theorem available for downstream use. The final independently stated targe
 | Compact standard loop inclusion | `Nonstandard/CompactDeep.lean`: pointwise deep inclusion of a compact set implies inclusion of its entire internal extension | Proved |
 | Extracting a boundary subpath | `Geometry/BoundarySubpath.lean`: first/last contacts with two closed pieces yield a connecting subpath in the third boundary piece; its interior avoids both original pieces | Proved |
 | Finite cell boundaries | `Geometry/PolygonCells.lean`: a bounded face of a finite 2-connected polygonal plane graph has an actual simple polygon boundary; uses the attributed finite face-cycle proof | Proved |
+| The two square crossings | `Geometry/ArcConnectivity.lean`, `ArcIntersection.lean`, `SquareCrossings.lean`: the two polygon arcs are path connected, meet exactly at their cut vertices, and cross the local square at distinct points | Proved |
+| The polygon-square graph | `Geometry/MarkedOverlay.lean`, `PolygonSquareOverlay.lean`, `DrawingDeletion.lean`, `LoopPuncture.lean`, `SquareTwoConnected.lean`: retain old vertices and marked crossings, construct the finite drawing, and prove connectivity after every vertex deletion | Proved |
+| The local cell through the chosen vertex | `Geometry/FiniteFaces.lean`, `SquareFaces.lean`, `LocalCells.lean`: finiteness of the face family, a face on either chosen side with the vertex in its boundary, and an actual clipped simple polygon | Proved |
+| Square-boundary connector | Extract from the clipped cell a connected part of the square boundary meeting both cut arcs, with its interior on the chosen polygon side | Open |
 | Published Section 3 | Each curve point lies on the boundary of both regions; local square and polygonal cell construction | Open |
 | Lemma 3 | Internal inner polygon using narrow rectangles and shortest boundary connections; ring and crosscut argument | Open |
 | Connectivity and simple connectivity | Transfer finite polygon results through the inner polygon | Open |
@@ -73,6 +77,8 @@ foundation is the 47-module transitive closure of `Schoenflies.FaceCyclesLand` (
 `Schoenflies.PrePolygonSep`) at
 `alonamaloh/schoenflies-lean@05a43d29cde026618777db3d4e4316204ccca237`, by Álvaro Begué,
 under Apache 2.0. See `vendor/README.md` for attribution, scope, and compatibility edits.
+Four additional finite excerpts supply square coordinates and graph traces; the extraction
+ledger records their source modules and exact included declarations.
 The general Jordan and Schoenflies assembly modules are excluded. This reuse supplies
 the finite theorem assumed by the source, not the nonstandard limiting argument. Similarly, compactness, transfer,
 saturation, or internal induction must be derived in the model actually implemented.

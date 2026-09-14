@@ -202,12 +202,26 @@ Use the attributed finite face-cycle theorem, which grows the graph by ears and 
 the finite crosscut theorem at arbitrary cut points. Normalize the cycle's polygonal carrier.
 :::
 
+:::theorem "local_cell" (lean := "Reeken.Geometry.InscribedPolygon.Simple.exists_clipped_polygon")
+On either side of the polygon, clipping by the local square gives a simple polygonal
+cell whose boundary contains the chosen vertex. The cell boundary lies on the polygon
+or square, and its points off the polygon lie on the chosen side.
+:::
+
+:::proof "local_cell"
+Both cut arcs cross the square at distinct points. Subdivide to make these crossings
+vertices. Puncturing each closed carrier leaves it connected, and one common point
+survives, so the finite overlay remains connected after any vertex deletion.
+The finite face family and {uses "finite_cells"}[] then supply a cell through the
+prescribed boundary point.
+:::
+
 :::theorem "common_boundary" (tags := "open")
 Every point of the loop is a boundary point of both standard regions. The published
 local-square construction uses {uses "lemma2"}[], {uses "lemma1iii"}[],
-{uses "polygon_jordan"}[], {uses "generic_squares"}[], {uses "finite_cells"}[],
-and {uses "equidistant_bound"}[]. The square overlay and boundary-connector construction
-remain open; {uses "deep_regions"}[] transfers the resulting point.
+{uses "polygon_jordan"}[], {uses "generic_squares"}[], {uses "local_cell"}[],
+and {uses "equidistant_bound"}[]. The square-boundary connector between the two cut arcs
+remains open; {uses "deep_regions"}[] transfers the resulting point.
 :::
 
 :::theorem "inner_polygon" (tags := "open")

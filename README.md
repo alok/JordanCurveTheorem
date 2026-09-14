@@ -78,7 +78,10 @@ remain open. Nearest-segment lemmas and the circle-parametrization bridge are al
 Section 3's equal-distance estimate is proved for the actual polygon arcs, using their
 common-shadow endpoint restriction. Generic local squares can be chosen to avoid every
 vertex at a prescribed standard scale. Finite plane-graph face cycles are checked;
-the required square overlay and its boundary connector are still being constructed.
+the polygon-square overlay is now constructed and proved to remain connected after
+deleting any vertex. On either polygon side, it supplies a simple polygonal cell whose
+boundary passes through the prescribed local curve vertex. Constructing the required
+square-boundary connector between the two polygon arcs remains open.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.
