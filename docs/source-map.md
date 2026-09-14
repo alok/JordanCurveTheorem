@@ -28,6 +28,7 @@ not a theorem available for downstream use. The final independently stated targe
 | Triangle contraction | `Geometry/ConvexEnclosure.lean`, `TriangleContraction.lean`: supporting half-planes enclose bounded components; every three-vertex polygon's closed inside is its convex hull and contracts, and its open inside is simply connected | Proved |
 | Convex attachment and triangular crosscuts | `Geometry/ConvexAttachment.lean`, `CrosscutContraction.lean`: explicit segment retraction and pasted deformation; closed crosscut cells cover the parent's closed inside and meet on the cut; cutting off a triangle preserves contractibility | Proved step; existence of an ear decomposition remains open |
 | Interior straight cut | `Geometry/ExposedVertex.lean`, `RayExit.lean`: a maximal-norm vertex is strictly exposed; its inward bisector enters the inside and first meets a nonincident edge, with the open cut entirely inside | Proved; the far endpoint may be between vertices |
+| Empty neighbor triangle | `Geometry/TriangleVisibility.lean`, `PolygonEar.lean`: an edge entering a triangle must cross an adjacent side; a neighbor triangle with no other polygon vertices has no polygon edge in its interior, and at a strictly exposed corner that interior lies inside the polygon | Proved geometric criterion; existence of a suitable ear still open |
 | Finite polygonal simple connectivity | Contractibility of all interior loops, beyond finite separation and crosscuts | Open |
 | Circle-parametrization bridge | `Geometry/CircleParametrization.lean`: continuous embeddings of the plane unit circle give the simple-loop representation with exactly the same image | Proved |
 | Simple-loop parameter identification | `Geometry/SimpleLoop.lean`, `Nonstandard/Loop.lean`: equality or identified endpoints; forward and closing gap control | Proved |
@@ -169,6 +170,14 @@ small positive displacements along the inward bisector inside and negative ones
 outside. `RayExit.lean` minimizes the boundary-hit parameter on a compact interval
 to produce a straight cut to a nonincident edge, with its open segment inside.
 This is not yet a vertex-to-vertex diagonal or an ear decomposition.
+The first-exit lemma also handles rays starting in the interior and gives a bound
+from any known exterior parameter. `TriangleVisibility.lean` uses a supporting
+height to force a crossing through a side adjacent to the designated triangle
+vertex. This rules out polygon edges inside an empty neighbor triangle.
+`empty_corner_triangle_inside` then uses the common inward bisector to identify
+the triangle's inside with a subset of the polygon's inside. The empty-triangle
+and strict-support conditions are explicit geometric hypotheses; they have not
+yet been produced together for every polygon.
 
 ## Independent verification
 

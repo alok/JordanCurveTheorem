@@ -142,6 +142,9 @@ The first geometric cut is constructed too: a vertex of maximal norm is strictly
 exposed, its inward bisector enters the inside, and its first boundary hit lies on
 a nonincident edge. The open cut stays entirely inside. The hit may lie between
 vertices; turning this into a terminating polygon decomposition is still open.
+An empty neighbor triangle now has a checked geometric criterion: no polygon edge
+can enter its interior, and at a strictly exposed corner its interior lies inside
+the polygon. Selecting such ears for all polygons remains open.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

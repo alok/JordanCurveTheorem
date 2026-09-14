@@ -25,8 +25,8 @@ theorem image_Icc_subset_inside_of_avoids {C : Set Plane} (hC : IsSeparating C)
     · exact ⟨f s, mem_image_of_mem f (left_mem_Icc.mpr hst), hs⟩
   exact fun r hr ↦ hsub (mem_image_of_mem f hr)
 
-theorem exists_first_ray_exit {C : Set Plane} (hC : IsSeparating C) {a v : Plane}
-    (ha : a ∈ C) {δ : ℝ} (hδ : 0 < δ)
+theorem exists_first_ray_exit_of_ne {C : Set Plane} (hC : IsSeparating C) {a v : Plane}
+    (hv : v ≠ 0) {δ : ℝ} (hδ : 0 < δ)
     (hin : ∀ ε : ℝ, 0 < ε → ε < δ → a + ε • v ∈ inside C) :
     ∃ t : ℝ, 0 < t ∧ a + t • v ∈ C ∧
       ∀ s : ℝ, 0 < s → s < t → a + s • v ∈ inside C := by
@@ -34,10 +34,6 @@ theorem exists_first_ray_exit {C : Set Plane} (hC : IsSeparating C) {a v : Plane
   have hε₀ : 0 < ε₀ := by dsimp [ε₀]; positivity
   have hε₀δ : ε₀ < δ := by dsimp [ε₀]; linarith
   have hstart := hin ε₀ hε₀ hε₀δ
-  have hv : v ≠ 0 := by
-    intro hv
-    simp only [hv, smul_zero, add_zero] at hstart
-    exact hstart.1 ha
   have hvnorm : 0 < ‖v‖ := norm_pos_iff.mpr hv
   obtain ⟨B, hB, hbound⟩ := hC.isBounded_inside.exists_pos_norm_le
   let R := ε₀ + (B + ‖a‖ + 1) / ‖v‖
@@ -77,6 +73,90 @@ theorem exists_first_ray_exit {C : Set Plane} (hC : IsSeparating C) {a v : Plane
       have hrS : r ∈ S := ⟨⟨hr.1, hrt.le.trans htS.1.2⟩, hrC⟩
       exact hrt.not_ge (hmin hrS)
     exact image_Icc_subset_inside_of_avoids hC hf hεs hstart havoid s (right_mem_Icc.mpr hεs)
+
+theorem exists_first_ray_exit {C : Set Plane} (hC : IsSeparating C) {a v : Plane}
+    (ha : a ∈ C) {δ : ℝ} (hδ : 0 < δ)
+    (hin : ∀ ε : ℝ, 0 < ε → ε < δ → a + ε • v ∈ inside C) :
+    ∃ t : ℝ, 0 < t ∧ a + t • v ∈ C ∧
+      ∀ s : ℝ, 0 < s → s < t → a + s • v ∈ inside C := by
+  have hv : v ≠ 0 := by
+    intro hv
+    have hstart := hin (δ / 2) (by linarith) (by linarith)
+    simp only [hv, smul_zero, add_zero] at hstart
+    exact hstart.1 ha
+  exact exists_first_ray_exit_of_ne hC hv hδ hin
+
+/-- A point outside the inside gives an upper bound for the first-hit parameter. -/
+theorem exists_first_ray_exit_le {C : Set Plane} (hC : IsSeparating C) {a v : Plane}
+    (hv : v ≠ 0) {δ : ℝ} (hδ : 0 < δ)
+    (hin : ∀ ε : ℝ, 0 < ε → ε < δ → a + ε • v ∈ inside C)
+    {R : ℝ} (hR : 0 < R) (hout : a + R • v ∉ inside C) :
+    ∃ t : ℝ, 0 < t ∧ t ≤ R ∧ a + t • v ∈ C ∧
+      ∀ s : ℝ, 0 < s → s < t → a + s • v ∈ inside C := by
+  obtain ⟨t, ht, htc, hseg⟩ := exists_first_ray_exit_of_ne hC hv hδ hin
+  exact ⟨t, ht, le_of_not_gt (fun hRt ↦ hout (hseg R hR hRt)), htc, hseg⟩
+
+/-- A segment from an interior point to a point outside the closed inside has a
+first boundary crossing strictly between its endpoints. -/
+theorem exists_boundary_hit_openSegment {C : Set Plane} (hC : IsSeparating C)
+    {a b : Plane} (ha : a ∈ inside C) (hb : b ∉ closure (inside C)) :
+    ∃ x ∈ C, x ∈ openSegment ℝ a b ∧ openSegment ℝ a x ⊆ inside C := by
+  have hab : b ≠ a := fun he ↦ hb (he ▸ subset_closure ha)
+  have hv : b - a ≠ 0 := sub_ne_zero.mpr hab
+  let f : ℝ → Plane := fun t ↦ a + t • (b - a)
+  have hf : Continuous f := by dsimp [f]; fun_prop
+  have hzero : (0 : ℝ) ∈ f ⁻¹' inside C := by simpa [f] using ha
+  obtain ⟨δ, hδ, hball⟩ := Metric.isOpen_iff.mp (hC.isOpen_inside.preimage hf) 0 hzero
+  have hin : ∀ ε : ℝ, 0 < ε → ε < δ → a + ε • (b - a) ∈ inside C := by
+    intro ε hε hεδ
+    apply hball
+    simpa [Metric.mem_ball, Real.dist_eq, abs_of_pos hε] using hεδ
+  have hout : a + (1 : ℝ) • (b - a) ∉ inside C := by
+    simpa using (fun hbin ↦ hb (subset_closure hbin) : b ∉ inside C)
+  obtain ⟨t, ht, ht1, htc, hseg⟩ := exists_first_ray_exit_le hC hv hδ hin zero_lt_one hout
+  have htlt : t < 1 := lt_of_le_of_ne ht1 (by
+    intro he
+    have hbc : b ∈ C := by simpa [he] using htc
+    exact hb (frontier_subset_closure (hC.frontier_inside.symm ▸ hbc)))
+  refine ⟨a + t • (b - a), htc, ?_, ?_⟩
+  · refine ⟨1 - t, t, by linarith, ht, by ring, ?_⟩
+    module
+  · rintro x ⟨u, v, hu, hv', huv, rfl⟩
+    have hvt : v * t < t := by nlinarith
+    have hx := hseg (v * t) (mul_pos hv' ht) hvt
+    convert hx using 1
+    rw [smul_add, smul_smul, ← add_assoc, ← add_smul, huv, one_smul]
+
+/-- A segment crossing an inside from endpoints outside the closed inside meets
+the boundary no higher than any chosen interior point, for any linear height.
+For a triangle this forces a crossing on one of the sides away from the base. -/
+theorem exists_boundary_hit_below {C : Set Plane} (hC : IsSeparating C)
+    (F : Plane →L[ℝ] ℝ) {p q z : Plane}
+    (hp : F p ≤ F z → p ∉ closure (inside C))
+    (hq : F q ≤ F z → q ∉ closure (inside C))
+    (hz : z ∈ inside C) (hzseg : z ∈ segment ℝ p q) :
+    ∃ x ∈ C, x ∈ segment ℝ p q ∧ F x ≤ F z := by
+  have hend : F p ≤ F z ∨ F q ≤ F z := by
+    apply min_le_iff.mp
+    obtain ⟨u, v, hu, hv, huv, rfl⟩ := hzseg
+    simp only [map_add, map_smul, smul_eq_mul]
+    calc
+      min (F p) (F q) = u * min (F p) (F q) + v * min (F p) (F q) := by
+        rw [← add_mul, huv, one_mul]
+      _ ≤ u * F p + v * F q := by gcongr <;> simp
+  have hhit : ∀ r ∈ segment ℝ p q, r ∉ closure (inside C) → F r ≤ F z →
+      ∃ x ∈ C, x ∈ segment ℝ p q ∧ F x ≤ F z := by
+    intro r hr hrout hFr
+    obtain ⟨x, hxC, hxzr, _⟩ := exists_boundary_hit_openSegment hC hz hrout
+    refine ⟨x, hxC, (convex_segment p q).segment_subset hzseg hr
+      (openSegment_subset_segment ℝ z r hxzr), ?_⟩
+    obtain ⟨u, v, hu, hv, huv, rfl⟩ := hxzr
+    simp only [map_add, map_smul, smul_eq_mul]
+    calc
+      u * F z + v * F r ≤ u * F z + v * F z := by gcongr
+      _ = F z := by rw [← add_mul, huv, one_mul]
+  exact hend.elim (fun hFp ↦ hhit p (left_mem_segment ℝ p q) (hp hFp) hFp)
+    (fun hFq ↦ hhit q (right_mem_segment ℝ p q) (hq hFq) hFq)
 
 /-- Every polygon has an inward straight cut from a vertex to its next boundary
 intersection. The cut's open part lies in the polygon's inside. -/

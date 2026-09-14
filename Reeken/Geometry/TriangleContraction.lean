@@ -11,9 +11,10 @@ open Set Schoenflies
 
 namespace Reeken.Geometry
 
-theorem segment_disjoint_interior_triangle {a b c : Plane}
+/-- A linear height constant on one edge and lower by one at the opposite vertex. -/
+theorem exists_triangle_edge_height {a b c : Plane}
     (h : Plane.det (b - a) (c - a) ≠ 0) :
-    Disjoint (segment ℝ a b) (interior (convexHull ℝ {a, b, c})) := by
+    ∃ F : Plane →L[ℝ] ℝ, F b = F a ∧ F c = F a - 1 := by
   let D := Plane.det (b - a) (c - a)
   let L : Plane →L[ℝ] ℝ := {
     toFun := Plane.det (b - a)
@@ -34,6 +35,13 @@ theorem segment_disjoint_interior_triangle {a b c : Plane}
     rw [map_sub, sub_eq_zero] at he
     exact he
   have hca : F c = F a - 1 := by rw [map_sub] at hv; linarith
+  exact ⟨F, hba, hca⟩
+
+theorem segment_disjoint_interior_triangle {a b c : Plane}
+    (h : Plane.det (b - a) (c - a) ≠ 0) :
+    Disjoint (segment ℝ a b) (interior (convexHull ℝ {a, b, c})) := by
+  obtain ⟨F, hba, hca⟩ := exists_triangle_edge_height h
+  have hv : F (a - c) = 1 := by rw [map_sub, hca]; ring
   have hK : ∀ x ∈ convexHull ℝ {a, b, c}, F x ≤ F a := by
     change convexHull ℝ {a, b, c} ⊆ {x | F x ≤ F a}
     apply convexHull_min
@@ -47,6 +55,30 @@ theorem segment_disjoint_interior_triangle {a b c : Plane}
     simp only [map_add, map_smul, smul_eq_mul, hba]
     rw [← add_mul, huv, one_mul]
   exact notMem_interior_of_support F hK hx (by rw [hv]; norm_num)
+
+theorem triangle_range_vertices {a b c : Plane} (h : Plane.det (b - a) (c - a) ≠ 0) :
+    range (Schoenflies.triangle h).vertex = {a, b, c} := by
+  change range ![a, b, c] = _
+  ext x
+  simp [or_comm, or_left_comm]
+
+theorem triangle_carrier_eq_segments {a b c : Plane} (h : Plane.det (b - a) (c - a) ≠ 0) :
+    (Schoenflies.triangle h).carrier = segment ℝ a b ∪ segment ℝ b c ∪ segment ℝ c a := by
+  let P := Schoenflies.triangle h
+  ext x
+  change (x ∈ ⋃ i, P.edge i) ↔ _
+  simp only [mem_iUnion]
+  constructor
+  · rintro ⟨i, hi⟩
+    have hc : ∀ j : ZMod 3, j = 0 ∨ j = 1 ∨ j = 2 := by decide
+    rcases hc i with rfl | rfl | rfl
+    · exact Or.inl (Or.inl hi)
+    · exact Or.inl (Or.inr hi)
+    · exact Or.inr hi
+  · rintro ((hx | hx) | hx)
+    · exact ⟨0, hx⟩
+    · exact ⟨1, hx⟩
+    · exact ⟨2, hx⟩
 
 /-- The polygon's three edges lie on the boundary of their convex hull. -/
 theorem triangle_carrier_disjoint_interior_hull (P : ClosedPolygon 0) :

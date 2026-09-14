@@ -195,6 +195,18 @@ interval. Before this first hit the ray stays inside. Independence of the corner
 two rays rules out either incident edge as the first hit.
 :::
 
+:::theorem "empty_neighbor_triangle" (lean := "Reeken.Geometry.empty_corner_triangle_inside")
+At a strictly supported corner, if the neighbor triangle contains no other polygon
+vertex, the triangle's inside and closed inside lie in the corresponding polygonal sets.
+:::
+
+:::proof "empty_neighbor_triangle"
+A supporting height forces a segment entering the triangle to cross an adjacent side.
+Polygon simplicity therefore excludes every polygon edge from an empty triangle's
+interior. A small point on the inward bisector belongs to both insides, so connectedness
+puts the entire triangle inside the polygon. This uses {uses "exposed_corner"}[].
+:::
+
 :::theorem "polygon_simply_connected" (tags := "open")
 Every loop in the interior of a finite simple plane polygon contracts there.
 This obligation remains open beyond {uses "polygon_jordan"}[].
@@ -203,6 +215,8 @@ The base case and a removal step are checked in {uses "triangle_contraction"}[] 
 {uses "triangle_crosscut"}[]. Constructing a terminating ear decomposition remains open.
 An interior cut to an edge is constructed in {uses "interior_straight_cut"}[];
 its far endpoint is not yet guaranteed to be an existing vertex.
+The empty-triangle criterion in {uses "empty_neighbor_triangle"}[] is proved, but its
+geometric hypotheses have not yet been constructed together for every polygon.
 :::
 
 :::theorem "deep_regions" (lean := "Reeken.NSA.deep_union_of_separation")
