@@ -162,10 +162,52 @@ One standard square encloses every inscribed polygon. The square's connected unb
 exterior lies in each polygon's outside, and lies deeply there at every standard point.
 :::
 
+:::theorem "arc_common_shadow" (lean := "Reeken.NSA.common_arc_shadow_subset")
+The two long polygon arcs have only their two limiting cut endpoints in their common
+shadow. Parameter extraction uses {uses "lemma1i"}[] and {uses "standard_part"}[].
+:::
+
+:::proof "arc_common_shadow"
+Move each edge point to its incident vertex, extract compact parameter standard parts,
+and use the loop's injectivity with its sole endpoint identification.
+:::
+
+:::theorem "equidistant_bound" (lean := "Reeken.NSA.polygon_equidistant_uniform_bound")
+Balanced points on a compact set avoiding the cut endpoints have one positive standard
+distance bound from the polygon, using {uses "arc_common_shadow"}[] and {uses "saturation"}[].
+:::
+
+:::proof "equidistant_bound"
+If simultaneous proximity were arbitrarily small, saturation would give two near
+arc points and a compact standard part in their common shadow. Equal nearest-foot
+distances turn this exclusion into a bound for the entire polygon.
+:::
+
+:::theorem "generic_squares" (lean := "Reeken.NSA.exists_generic_polygon_squares")
+At a prescribed standard scale, choose each square radius to avoid all polygon vertices.
+The cut vertices lie on opposite sides, and every square boundary lies in one compact annulus.
+:::
+
+:::proof "generic_squares"
+Exclude the finite set of vertex sup-distances, and use convergence of the selected cut vertices.
+:::
+
+:::theorem "finite_cells" (lean := "Reeken.Geometry.exists_polygon_of_bounded_face")
+A bounded face of a finite 2-connected polygonal drawing is the interior of an actual
+simple polygon whose boundary lies in the drawing.
+:::
+
+:::proof "finite_cells"
+Use the attributed finite face-cycle theorem, which grows the graph by ears and applies
+the finite crosscut theorem at arbitrary cut points. Normalize the cycle's polygonal carrier.
+:::
+
 :::theorem "common_boundary" (tags := "open")
 Every point of the loop is a boundary point of both standard regions. The published
 local-square construction uses {uses "lemma2"}[], {uses "lemma1iii"}[],
-{uses "polygon_jordan"}[], and {uses "deep_regions"}[]. This construction remains open.
+{uses "polygon_jordan"}[], {uses "generic_squares"}[], {uses "finite_cells"}[],
+and {uses "equidistant_bound"}[]. The square overlay and boundary-connector construction
+remain open; {uses "deep_regions"}[] transfers the resulting point.
 :::
 
 :::theorem "inner_polygon" (tags := "open")

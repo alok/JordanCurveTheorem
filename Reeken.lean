@@ -21,3 +21,10 @@ import Reeken.Geometry.CircleParametrization
 import Reeken.Geometry.PolygonSeparation
 import Reeken.Nonstandard.StandardRegions
 import Reeken.Nonstandard.RegionBounds
+import Reeken.Nonstandard.BoundaryConnector
+import Reeken.Nonstandard.PolygonEquidistant
+import Reeken.Geometry.PolygonCells
+import Reeken.Nonstandard.CutVertices
+import Reeken.Nonstandard.PolygonSquares
+import Reeken.Nonstandard.CompactDeep
+import Reeken.Geometry.BoundarySubpath

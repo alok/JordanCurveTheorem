@@ -18,6 +18,11 @@ is part of this project's scope.
 The intended conclusion is for **every continuous injective map of the circle into
 the real plane**: two nonempty open path-connected complementary regions, a bounded
 simply connected interior, an unbounded exterior, and the curve as their common boundary.
+Here boundedness means that one positive real radius `R` satisfies `‖x‖ ≤ R` for
+every interior point; unboundedness means that exterior points exist with `R < ‖x‖`
+for every real `R`. The checked standard regions expose these statements directly as
+`exists_standardInside_radius` and `exists_standardOutside_beyond`.
+`Bornology.IsBounded` in library interfaces is mathlib's name for this same boundedness.
 
 ## Development
 
@@ -70,6 +75,10 @@ The standard deep regions are open, disjoint, and exhaust the curve's complement
 the inside is bounded and the outside is nonempty and unbounded. The common-boundary
 construction, inner polygon, and final connectivity and simple-connectivity arguments
 remain open. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
+Section 3's equal-distance estimate is proved for the actual polygon arcs, using their
+common-shadow endpoint restriction. Generic local squares can be chosen to avoid every
+vertex at a prescribed standard scale. Finite plane-graph face cycles are checked;
+the required square overlay and its boundary connector are still being constructed.
 
 The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
 to the remaining proof obligations. Rendered files are generated, not committed.

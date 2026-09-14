@@ -58,6 +58,18 @@ theorem not_isBounded_standardOutside : ¬ Bornology.IsBounded (standardOutside 
   exact fun hb ↦ not_isBounded_beyondSquare r
     (hb.subset (beyondSquare_subset_standardOutside p (fun i ↦ h (p i))))
 
+/-- One ordinary real radius bounds every point of the standard inside. -/
+theorem exists_standardInside_radius :
+    ∃ R : ℝ, 0 < R ∧ ∀ x ∈ standardInside p, ‖x‖ ≤ R :=
+  (isBounded_standardInside p).exists_pos_norm_le
+
+/-- The standard outside contains points beyond every prescribed real radius. -/
+theorem exists_standardOutside_beyond (R : ℝ) :
+    ∃ x ∈ standardOutside p, R < ‖x‖ := by
+  by_contra h
+  push Not at h
+  exact not_isBounded_standardOutside p (isBounded_iff_forall_norm_le.mpr ⟨R, h⟩)
+
 theorem standardOutside_nonempty : (standardOutside p).Nonempty :=
   Set.nonempty_iff_ne_empty.mpr fun h ↦
     not_isBounded_standardOutside p (h ▸ Bornology.isBounded_empty)

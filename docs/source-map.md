@@ -38,6 +38,12 @@ not a theorem available for downstream use. The final independently stated targe
 | Bounded inside and nonempty unbounded outside | `Geometry/ExteriorBounds.lean`, `Nonstandard/RegionBounds.lean`: one standard square uniformly encloses all polygon interiors; its exterior lies deeply outside | Proved |
 | Nonempty standard inside | Requires the common-boundary construction | Open |
 | Shortest boundary connections | `Geometry/NearestSegments.lean`, `PolygonTopology.lean`: compact nearest feet, uniqueness along nondegenerate segments, exclusion of isolated interior crossings, compact and path-connected polygon traces | Proved |
+| Section 3, equal-distance step | `Geometry/Equidistant.lean`, `Nonstandard/CompactSeparation.lean`, `ArcShadow.lean`, `PolygonEquidistant.lean`: the arcs' common shadow contains only their cut endpoints; balanced points on an avoiding compact set have one positive standard distance bound from the full polygon | Proved |
+| Standard part of a constructed cell point | `Nonstandard/DeepStandardPart.lean`, `BoundaryConnector.lean`: a compact connector meeting the two arcs on one side gives a standard deep point; connector hypotheses remain explicit, not yet instantiated | Proved conditional reduction |
+| Local square scale and genericity | `Geometry/SquareAnnulus.lean`, `Nonstandard/CutVertices.lean`, `PolygonSquares.lean`: prescribed cut parameters, generic radii avoiding every vertex, opposite-side cut vertices, and a fixed compact annulus | Proved |
+| Compact standard loop inclusion | `Nonstandard/CompactDeep.lean`: pointwise deep inclusion of a compact set implies inclusion of its entire internal extension | Proved |
+| Extracting a boundary subpath | `Geometry/BoundarySubpath.lean`: first/last contacts with two closed pieces yield a connecting subpath in the third boundary piece; its interior avoids both original pieces | Proved |
+| Finite cell boundaries | `Geometry/PolygonCells.lean`: a bounded face of a finite 2-connected polygonal plane graph has an actual simple polygon boundary; uses the attributed finite face-cycle proof | Proved |
 | Published Section 3 | Each curve point lies on the boundary of both regions; local square and polygonal cell construction | Open |
 | Lemma 3 | Internal inner polygon using narrow rectangles and shortest boundary connections; ring and crosscut argument | Open |
 | Connectivity and simple connectivity | Transfer finite polygon results through the inner polygon | Open |
@@ -63,7 +69,8 @@ it does not assume simplicity or a separation theorem.
 
 The paper takes the polygonal Jordan theorem as known. This project includes it in
 its scope and does not introduce it as an axiom. Its finite separation and crosscut
-foundation is the 36-module transitive closure of `Schoenflies.PrePolygonSep` at
+foundation is the 47-module transitive closure of `Schoenflies.FaceCyclesLand` (including
+`Schoenflies.PrePolygonSep`) at
 `alonamaloh/schoenflies-lean@05a43d29cde026618777db3d4e4316204ccca237`, by Álvaro Begué,
 under Apache 2.0. See `vendor/README.md` for attribution, scope, and compatibility edits.
 The general Jordan and Schoenflies assembly modules are excluded. This reuse supplies
@@ -74,6 +81,11 @@ The basic ultrapower, transfer, and metric constructions accept arbitrary ultraf
 `countable_saturation_of_le_atTop` works for any ultrafilter on naturals that contains
 all tails. `hyperfilter ℕ` supplies a chosen instance of this condition; its particular
 choice is mathematically irrelevant to the proof.
+
+The published Section 3 displays the equal-distance condition as
+`d = d(E, α) − d(E, β)`. The surrounding sentence and contradiction argument require
+`d = d(E, α) = d(E, β)`; subtraction would make `d` zero at an equidistant point.
+The formal equal-distance lemmas use the intended equality.
 
 ## Independent verification
 
@@ -96,7 +108,8 @@ cyclic segments, ordinary open path-connected sets, boundedness, and frontiers.
 `SeparationSolution.lean` proves it from the attributed finite proof; `separation.json`
 requests Comparator and Nanoda without trusting project definitions in the statement.
 
-The axiom audit traverses both `Reeken` and `Schoenflies` declarations, including private helpers, and accepts
+The axiom audit traverses all declarations by their defining module (`Reeken` or `Schoenflies`),
+including private helpers and declarations in other namespaces such as `Graph`, and accepts
 only `propext`, `Classical.choice`, and `Quot.sound`. Official `leanchecker --fresh`
 replays declarations through Lean's kernel; Nanoda is a separate implementation.
 These are different checks, and CI reports them separately.
