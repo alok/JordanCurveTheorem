@@ -31,7 +31,7 @@ source; the published version includes the common-boundary argument.
 
 ```sh
 lake exe cache get
-lake --wfail build Reeken Verification.JordanSolution Verification.TransferTests
+python3 scripts/check-solutions.py
 lake env lean scripts/Audit.lean
 lake env leanchecker --fresh Reeken
 ```
@@ -41,6 +41,10 @@ and declarations in other namespaces. It accepts only `propext`, `Classical.choi
 and `Quot.sound`. Proof modules contain no `sorry`, additional axioms, or
 `native_decide`. The intentional holes occur only in independent challenge modules,
 which are not imported by the proofs.
+
+The local build command reads all Comparator configurations and builds every solution
+adapter as well as the full proof and transfer regressions. This catches interface
+changes in intermediate verification targets before running the Linux checkers.
 
 The Linux verification workflow builds pinned Comparator, lean4export, Nanoda, and
 Landrun. Comparator compares independently stated challenge and solution modules,

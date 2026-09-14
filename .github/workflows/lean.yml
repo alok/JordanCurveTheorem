@@ -20,11 +20,9 @@ jobs:
           test: false
           lint: false
           use-mathlib-cache: true
-      - name: Build all proof modules
-        run: lake --wfail build
+      - name: Build all proofs, Comparator solutions, and transfer regressions
+        run: python3 scripts/check-solutions.py
       - name: Audit all project declarations
         run: lake env lean scripts/Audit.lean
-      - name: Check transfer automation and external-quantifier regressions
-        run: lake --wfail build Verification.TransferTests
       - name: Replay the complete imported environment from scratch
         run: lake env leanchecker --fresh Reeken

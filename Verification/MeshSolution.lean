@@ -17,12 +17,14 @@ theorem inscribed_mesh_shadow {E : Type u} [NormedAddCommGroup E] [NormedSpace �
   constructor
   · rintro ⟨x, hx, ha⟩
     refine ⟨Reeken.NSA.ofSeq x, ?_, ha⟩
-    simpa only [Reeken.NSA.mem_internalSet_ofSeq, Reeken.Geometry.meshTrace,
+    simpa only [Reeken.NSA.InternalSet.coe_ofSeq, Reeken.NSA.mem_internalSet_ofSeq,
+      Reeken.Geometry.meshTrace,
       Reeken.Geometry.meshTime, Nat.cast_add, Nat.cast_one] using hx
   · rintro ⟨x, hx, ha⟩
     obtain ⟨x, rfl⟩ := Reeken.NSA.ofSeq_surjective x
     refine ⟨x, ?_, ha⟩
-    simpa only [Reeken.NSA.mem_internalSet_ofSeq, Reeken.Geometry.meshTrace,
+    simpa only [Reeken.NSA.InternalSet.coe_ofSeq, Reeken.NSA.mem_internalSet_ofSeq,
+      Reeken.Geometry.meshTrace,
       Reeken.Geometry.meshTime, Nat.cast_add, Nat.cast_one] using hx
 
 end Verification

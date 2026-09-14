@@ -96,7 +96,7 @@ that standard quantifiers retain their position and that `Near` is left untouche
 
 ```sh
 lake --wfail build Reeken.Nonstandard Verification.TransferTests
-lake --wfail build Reeken Verification.JordanSolution
+python3 scripts/check-solutions.py
 lake env lean scripts/Audit.lean
 lake env leanchecker --fresh Reeken
 ```
