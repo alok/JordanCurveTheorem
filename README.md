@@ -47,7 +47,8 @@ lake env leanchecker --fresh Reeken
 
 CI runs a full build and axiom audit. A separate Linux workflow builds pinned
 Comparator, lean4export, Nanoda, and Landrun, then checks the independent NSA
-challenge statements against their proofs. This checks the named foundation results;
+and polygon challenge statements against their proofs. The finite separation challenge
+also checks the attributed dependency. These check the named milestones;
 it does not certify the still-unfinished Jordan theorem. Lean Beam is used locally
 for incremental diagnostics and speculative proof checks.
 
@@ -61,8 +62,17 @@ Lemma 2 is also proved: the two shortcut deletions preserve the parameter condit
 and edge bound, finite minimization gives termination, and the resulting polygon has
 neither nonadjacent crossings nor adjacent backtracking. The independent polygon
 challenge states this approximation without project definitions.
-Finite polygonal separation and the later boundary, inner-polygon, and connectivity
-arguments remain to be proved.
+Finite polygonal separation is now supplied by the attributed finite-only dependency
+closure of [Álvaro Begué's collar/parity proof](vendor/README.md), ported and checked
+on this toolchain. Its general Jordan and Schoenflies assembly is excluded. The adapter
+accepts our actual simple polygons, including collinear consecutive edges.
+The standard deep regions are open, disjoint, and exhaust the curve's complement;
+the inside is bounded and the outside is nonempty and unbounded. The common-boundary
+construction, inner polygon, and final connectivity and simple-connectivity arguments
+remain open. Nearest-segment lemmas and the circle-parametrization bridge are also checked.
+
+The [Verso blueprint](blueprint/README.md) builds locally and links completed declarations
+to the remaining proof obligations. Rendered files are generated, not committed.
 
 After the full proof is complete, a second phase will refactor the development into
 more native nonstandard statements and reusable transfer/metaprogramming tools, with

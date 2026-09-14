@@ -1,6 +1,8 @@
 name = "JordanCurveTheorem"
 version = "0.1.0"
 defaultTargets = ["Reeken"]
+# Direct audit and checker invocations need ordinary on-disk import artifacts.
+restoreAllArtifacts = true
 
 [leanOptions]
 autoImplicit = false
@@ -16,3 +18,11 @@ name = "Reeken"
 
 [[lean_lib]]
 name = "Verification"
+
+[[lean_lib]]
+name = "Schoenflies"
+srcDir = "vendor"
+
+[lean_lib.leanOptions]
+autoImplicit = true
+relaxedAutoImplicit = false

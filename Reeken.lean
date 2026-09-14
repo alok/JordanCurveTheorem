@@ -15,3 +15,9 @@ import Reeken.Nonstandard.InitialPolygon
 import Reeken.Nonstandard.PolygonArcs
 import Reeken.Nonstandard.PointArcs
 import Reeken.Nonstandard.SimpleApproximation
+import Reeken.Geometry.NearestSegments
+import Reeken.Geometry.PolygonTopology
+import Reeken.Geometry.CircleParametrization
+import Reeken.Geometry.PolygonSeparation
+import Reeken.Nonstandard.StandardRegions
+import Reeken.Nonstandard.RegionBounds

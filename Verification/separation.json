@@ -1,0 +1,7 @@
+{
+  "challenge_module": "Verification.SeparationChallenge",
+  "solution_module": "Verification.SeparationSolution",
+  "theorem_names": ["Verification.finite_polygon_separation"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

@@ -10,11 +10,11 @@ run_cmd do
   let mut checked : Nat := 0
   for (name, _) in env.constants do
     let visible := privateToUserName name
-    if (`Reeken).isPrefixOf visible then
+    if (`Reeken).isPrefixOf visible || (`Schoenflies).isPrefixOf visible then
       let axioms ← collectAxioms name
       let unexpected := axioms.filter fun ax ↦ !allowed.contains ax
       unless unexpected.isEmpty do
         throwError "{name} depends on forbidden axioms: {unexpected}"
       checked := checked + 1
   if checked == 0 then throwError "No project declarations were audited"
-  logInfo m!"Axiom audit passed for {checked} declarations in the Reeken namespace."
+  logInfo m!"Axiom audit passed for {checked} declarations in the Reeken and Schoenflies namespaces."
