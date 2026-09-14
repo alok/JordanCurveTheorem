@@ -16,9 +16,13 @@ theorem inscribed_mesh_shadow {E : Type u} [NormedAddCommGroup E] [NormedSpace �
   rw [← Reeken.NSA.shadow_meshTrace hf]
   constructor
   · rintro ⟨x, hx, ha⟩
-    exact ⟨Reeken.NSA.ofSeq x, hx, ha⟩
+    refine ⟨Reeken.NSA.ofSeq x, ?_, ha⟩
+    simpa only [Reeken.NSA.mem_internalSet_ofSeq, Reeken.Geometry.meshTrace,
+      Reeken.Geometry.meshTime, Nat.cast_add, Nat.cast_one] using hx
   · rintro ⟨x, hx, ha⟩
     obtain ⟨x, rfl⟩ := Reeken.NSA.ofSeq_surjective x
-    exact ⟨x, hx, ha⟩
+    refine ⟨x, ?_, ha⟩
+    simpa only [Reeken.NSA.mem_internalSet_ofSeq, Reeken.Geometry.meshTrace,
+      Reeken.Geometry.meshTime, Nat.cast_add, Nat.cast_one] using hx
 
 end Verification
