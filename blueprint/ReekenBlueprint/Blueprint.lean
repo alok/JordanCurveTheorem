@@ -54,13 +54,14 @@ Use {uses "standard_part"}[] for an arbitrary internal point of the compact set.
 Its standard part has its whole monad inside the internal set, so the point belongs too.
 :::
 
-:::theorem "closed_shadow" (lean := "Reeken.NSA.isClosed_shadow")
+:::theorem "closed_shadow" (lean := "Reeken.NSA.InternalSet.isClosed_shadow")
 The standard shadow of any internal metric set is closed, using {uses "saturation"}[].
 :::
 
 :::proof "closed_shadow"
-Saturation identifies shadow membership with approximation at every positive standard
-scale. Failure of membership gives a uniform positive distance bound.
+Every standard ball about a closure point contains a shadow point. An internal witness
+near that point belongs to the ball because it is open. Saturation realizes all such
+standard ball constraints at once, putting the closure point in the shadow.
 :::
 
 :::theorem "infinitesimal_proximity" (lean := "Reeken.NSA.InternalSet.exists_near_iff")
@@ -304,15 +305,16 @@ Normalization preserves the strict decrease in vertex count. The base case is
 inside because its compact-loop extraction includes the polygon boundary.
 :::
 
-:::theorem "deep_regions" (lean := "Reeken.NSA.deep_union_of_separation")
+:::theorem "deep_regions" (lean := "Reeken.NSA.InternalSet.Separates.deep_union")
 An internal separation into open disjoint regions transfers to standard deep regions
-that exhaust the complement of the boundary shadow, using {uses "closed_shadow"}[].
+that exhaust the complement of the boundary shadow, using {uses "saturation"}[].
 The separation is an explicit hypothesis of this intermediate theorem.
 :::
 
 :::proof "deep_regions"
-An appreciable ball avoiding the boundary stays on one side by connectedness.
-Use the ultrafilter alternative to choose the side containing its standard center.
+The internal cover places the standard center on one side. Shadow exclusion supplies
+an appreciable boundary distance. Connected-ball inclusion puts its entire monad on
+that side, so it belongs to the corresponding deep region.
 :::
 
 :::theorem "standard_regions" (lean := "Reeken.NSA.standardRegions_union")
@@ -410,6 +412,18 @@ arc away from their common local vertex. Join these points around the punctured 
 and use first and last contact to extract a subpath on the square boundary.
 :::
 
+:::theorem "deep_standard_part" (lean := "Reeken.NSA.InternalSet.Separates.standard_part_mem_deep")
+An internal point on one side of an open separation, appreciably far from the
+internal boundary, has its standard part deep on the same side. This holds over
+any ultrafilter; an appreciable bound is explicitly given.
+:::
+
+:::proof "deep_standard_part"
+Transfer the connected-ball inclusion once. Its positive standard radius puts the
+whole monad of the point inside the region. Infinitesimal closeness to a standard
+part preserves that monad, hence preserves deep membership.
+:::
+
 :::theorem "common_boundary" (lean := "Reeken.NSA.frontier_standardInside")
 Every point of the loop is a boundary point of both standard regions. The published
 local-square construction uses {uses "lemma2"}[], {uses "lemma1iii"}[],
@@ -420,8 +434,9 @@ and {uses "equidistant_bound"}[].
 :::proof "common_boundary"
 Choose {uses "square_connector"}[] in a compact annulus avoiding both standard cut
 points. A balanced point has appreciable distance from the polygon. Its compact
-standard part belongs deeply to the chosen side in an arbitrarily small neighborhood
-of the curve point. Apply the same construction to the other side. The open disjoint
+standard part belongs deeply to the chosen side by {uses "deep_standard_part"}[],
+in an arbitrarily small neighborhood of the curve point. Apply the same construction
+to the other side. The open disjoint
 partition in {uses "standard_regions"}[] gives equality of both frontiers with the curve.
 :::
 

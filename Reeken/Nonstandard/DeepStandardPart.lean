@@ -16,18 +16,9 @@ theorem standard_part_mem_deep {u v b : ℕ → Set E} {x : ℕ → E} {a : E} {
     (hx : ∀ᶠ i in hyperfilter ℕ, x i ∈ u i)
     (hδ : 0 < δ) (hd : ∀ᶠ i in hyperfilter ℕ, ∀ y ∈ b i, δ ≤ dist y (x i))
     (ha : Near (ofSeq (U := hyperfilter ℕ) x) (std a)) : a ∈ deep u := by
-  have hb : a ∉ shadow b := by
-    refine (not_mem_shadow_iff b a).mpr ⟨δ / 2, half_pos hδ, ?_⟩
-    filter_upwards [hd, ha (δ / 2) (half_pos hδ)] with i hi hai y hy
-    have h := hi y hy
-    have ht := dist_triangle y a (x i)
-    have hai' : dist a (x i) < δ / 2 := by simpa only [dist_comm] using hai
-    linarith
-  have hai : ∀ᶠ i in hyperfilter ℕ, a ∈ u i := by
-    filter_upwards [hsep, hx, hd, ha δ hδ] with i hi hxi hdi hnear
-    apply ball_subset_side hi.1 hi.2.1 hi.2.2.1 hi.2.2.2 hδ hxi hdi
-    change dist a (x i) < δ
-    simpa only [dist_comm] using hnear
-  exact mem_deep_of_separation hsep hai hb
+  have hs : InternalSet.Separates (ofSeq u) (ofSeq v) (ofSeq b) := hsep
+  apply hs.standard_part_mem_deep hx hδ ?_ ha
+  star_transfer
+  exact hd
 
 end Reeken.NSA

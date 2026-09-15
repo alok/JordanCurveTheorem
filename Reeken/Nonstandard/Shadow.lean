@@ -44,6 +44,23 @@ theorem InternalSet.mem_shadow_iff_internal_ball {U : Ultrafilter ℕ}
     exact (mem_starSet_ball x a ε).mp
       (starSet_mono (Metric.ball_subset_ball hn.le) (hmem n).2)
 
+/-- Standard shadows are closed over any free ultrafilter on naturals. -/
+theorem InternalSet.isClosed_shadow {U : Ultrafilter ℕ}
+    (hU : (U : Filter ℕ) ≤ atTop) (s : InternalSet U α) : IsClosed s.shadow := by
+  rw [← closure_subset_iff_isClosed]
+  intro a ha
+  apply (InternalSet.mem_shadow_iff_internal_ball hU s a).mpr
+  intro ε hε
+  obtain ⟨b, hb, hba⟩ := Metric.mem_closure_iff.mp ha ε hε
+  obtain ⟨x, hx, hxb⟩ := hb
+  exact ⟨x, hx, hxb.mem_starSet_of_isOpen Metric.isOpen_ball
+    (by simpa only [Metric.mem_ball, dist_comm] using hba)⟩
+
+/-- Deep regions are open over any free ultrafilter on naturals. -/
+theorem InternalSet.isOpen_deep {U : Ultrafilter ℕ}
+    (hU : (U : Filter ℕ) ≤ atTop) (s : InternalSet U α) : IsOpen s.deep :=
+  (s.compl.isClosed_shadow hU).isOpen_compl
+
 /-- The standard points infinitesimally close to some point of an internal set. -/
 def shadow (s : ℕ → Set α) : Set α :=
   InternalSet.shadow (ofSeq (U := hyperfilter ℕ) s)
@@ -66,19 +83,7 @@ theorem not_mem_shadow_iff (s : ℕ → Set α) (a : α) :
 
 /-- Standard shadows of internal sets are closed in a countably saturated metric model. -/
 theorem isClosed_shadow (s : ℕ → Set α) : IsClosed (shadow s) := by
-  rw [← isOpen_compl_iff, Metric.isOpen_iff]
-  intro a ha
-  obtain ⟨ε, hε, h⟩ := (not_mem_shadow_iff s a).mp ha
-  refine ⟨ε / 2, half_pos hε, ?_⟩
-  intro b hb
-  apply (not_mem_shadow_iff s b).mpr
-  refine ⟨ε / 2, half_pos hε, ?_⟩
-  filter_upwards [h] with i hi
-  intro x hx
-  have hd := hi x hx
-  have ht := dist_triangle x b a
-  have hb' : dist b a < ε / 2 := hb
-  linarith
+  exact InternalSet.isClosed_shadow Nat.hyperfilter_le_atTop (ofSeq s)
 
 omit [Nonempty α] in
 /-- The shadow of a standard closed set is exactly that set. -/

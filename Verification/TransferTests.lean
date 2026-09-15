@@ -31,6 +31,12 @@ example (P : ι → β → Prop) (Q : ι → α → Prop) (f : α → β) :
       ∀ᶠ i in U, ∀ a, P i (f a) → Q i a := by
   star_transfer
 
+-- Predicate substitution also works for a function varying with the ultrafilter index.
+example (P : ι → β → Prop) (f : ι → α → β) :
+    (∀ x : Star U α, Holds P (app (ofSeq f) x)) ↔
+      ∀ᶠ i in U, ∀ a, P i (f i a) := by
+  star_transfer
+
 example (P Q : ι → α → Prop)
     (h : ∀ x : Star U α, Holds P x ∨ Holds Q x) :
     ∀ᶠ i in U, ∀ a, P i a ∨ Q i a := by
@@ -72,6 +78,27 @@ example [PseudoMetricSpace β] (s : ι → Set α) (f g : α → β) :
         starDist (map f x) (map g x) < std ε) ↔
       ∀ ε : ℝ, 0 < ε → ∀ᶠ i in U, ∃ a ∈ s i, dist (f a) (g a) < ε := by
   star_transfer
+
+-- Ball inclusion transfers with both its center and radius varying internally.
+example [PseudoMetricSpace α] (s : ι → Set α) (a : ι → α) (r : ι → ℝ) :
+    (∀ x : Star U α, x ∈ InternalSet.ball (ofSeq a) (ofSeq r) →
+      x ∈ (ofSeq s : InternalSet U α)) ↔
+      ∀ᶠ i in U, ∀ x, dist x (a i) < r i → x ∈ s i := by
+  star_transfer
+
+-- The center can be nonstandard; a standard scale must stay outside the ultrafilter.
+example [PseudoMetricSpace α] (s : ι → Set α) (a : ι → α) :
+    (∀ ε : ℝ, 0 < ε → ∀ x : Star U α, x ∈ (ofSeq s : InternalSet U α) →
+      starDist x (ofSeq a) < std ε) ↔
+      ∀ ε : ℝ, 0 < ε → ∀ᶠ i in U, ∀ x ∈ s i, dist x (a i) < ε := by
+  star_transfer
+
+-- Deep membership is external, like Near, and must not be unfolded by transfer.
+example [PseudoMetricSpace α] (s : InternalSet U α) (x : Star U α)
+    (h : s.IsDeep x) : s.IsDeep x := by
+  fail_if_success star_transfer
+  guard_target =ₛ s.IsDeep x
+  exact h
 
 -- Substitution must reach a predicate depending on the original quotient object.
 example (x : Star U α) (P : Star U α → Prop) (h : P x) :

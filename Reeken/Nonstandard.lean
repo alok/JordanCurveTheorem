@@ -8,6 +8,8 @@ import Reeken.Nonstandard.Saturation
 import Reeken.Nonstandard.InternalMetric
 import Reeken.Nonstandard.Hypermetric
 import Reeken.Nonstandard.Shadow
+import Reeken.Nonstandard.InternalBalls
+import Reeken.Nonstandard.InternalSeparation
 import Reeken.Nonstandard.Proximity
 import Reeken.Nonstandard.Monads
 import Reeken.Nonstandard.Images

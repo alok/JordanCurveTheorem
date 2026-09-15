@@ -24,6 +24,11 @@ def starDist (x y : Star U α) : Star U ℝ := Germ.map₂ dist x y
 @[simp, star_transfer] theorem starDist_std (x y : α) :
     starDist (std (U := U) x) (std y) = std (dist x y) := rfl
 
+@[star_transfer] theorem starDist_ofSeq_right (x : Star U α) (y : ι → α) :
+    starDist x (ofSeq y) = app (ofSeq (fun i a ↦ dist a (y i))) x := by
+  star_cases x
+  rfl
+
 @[simp, star_transfer] theorem starDist_map_map {γ : Type*} (f g : γ → α)
     (x : Star U γ) :
     starDist (map f x) (map g x) = map (fun a ↦ dist (f a) (g a)) x := by

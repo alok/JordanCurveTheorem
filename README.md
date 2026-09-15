@@ -122,6 +122,12 @@ internal functions over any free ultrafilter on ℕ. The Section 3
 [compact-separation proof](Reeken/Nonstandard/CompactSeparation.lean) uses it with
 compact standard parts, without unpacking representatives or rebuilding saturation.
 
+[`InternalBalls.lean`](Reeken/Nonstandard/InternalBalls.lean) and
+[`InternalSeparation.lean`](Reeken/Nonstandard/InternalSeparation.lean) express deep
+membership for internal centers and preserve it under infinitesimal changes. The
+standard-part step now follows from an appreciable internal ball and monad invariance.
+Shadow closedness and deep-region coverage have generic free-ultrafilter interfaces.
+
 [`star_cases` and `star_transfer`](Reeken/Nonstandard/Transfer.lean) replace recurring
 representative extraction and normalize the proved internal transfer rules. Internal
 induction and compact separation use the normalizer, and the

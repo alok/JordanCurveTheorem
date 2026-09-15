@@ -19,6 +19,7 @@ internal-object interfaces and proof-producing automation are documented in the
 | Hyperfinite extrema and induction | `Reeken/Nonstandard/Hyperfinite.lean` | Proved |
 | Unlimited indices | `Hyperfinite.lean`, `Saturation.lean` | Proved |
 | Countable saturation and overspill | `Reeken/Nonstandard/Saturation.lean`: diagonal construction over a free ultrafilter on naturals | Proved |
+| Deep membership and internal separation | `InternalMetric.lean`, `InternalBalls.lean`, `InternalSeparation.lean`: internal-centered monads and balls; appreciable separation and standard-part preservation over any ultrafilter; deep-region coverage over free ultrafilters on ℕ; original region and standard-part interfaces recovered by transfer | Proved |
 | Compact standard parts | `Reeken/Nonstandard/Metric.lean` | Proved |
 | Infinitesimal continuity and inverse continuity | `Metric.lean`: compact injective maps preserve and reflect nearness | Proved |
 | Standard shadows and appreciable separation | `Reeken/Nonstandard/Shadow.lean`: closed shadow of any internal set; positive uniform distance outside its shadow | Proved |

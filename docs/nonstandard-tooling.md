@@ -27,6 +27,9 @@ saturation, or standard parts.
 | `monad a` | Internal points infinitely close to standard `a` | `Near` and compact standard parts |
 | `s.shadow` | Standard parts of internal points in `s` | Saturation through standard balls |
 | `s.deep` | Standard points whose entire monad belongs to `s` | Compact inclusion and monotonicity |
+| `s.IsDeep x` | Every internal point near internal `x` belongs to `s` | Invariance under `Near`, passage to standard parts |
+| `InternalSet.ball x r` | Ball with internal center and internal radius | Distance membership, appreciable-ball inclusion |
+| `InternalSet.Separates u v b` | Lifted finite open separation predicate | Disjointness, coverage, internal balls, deep-region coverage |
 
 Internal sets and functions are quotient objects, so their public operations do not
 depend on a selected family. For example, `InternalSet.coe_image` gives
@@ -92,6 +95,43 @@ extraction or eventual statements. The original indexed theorem is an adapter;
 `star_transfer at h` translates the uniform internal inequality to the finite
 geometric interface. The previous bespoke saturation construction is gone.
 
+## Internal balls, monads, and standard regions
+
+`InternalSet.IsDeep s x` permits an internal center: every internal point near `x`
+belongs to `s`. `IsDeep.of_near` proves invariance under infinitesimal changes of
+center, and `IsDeep.standard_part` gives standard deep membership directly.
+[`InternalBalls.lean`](../Reeken/Nonstandard/InternalBalls.lean) supplies balls with
+internal centers and radii. A ball of positive standard radius inside `s` makes
+its center deep, over **any ultrafilter**.
+
+[`InternalSeparation.lean`](../Reeken/Nonstandard/InternalSeparation.lean) lifts
+exactly the finite open/disjoint/cover predicate. It transfers the connected-ball
+argument once. The native standard-part result is then:
+
+```lean
+open Reeken.NSA in
+example {ι E : Type*} {U : Ultrafilter ι}
+    [NormedAddCommGroup E] [NormedSpace ℝ E]
+    {u v b : InternalSet U E} (h : InternalSet.Separates u v b)
+    {x : Star U E} (hx : x ∈ u) {δ : ℝ} (hδ : 0 < δ)
+    (hd : ∀ y ∈ b, std δ ≤ starDist y x) {a : E} (ha : Near x (std a)) :
+    a ∈ u.deep :=
+  (h.isDeep_of_separated hx hδ hd).standard_part ha
+```
+
+This uses no freeness or saturation hypothesis: the appreciable distance is already
+given. The Section 3 adapter in `DeepStandardPart.lean` now uses this result and
+`star_transfer`, with no repeated half-radius or triangle estimates.
+
+Saturation is used separately for shadow exclusion and closedness.
+`InternalSet.isClosed_shadow` proves closedness over every free ultrafilter on ℕ:
+a closure point meets the shadow at each scale; a witness near that shadow point
+belongs to the desired standard open ball; saturation supplies a shadow witness.
+`InternalSet.isOpen_deep` follows by complementation. Under the same free-ultrafilter
+hypothesis, `Separates.deep_union` shows that the two deep regions exhaust the
+complement of the boundary shadow. The old `Regions.lean` statements are adapters
+to these intrinsic results.
+
 ## Checked metaprogramming
 
 `star_cases x y` chooses representatives for the listed internal objects and
@@ -122,7 +162,10 @@ example {ι α : Type*} {U : Ultrafilter ι} [Nonempty α]
 ```
 
 The production `internal_induction` proof uses `star_transfer at hzero hstep ⊢`,
-followed by ordinary natural-number induction. The macro and elaborator produce
+followed by ordinary natural-number induction. Monad containment, internal ball
+separation, and the standard-part adapter also use the normalizer. Application rules
+handle functions that vary with the ultrafilter index, not only standard functions.
+The macro and elaborator produce
 ordinary proof terms; they add no oracle or axiom.
 
 This is normalization for the explicit internal interface, not automatic
@@ -131,7 +174,7 @@ can be registered with `@[star_transfer]`. The attribute has its own orientation
 ordinary `simp` exposes Boolean structure, while transfer collects it before moving
 internal quantifiers. Do not indiscriminately combine the two simp sets.
 
-External predicates stay external. `Near`, `Unlimited`, and quantification over
+External predicates stay external. `Near`, `InternalSet.IsDeep`, `Unlimited`, and quantification over
 standard points are not moved through the ultrafilter. The library proves
 `standard_naturals_external` using overspill. Regression tests additionally check
 that standard quantifiers retain their position and that `Near` is left untouched.

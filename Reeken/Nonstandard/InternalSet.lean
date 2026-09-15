@@ -54,6 +54,12 @@ theorem subset_iff [Nonempty α] (s t : InternalSet U α) :
   star_cases s t
   exact (internalSet_subset s t).trans Germ.coe_le.symm
 
+@[star_transfer] theorem disjoint_ofSeq_iff [Nonempty α] (s t : ι → Set α) :
+    Disjoint (toSet (ofSeq (U := U) s)) (toSet (ofSeq t)) ↔
+      ∀ᶠ i in U, Disjoint (s i) (t i) := by
+  simp only [Set.disjoint_left, ← not_and]
+  star_transfer
+
 /-- Internal sets are determined by their internal elements. -/
 theorem toSet_injective [Nonempty α] :
     Function.Injective (toSet : InternalSet U α → Set (Star U α)) := by

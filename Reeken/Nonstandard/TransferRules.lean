@@ -23,6 +23,12 @@ variable {ι α β : Type*} {U : Ultrafilter ι}
 @[star_transfer] theorem holds_std_indexed (P : ι → α → Prop) (a : α) :
     Holds (U := U) P (std a) ↔ ∀ᶠ i in U, P i a := Iff.rfl
 
+@[star_transfer] theorem holds_app_ofSeq (P : ι → β → Prop) (f : ι → α → β)
+    (x : Star U α) :
+    Holds P (app (ofSeq f) x) ↔ Holds (fun i a ↦ P i (f i a)) x := by
+  star_cases x
+  rfl
+
 @[simp, star_transfer] theorem app_std (f : α → β) (x : Star U α) :
     app (std f) x = map f x := by
   star_cases x
@@ -44,6 +50,16 @@ variable {ι α β : Type*} {U : Ultrafilter ι}
 
 @[star_transfer] theorem map_lt_std [Preorder β] (f : α → β) (x : Star U α) (b : β) :
     map f x < std b ↔ Holds (fun _ a ↦ f a < b) x := by
+  star_cases x
+  exact Germ.coe_lt
+
+@[star_transfer] theorem std_le_app_ofSeq [LE β] (f : ι → α → β) (x : Star U α)
+    (b : β) : std b ≤ app (ofSeq f) x ↔ Holds (fun i a ↦ b ≤ f i a) x := by
+  star_cases x
+  exact Germ.coe_le
+
+@[star_transfer] theorem app_ofSeq_lt_std [Preorder β] (f : ι → α → β) (x : Star U α)
+    (b : β) : app (ofSeq f) x < std b ↔ Holds (fun i a ↦ f i a < b) x := by
   star_cases x
   exact Germ.coe_lt
 
