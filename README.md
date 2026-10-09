@@ -4,6 +4,11 @@ A Lean 4 formalization of Vladimir Kanovei and Michael Reeken's nonstandard proo
 the Jordan curve theorem, including the nonstandard machinery and finite polygonal
 foundation.
 
+> [!TIP]
+> **Start here:** [The Jordan curve theorem, for humans](docs/explainer.md) explains the
+> theorem, the nonstandard idea, the proof roadmap, and why the result can be trusted,
+> with pictures. It has 2-minute, 20-minute, and 2-hour reading paths.
+
 **The full theorem is proved in Lean.** The public declaration is
 [`Reeken.jordanCurveTheorem`](Reeken/Jordan.lean).
 [`Verification/JordanSolution.lean`](Verification/JordanSolution.lean) proves the
