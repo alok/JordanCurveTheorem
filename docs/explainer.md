@@ -37,9 +37,9 @@ draw:
 - The **Koch snowflake** is a Jordan curve with no tangent line at any point and
   infinite length. You cannot walk along it and "keep the inside on your left" in any
   naive sense.
-- **Osgood** (1903) constructed Jordan curves of *positive area*. The set of points
-  on the curve is so wiggly that it has positive area, even though it contains no
-  disc, however small.
+- **Osgood** (1903) constructed Jordan curves of *positive area*: the curve itself,
+  as a set of points, has positive area, even though it contains no disc, however
+  small.
 
 The theorem must cover all of these. Any proof that leans on smoothness, finite length,
 or a picture fails. That is why the theorem is famous as an "obvious" result that
@@ -134,9 +134,9 @@ grain, about sixty steps.
 
 ## 5. Nonstandard analysis, gently
 
-**What it is.** Nonstandard analysis enlarges the real numbers with infinitesimals (positive
-numbers smaller than every ordinary positive real) and their reciprocals, the
-unlimited numbers. It is fully rigorous; it is not a heuristic.
+**What it is.** Nonstandard analysis enlarges the real numbers with infinitesimals (nonzero
+numbers whose size is smaller than every ordinary positive real) and their reciprocals,
+the unlimited numbers. It is fully rigorous; it is not a heuristic.
 
 **How this repo builds it.** No new axioms are added. A "nonstandard" object is a
 *sequence* of ordinary objects, and two sequences count as equal when they agree
@@ -265,8 +265,9 @@ theorem mem_deep_iff (s : ℕ → Set E) (a : E) :
   In other words, `a` stays a definite distance from the edge of the region.
 - The proof is one line because it reuses `not_mem_shadow_iff` from
   [`Shadow.lean`](../Reeken/Nonstandard/Shadow.lean). That proof uses *countable
-  saturation*: if there were points outside `s i` closer than every positive
-  distance, then a single nonstandard point infinitely close to `a` would exist.
+  saturation*: if for every positive distance there were points outside `s i` that
+  close to `a`, then a single nonstandard point *outside the internal set* would be
+  infinitely close to `a`, so `a` would not be deep.
 
 The transfer tactic is tested on small examples like this one, from
 [`Verification/TransferTests.lean`](../Verification/TransferTests.lean):
@@ -417,7 +418,7 @@ Each term has a one-line meaning and the file where it lives. Paths are relative
 | Ultrafilter | A rule that decides, for every set of indices, whether it counts as "almost all". It fixes what "almost always" means for sequences. | Mathlib's `Ultrafilter`; the final theorem uses the free ultrafilter `hyperfilter ℕ`. |
 | Nonstandard point, `Star U α` | A sequence of ordinary points, with two sequences identified when they agree almost always. | `Star`, `ofSeq` in [`Ultrapower.lean`](../Reeken/Nonstandard/Ultrapower.lean) |
 | Standard point, `std a` | An ordinary point, viewed as the constant sequence. | `std` in [`Ultrapower.lean`](../Reeken/Nonstandard/Ultrapower.lean) |
-| Infinitesimal | Smaller than every ordinary positive number, but possibly not zero. The code usually states this directly, e.g. edges with `∀ ε > 0, ∀ᶠ i in hyperfilter ℕ, (p i).maxEdge < ε`. | `hmax` hypotheses in [`StandardRegions.lean`](../Reeken/Nonstandard/StandardRegions.lean) |
+| Infinitesimal | Smaller in absolute value than every ordinary positive number. Zero is one, but there are nonzero ones too. The code usually states this directly, e.g. edges with `∀ ε > 0, ∀ᶠ i in hyperfilter ℕ, (p i).maxEdge < ε`. | `hmax` hypotheses in [`StandardRegions.lean`](../Reeken/Nonstandard/StandardRegions.lean) |
 | Infinitely close | Two points whose distance is infinitesimal. | `Near` in [`Metric.lean`](../Reeken/Nonstandard/Metric.lean) |
 | Monad | All points infinitely close to a given ordinary point. | `monad` in [`InternalMetric.lean`](../Reeken/Nonstandard/InternalMetric.lean) |
 | Standard part | An ordinary point infinitely close to a given nonstandard point. One exists when the nonstandard point lies in the extension of a compact set. | `compact_standard_part` in [`Metric.lean`](../Reeken/Nonstandard/Metric.lean) |
