@@ -136,7 +136,7 @@ noncomputable def chosenArcPieces (a b : Fin (p.n + 1)) : List Piece :=
 theorem chosenArcPieces_chain (hn : 2 ≤ p.n) (hp : p.Simple) (a b : Fin (p.n + 1)) :
     IsChainFrom (p.chosenArcPieces a b) (p.vertex a) (p.vertex b) := by
   classical
-  rw [chosenArcPieces, dif_pos ⟨hn, hp⟩]
+  rw [chosenArcPieces, dite_eq_left ⟨hn, hp⟩]
   split_ifs with hab
   · exact p.orderedSmallArcPieces_chain hn hp hab
   · have h := p.orderedSmallArcPieces_chain hn hp (le_of_not_ge hab)
@@ -154,15 +154,15 @@ theorem chosenArcPieces_subset_trace (a b : Fin (p.n + 1)) :
 theorem chosenArcPieces_symm (a b : Fin (p.n + 1)) : p.chosenArcPieces a b = p.chosenArcPieces b a := by
   classical
   by_cases h : 2 ≤ p.n ∧ p.Simple
-  · simp only [chosenArcPieces, dif_pos h]
+  · simp only [chosenArcPieces, dite_eq_left h]
     by_cases hab : a ≤ b
     · by_cases hba : b ≤ a
       · have he := le_antisymm hab hba
         subst b
         rfl
-      · simp only [if_pos hab, if_neg hba]
+      · simp only [ite_eq_left hab, ite_eq_right hba]
     · have hba : b ≤ a := le_of_not_ge hab
-      simp only [if_neg hab, if_pos hba]
-  · simp only [chosenArcPieces, dif_neg h]
+      simp only [ite_eq_right hab, ite_eq_left hba]
+  · simp only [chosenArcPieces, dite_eq_right h]
 
 end Reeken.Geometry.InscribedPolygon

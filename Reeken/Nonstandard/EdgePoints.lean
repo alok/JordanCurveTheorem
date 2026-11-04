@@ -32,7 +32,7 @@ theorem exists_incident_vertex (x : ι → E)
     if h : x i ∈ (p i).trace then Classical.choose (mem_iUnion.mp h) else 0
   refine ⟨j, hx.mono ?_⟩
   intro i hi
-  simp only [j, dif_pos hi]
+  simp only [j, dite_eq_left hi]
   exact Classical.choose_spec (mem_iUnion.mp hi)
 
 theorem near_incident_vertices

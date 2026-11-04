@@ -3,6 +3,8 @@ version = "0.1.0"
 defaultTargets = ["Reeken"]
 # Direct audit and checker invocations need ordinary on-disk import artifacts.
 restoreAllArtifacts = true
+# mathlib requires the module system; these files are not yet modules.
+allowNonModules = true
 
 [leanOptions]
 autoImplicit = false
@@ -11,7 +13,7 @@ pp.unicode.fun = true
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4.git"
-rev = "0df444a360eaa60ab8c11dca51a86af692955474"
+rev = "v4.35.0"
 
 [[lean_lib]]
 name = "Reeken"

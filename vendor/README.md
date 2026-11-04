@@ -29,7 +29,7 @@ vendor modules in total: 47 complete modules in the original finite closure and 
 four excerpts. The original graph-deletion criterion in `Reeken/Geometry/DrawingDeletion.lean`
 is separate from this attributed code.
 
-The source pins Lean 4.32.2. This project checks the selected code with Lean 4.33.1
+The source pins Lean 4.32.2. This project checks the selected code with Lean 4.35.0
 and its own pinned upstream mathlib. Compatibility edits, if needed, are recorded here.
 The vendor library retains the source's auto-implicit setting independently of Reeken.
 
@@ -37,7 +37,9 @@ Compatibility edits so far: rename deprecated `mem_setOf_eq` to `mem_ofPred_eq`;
 make the unit-interval/reparametrization unfolding explicit in `Subarc.image_reparam_I`;
 use `have` for proposition-valued local instances in `Realization.lean`,
 `Graph/Tree.lean`, `Graph/Trace.lean`, and `FaceCyclesProof.lean`; and rename
-`Graph.edgeSet_eq_setOf_exists_isLink` to `Graph.edgeSet_eq_setOfPred_exists_isLink`.
+`Graph.edgeSet_eq_setOf_exists_isLink` to `Graph.edgeSet_eq_setOfPred_exists_isLink`;
+and, for Lean 4.35, rename deprecated `if_pos`/`if_neg`/`dif_pos`/`dif_neg` to
+`ite_eq_left`/`ite_eq_right`/`dite_eq_left`/`dite_eq_right` (identical statements).
 
 The selected modules and `Reeken.Geometry.PolygonSeparation` adapter have passed a
 warning-free local build on the pinned toolchain. The project axiom audit includes

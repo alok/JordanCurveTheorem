@@ -33,7 +33,7 @@ theorem countable_saturation_of_le_atTop (U : Ultrafilter ℕ)
   have hr : k ≤ rank i := Nat.le_findGreatest hki hi
   have hf : feasible i (rank i) := Nat.findGreatest_spec hki hi
   change P k i (x i)
-  simp only [x, dif_pos hf]
+  simp only [x, dite_eq_left hf]
   exact Classical.choose_spec hf k hr
 
 /-- The chosen concrete model is an instance of the ultrafilter-independent construction. -/

@@ -18,7 +18,7 @@ theorem not_isBounded_halfSpace (F : Plane →L[ℝ] ℝ) (c : ℝ)
     {v : Plane} (hv : 0 < F v) :
     ¬ Bornology.IsBounded {x | c < F x} := by
   intro hb
-  obtain ⟨R, hR⟩ := (F.lipschitz.isBounded_image hb).exists_norm_le
+  obtain ⟨R, hR⟩ := (F.lipschitzWith.isBounded_image hb).exists_norm_le
   let t := (max c R + 1) / F v
   have he : F (t • v) = max c R + 1 := by
     rw [map_smul, smul_eq_mul]

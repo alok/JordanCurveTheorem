@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Tool pins are deliberate. Exporter source follows the v4.33 release line and is built
+# Tool pins are deliberate. Exporter source follows the v4.35 release line and is built
 # with this project's exact toolchain. Comparator retains its own newer toolchain.
 task_root=$(pwd)
 mkdir -p .ci
 git clone https://github.com/leanprover/lean4export.git .ci/lean4export
-git -C .ci/lean4export checkout 15f6055e299ad5b89345e533cc2192f4cc00f659
+git -C .ci/lean4export checkout 5a9a355dc6c5fd82b69058d433e2ae2e8dfbf8fe
 cp lean-toolchain .ci/lean4export/lean-toolchain
 (cd .ci/lean4export && lake build lean4export)
 

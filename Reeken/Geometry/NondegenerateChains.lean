@@ -56,7 +56,7 @@ theorem parity_nondegeneratePieces (L : List Piece) (u x : Plane) :
   apply sum_nondegeneratePieces
   intro P hP
   have he : P.1 = P.2 := Classical.not_not.mp hP
-  exact if_neg (not_crosses_of_level (congrArg (hgt u) he) x)
+  exact ite_eq_right (not_crosses_of_level (congrArg (hgt u) he) x)
 
 theorem exists_direction_nondegenerate (L : List Piece) :
     ∃ u : Plane, Plane.IsDirection u ∧ ∀ P ∈ L, P.Nondeg → hgt u P.1 ≠ hgt u P.2 := by

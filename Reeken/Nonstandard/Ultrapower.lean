@@ -108,7 +108,7 @@ theorem exists_holds [Nonempty α] (P : ι → α → Prop) :
     let x (i : ι) : α := if hi : ∃ a, P i a then Classical.choose hi else Classical.arbitrary α
     refine ⟨ofSeq x, h.mono ?_⟩
     intro i hi
-    exact (show P i (x i) by simp only [x, dif_pos hi]; exact Classical.choose_spec hi)
+    exact (show P i (x i) by simp only [x, dite_eq_left hi]; exact Classical.choose_spec hi)
 
 /-- Universal transfer quantifies over all internal elements, including nonstandard ones. -/
 theorem forall_holds [Nonempty α] (P : ι → α → Prop) :

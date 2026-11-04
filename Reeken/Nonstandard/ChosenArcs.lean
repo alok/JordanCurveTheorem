@@ -30,12 +30,12 @@ theorem ordered_chosenArc_inMonad
   · have hb := (inMonad_internalSet_iff _ _).mp hF ε hε
     filter_upwards [hs, vertex_count_unlimited p hmax 2, hab, hb] with i hsi hni habi hbi
     have hn : 2 ≤ (p i).n := by omega
-    rw [InscribedPolygon.chosenArcPieces, dif_pos ⟨hn, hsi⟩, if_pos habi]
+    rw [InscribedPolygon.chosenArcPieces, dite_eq_left ⟨hn, hsi⟩, ite_eq_left habi]
     exact fun _ hx ↦ (p i).orderedSmallArcPieces_subset_ball hn hsi habi (Or.inl hbi) hx
   · have hb := (inMonad_internalSet_iff _ _).mp hB ε hε
     filter_upwards [hs, vertex_count_unlimited p hmax 2, hab, hb] with i hsi hni habi hbi
     have hn : 2 ≤ (p i).n := by omega
-    rw [InscribedPolygon.chosenArcPieces, dif_pos ⟨hn, hsi⟩, if_pos habi]
+    rw [InscribedPolygon.chosenArcPieces, dite_eq_left ⟨hn, hsi⟩, ite_eq_left habi]
     exact fun _ hx ↦ (p i).orderedSmallArcPieces_subset_ball hn hsi habi (Or.inr hbi) hx
 
 theorem chosenArc_inMonad

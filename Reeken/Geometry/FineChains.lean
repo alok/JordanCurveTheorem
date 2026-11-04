@@ -17,7 +17,7 @@ noncomputable def bisectPiece (P : Piece) : List Piece :=
 
 theorem bisectPiece_eq_splitAt (P : Piece) :
     bisectPiece P = splitAt (midpoint ℝ P.1 P.2) P := by
-  rw [splitAt, Piece.interior, if_pos (midpoint_mem_openSegment (𝕜 := ℝ) P.1 P.2)]
+  rw [splitAt, Piece.interior, ite_eq_left (midpoint_mem_openSegment (𝕜 := ℝ) P.1 P.2)]
   rfl
 
 theorem cover_bisectPiece (P : Piece) : cover (bisectPiece P) = P.seg := by

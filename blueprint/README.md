@@ -2,7 +2,7 @@
 
 The blueprint links to the actual compiled Reeken declarations and displays the remaining
 proof obligations in a dependency graph. Its renderer and dependencies are pinned in the
-manifest. It uses the root project's Lean 4.33.1 and mathlib revision.
+manifest. It uses the root project's Lean 4.35.0 and mathlib revision.
 
 Run from this directory (the generator uses its current working directory):
 

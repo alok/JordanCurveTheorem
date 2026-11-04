@@ -36,7 +36,7 @@ theorem exactly_one_point_arc_small
       apply hEA.mono
       apply (internalSet_subset _ _).mpr
       filter_upwards [heq, hx, hy] with i hi hxi hyi
-      rw [InscribedPolygon.forwardPointArc, if_pos hi]
+      rw [InscribedPolygon.forwardPointArc, ite_eq_left hi]
       rw [← hi] at hyi
       exact (convex_segment _ _).segment_subset hxi hyi
     · have hlt : ∀ᶠ i in hyperfilter ℕ, a i < b i := by

@@ -24,8 +24,8 @@ source; the published version includes the common-boundary argument.
 
 ## Checking the proof
 
-- Lean `v4.33.1`
-- mathlib pinned to `0df444a360eaa60ab8c11dca51a86af692955474`
+- Lean `v4.35.0`
+- mathlib pinned to `v4.35.0` (`56a005855ea17e0b0958f73ec801ae140b0a1679`)
 - [Lean build, audit, and fresh kernel replay](https://github.com/alok/JordanCurveTheorem/actions/workflows/lean.yml)
 - [Comparator and Nanoda](https://github.com/alok/JordanCurveTheorem/actions/workflows/comparator.yml)
 

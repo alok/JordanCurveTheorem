@@ -29,7 +29,7 @@ def backwardPointArc (a b : Fin (p.n + 1)) (x y : E) : Set E :=
 theorem forwardPointArc_subset {a b : Fin (p.n + 1)} (hab : a < b)
     {x y : E} (hx : x ∈ p.edge a) (hy : y ∈ p.edge b) :
     p.forwardPointArc a b x y ⊆ p.forwardArc a b ∪ p.edge b := by
-  rw [forwardPointArc, if_neg hab.ne]
+  rw [forwardPointArc, ite_eq_right hab.ne]
   rintro z ((hz | ⟨i, hai, hib, hz⟩) | hz)
   · exact Or.inl (Or.inr ⟨a, le_rfl, hab,
       (convex_segment _ _).segment_subset hx (right_mem_segment ℝ _ _) hz⟩)
@@ -60,7 +60,7 @@ theorem trace_subset_pointArcs_edges {a b : Fin (p.n + 1)} (x y : E) :
   · by_cases hib' : i < b
     · have hab' : a ≠ b := (hai.trans hib').ne
       exact Or.inl (Or.inl (Or.inl (by
-        rw [forwardPointArc, if_neg hab']
+        rw [forwardPointArc, ite_eq_right hab']
         exact Or.inl (Or.inr ⟨i, hai, hib', hi⟩))))
     · exact Or.inl (Or.inl (Or.inr (Or.inl (Or.inr
         ⟨i, Or.inr (lt_of_le_of_ne (le_of_not_gt hib') (fun h ↦ hib h.symm)), hi⟩))))
