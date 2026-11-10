@@ -7,7 +7,6 @@ manifest. It uses the root project's Lean 4.35.0 and mathlib revision.
 Run from this directory (the generator uses its current working directory):
 
 ```sh
-lake update
 lake exe cache get Mathlib.Analysis.Normed.Affine.Convex
 lake exe vbp build
 ```
