@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="370" viewBox="0 0 520 370" role="img" aria-label="Ray-crossing parity decides inside or outside for a polygon">
+<title>Ray-crossing parity decides inside or outside for a polygon</title>
+<rect x="0" y="0" width="520" height="370" fill="#ffffff"/>
+<path d="M 60.0 80.0 L 200.0 40.0 L 330.0 90.0 L 300.0 170.0 L 200.0 140.0 L 240.0 240.0 L 90.0 250.0 Z" fill="#bfe0ff" stroke="#1f2933" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M 130 180 L 500 180" fill="none" stroke="#d9480f" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 6"/>
+<path d="M 270 205 L 20 205" fill="none" stroke="#5f3dc4" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 6"/>
+<circle cx="216.0" cy="180.0" r="6" fill="#d9480f"/>
+<circle cx="226.0" cy="205.0" r="6" fill="#5f3dc4"/>
+<circle cx="82.1" cy="205.0" r="6" fill="#5f3dc4"/>
+<circle cx="130.0" cy="180.0" r="6" fill="#1f2933"/>
+<text x="122.0" y="168.0" font-family="'Comic Sans MS', 'Chalkboard SE', 'Segoe Print', cursive, sans-serif" font-size="18" text-anchor="middle" fill="#1f2933" font-weight="bold">A</text>
+<circle cx="270.0" cy="205.0" r="6" fill="#1f2933"/>
+<text x="284.0" y="195.0" font-family="'Comic Sans MS', 'Chalkboard SE', 'Segoe Print', cursive, sans-serif" font-size="18" text-anchor="middle" fill="#1f2933" font-weight="bold">B</text>
+<text x="30.0" y="286.0" font-family="'Comic Sans MS', 'Chalkboard SE', 'Segoe Print', cursive, sans-serif" font-size="16" text-anchor="start" fill="#d9480f" font-weight="bold">A: 1 crossing (odd), so A is inside</text>
+<text x="30.0" y="310.0" font-family="'Comic Sans MS', 'Chalkboard SE', 'Segoe Print', cursive, sans-serif" font-size="16" text-anchor="start" fill="#5f3dc4" font-weight="bold">B: 2 crossings (even), so B is outside</text>
+<text x="30.0" y="346.0" font-family="'Comic Sans MS', 'Chalkboard SE', 'Segoe Print', cursive, sans-serif" font-size="15" text-anchor="start" fill="#1f2933" font-weight="normal">For a polygon, counting crossings decides the side.</text>
+</svg>

@@ -84,11 +84,11 @@ internal-object interfaces and proof-producing automation are documented in the
 
 The published polygon condition `(†)` prints `Pᵢ = K(tᵢ)` only for `1 ≤ i < n`,
 although the last vertex must also lie on the parametrized curve. The formal condition
-will require this for every vertex, including the last. Subsequent uses of the last
+requires this for every vertex, including the last. Subsequent uses of the last
 vertex depend on that intended condition.
 
 The arXiv discussion includes adjacent overlapping edges among the degeneracies to
-remove during loop cutting. The formal construction must handle these too; distinct
+remove during loop cutting. The formal construction handles these too; distinct
 nonadjacent crossings alone do not imply simplicity.
 
 The construction now excludes adjacent overlaps using `dist_le_max_of_adjacent_overlap`.
@@ -107,7 +107,7 @@ Four additional finite excerpts supply square coordinates and graph traces; the 
 ledger records their source modules and exact included declarations.
 The general Jordan and Schoenflies assembly modules are excluded. This reuse supplies
 the finite theorem assumed by the source, not the nonstandard limiting argument. Similarly, compactness, transfer,
-saturation, or internal induction must be derived in the model actually implemented.
+saturation, and internal induction are derived in the model actually implemented.
 
 The basic ultrapower, transfer, and metric constructions accept arbitrary ultrafilters.
 `countable_saturation_of_le_atTop` works for any ultrafilter on naturals that contains
