@@ -348,7 +348,8 @@ and its CI actually check.
    above. A reader only needs to check that the challenge says the right thing.
    [Comparator](https://github.com/leanprover/comparator) checks that each solution
    proves the unchanged challenge with only the permitted axioms. It replays the proof
-   in [**Nanoda**](https://github.com/robsimmons/nanoda_lib), an independent kernel
+   in [**Nanoda**](https://github.com/ammkrn/nanoda_lib) (via a
+   [pinned fork](https://github.com/robsimmons/nanoda_lib)), an independent kernel
    implementation. Ten such targets cover the foundations, intermediate milestones, and
    the full theorem. The checker runs inside a
    [Landrun](https://github.com/zouuup/landrun) sandbox.
